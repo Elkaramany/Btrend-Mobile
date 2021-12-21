@@ -7,7 +7,7 @@ import { ProgressBar } from 'react-native-paper';
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Credential } from '../../../Redux/Actions';
+import { Credential, ClearAll } from '../../../Redux/Actions';
 import { Colors, ImagePath, GlobalStyles, validateName } from '../../../Config';
 
 import Container from '../../../Components/Container'
@@ -30,7 +30,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
         if (verified) {
-            console.log('pressed')
+            navigation.navigate("Categories")
         }
     }
 
@@ -59,21 +59,23 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     }
 
     const handleImage = async (type: string) => {
-        const { path } =
+        const image =
             type === "gallery"
                 ? await ImagePicker.openPicker({
                     width: 300,
                     height: 300,
                     cropping: true,
+                    includeBase64: true
                 })
                 : await ImagePicker.openCamera({
                     width: 300,
                     height: 300,
                     cropping: true,
+                    includeBase64: true,
                 })
 
-        if (path) {
-            dispatch(Credential({ prop: 'photo', value: path }))
+        if (image) {
+            dispatch(Credential({ prop: 'photo', value: `data:image/jpg;base64,${image.data}` }))
         }
     };
 
@@ -91,10 +93,15 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
         ]);
     };
 
+    const sendMeBack = () => {
+        dispatch(ClearAll())
+        navigation.navigate("SignIn")
+    }
+
     return (
         <Container>
-            <ProgressBar progress={0.25} color={'red'} />
-            <HeaderArrow headerText={userType === "Brand" ? "Company Info" : "Personal Info"} navigateMeBack={() => navigation.goBack()} />
+            <ProgressBar progress={0.2} color={'red'} />
+            <HeaderArrow headerText={userType === "Brand" ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
             <TouchableOpacity style={styles.addProfile}
                 onPress={() => handleSelection()}
             >

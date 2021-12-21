@@ -10,11 +10,15 @@ const Colors = {
     primary: '#FFFFFF',
     secondary: '#000000',
     tertiary: "#666666",
-    gradientButton: ['#EA7757', '#D9453F'],
+    darkRed: "#D9453F",
+    brightRed: '#EA7757',
+    gradientButton: ["#EA7757", '#D9453F'],
     disabledButton: ["#E0E0E0", "#E0E0E0"],
     lightGray: "#F2F2F2",
+    mediumGray: "#C4C4C4",
+    darkGray: "#666666",
     gray: "#CCCCCC",
-    blue:"#0E94F6"
+    blue: "#0E94F6"
 }
 
 const GlobalStyles = StyleSheet.create({

@@ -79,3 +79,31 @@ export const filterOpts = [
     "Paused",
     "Closed"
 ]
+
+export const CategoriesArr = [
+    "Beauty",
+    "Fashion",
+    "Fashion Photography",
+    "Travel",
+    "Liefestyle",
+    "Sports",
+    "Makeup Artist",
+    "Beauty Artist",
+    "Manucures",
+    "Food",
+    "Foodies",
+    "Fashion Modeling",
+    "Yoga",
+    "Travel & Tourism",
+    "Parenting",
+    "Babies", "Health & Fitness", "Luxury", "Pets Animals", "Garners", "Photographers"
+    , "Events", "Working Online", "Wedding", "Medical", "Restaurants", "Family", "Art", "Technology", "Gastronomy", "Personal",
+    "Film and television",
+    , "Models", "Internet", "Crypto", "Motivational speaker", "Entertainment", "Leisure", "Parties", "Hobbies",
+    "Design", "Home", "Society", "Humor and comedy", "Sciences", "Music", "Games",
+    "Culture", "Marketing", "Cars", "Gadgets",
+    "Companies and business", "Business", "Decoration", "Ecology", "Nature and environment",
+    "Shopping", "Animals", "Audiovisual", "Video games", "Videos", "Celebrity", "Bloggers & Vloggers",
+    "Aesthetic", "Wellness", "Artist", "Religion and philosophy", "Politics",
+    "Charity", "Books", "Education", "Sexuality", "Relationship", "Plastic surgery", "TV shows", "Others"
+]

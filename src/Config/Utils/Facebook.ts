@@ -9,7 +9,8 @@ export default async () => {
     } else {
         const user = await Profile.getCurrentProfile()
         if (user) {
-            return { firstName: user?.firstName, lastName: user?.lastName, email: user?.email, photo: user?.imageURL, id: user?.userID }
+            const { firstName, lastName, email, userID, imageURL } = user
+            return { firstName, lastName, email, photo: imageURL, id: userID }
         }
         return null
     }

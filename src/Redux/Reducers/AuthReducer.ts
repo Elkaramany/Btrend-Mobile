@@ -1,27 +1,4 @@
-interface Action {
-  type: string
-  payload: any
-}
-
-interface Location {
-  lat: string
-  lng: string
-}
-
-interface Props {
-  email: string
-  password: string
-  userType: string
-  firstName: string
-  lastName: string
-  dob: Date
-  gender: string
-  photo: string
-  categories: string[]
-  location: Location | null
-  posted: boolean
-  token: null | string
-}
+import { Action, Props } from '../Types'
 
 const INITIAL_STATE: Props = {
   email: '',
@@ -32,16 +9,26 @@ const INITIAL_STATE: Props = {
   dob: new Date(),
   gender: '',
   photo: '',
+  id: null,
+  authType: "",
   categories: [],
   location: null,
-  posted: false,
-  token: null
+  token: null,
+  phone: '',
+  countryCode: '+000',
+  loading: false,
 }
 
-export default (state = { INITIAL_STATE }, action: Action) => {
+export default (state = INITIAL_STATE, action: Action) => {
   switch (action.type) {
     case 'Credential_In':
       return { ...state, [action.payload.prop]: action.payload.value }
+    case 'Sign_Up_Success':
+      return { ...state, token: action.payload }
+    case 'load':
+      return { ...state, loading: action.payload }
+    case 'clear':
+      return { ...state, ...INITIAL_STATE }
     default:
       return state
   }

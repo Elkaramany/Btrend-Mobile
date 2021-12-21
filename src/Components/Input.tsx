@@ -20,9 +20,11 @@ interface Props {
     secureTextEntry?: boolean
     rightIcon?: any
     leftIcon?: any
+    type?: any
 }
 
-const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { }, secureTextEntry, rightIcon, leftIcon }) => {
+const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { },
+    secureTextEntry, rightIcon, leftIcon, type }) => {
     return (
         <TextInput
             right={rightIcon ? rightIcon : null}
@@ -35,6 +37,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             value={value}
             onChangeText={text => onChangeText(text)}
             theme={textInputTheme}
+            keyboardType={type ? type : "default"}
         />
     )
 }

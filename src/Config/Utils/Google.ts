@@ -11,7 +11,8 @@ export default async () => {
         });
         await GoogleSignin.hasPlayServices();
         const userInfo = await GoogleSignin.signIn();
-        return { firstName: userInfo.user.givenName, lastName: userInfo.user.familyName, email: userInfo.user.email, photo: userInfo.user.photo }
+        const { givenName, familyName, email, photo, id } = userInfo.user
+        return { firstName: givenName, lastName: familyName, email, photo, id }
     } catch (error: any) {
         if (error.code === statusCodes.SIGN_IN_CANCELLED) {
             // user cancelled the login flow

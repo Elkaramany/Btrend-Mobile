@@ -19,8 +19,9 @@ export const validatePassword = (password: string): boolean => {
 }
 
 export const validatePhone = (phone: string) => {
-    if (!phone || phone.length < 8) return true;
-    return false;
+    var regex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
+    if (regex.test(phone)) return true
+    return false
 }
 
 export const formatDate = (date: Date) => {
