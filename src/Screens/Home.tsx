@@ -25,7 +25,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
             <View style={styles.headerStyle}>
                 <Header headerText={"Let's get \nstarted"} />
             </View>
-            <Text style={[GlobalStyles.regularText, { color: Colors.tertiary, left: wp('3%') }]}>Select your account type</Text>
+            <Text style={[GlobalStyles.regularText, { color: Colors.tertiary }]}>Select your account type</Text>
 
             <TouchableOpacity
                 onPress={() => navigateToSignIn("Influencer")}
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
     }, cardStyle: {
         justifyContent: 'space-around',
-        marginLeft: wp('3%'),
         borderWidth: wp('0.3%'),
         borderColor: Colors.gray,
         borderRadius: wp('10%'),

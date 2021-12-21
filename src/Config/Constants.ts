@@ -13,7 +13,8 @@ const Colors = {
     gradientButton: ['#EA7757', '#D9453F'],
     disabledButton: ["#E0E0E0", "#E0E0E0"],
     lightGray: "#F2F2F2",
-    gray: "#CCCCCC"
+    gray: "#CCCCCC",
+    blue:"#0E94F6"
 }
 
 const GlobalStyles = StyleSheet.create({

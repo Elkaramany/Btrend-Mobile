@@ -19,12 +19,14 @@ interface Props {
     onChangeText: (text: string) => void
     secureTextEntry?: boolean
     rightIcon?: any
+    leftIcon?: any
 }
 
-const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { }, secureTextEntry, rightIcon }) => {
+const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { }, secureTextEntry, rightIcon, leftIcon }) => {
     return (
         <TextInput
             right={rightIcon ? rightIcon : null}
+            left={leftIcon ? leftIcon : null}
             secureTextEntry={secureTextEntry || false}
             mode="outlined"
             multiline={false}

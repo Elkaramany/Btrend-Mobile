@@ -1,12 +1,16 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, ViewStyle } from 'react-native'
 import { Colors } from '../Config'
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-const Container: React.FC = props => {
+interface Props {
+    mainStyle?: ViewStyle
+}
+
+const Container: React.FC<Props> = props => {
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary }}>
-            <View style={{ marginHorizontal: wp('3%') }}>
+            <View style={[props.mainStyle, { marginHorizontal: wp('3%') }]}>
                 {props.children}
             </View>
         </View>

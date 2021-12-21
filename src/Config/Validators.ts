@@ -1,6 +1,6 @@
-export const nameLength = (name: string): boolean => {
-    if (!name || name.length < 2) return true;
-    return false;
+export const validateName = (name: string): boolean => {
+    if (!name || name.length < 2) return false;
+    return true;
 }
 
 export const validateEmail = (email: string): boolean => {

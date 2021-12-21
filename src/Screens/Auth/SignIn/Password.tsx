@@ -4,13 +4,13 @@ import { View, Text, StyleSheet } from 'react-native'
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Credential } from '../../Redux/Actions';
-import { validatePassword, Colors } from '../../Config';
+import { Credential } from '../../../Redux/Actions';
+import { validatePassword, Colors } from '../../../Config';
 
-import Container from '../../Components/Container'
-import HeaderArrow from '../../Components/HeaderArrow'
-import Input from '../../Components/Input'
-import GradientButton from '../../Components/GradientButton'
+import Container from '../../../Components/Container'
+import HeaderArrow from '../../../Components/HeaderArrow'
+import Input from '../../../Components/Input'
+import GradientButton from '../../../Components/GradientButton'
 import { TextInput } from 'react-native-paper'
 
 interface Props {

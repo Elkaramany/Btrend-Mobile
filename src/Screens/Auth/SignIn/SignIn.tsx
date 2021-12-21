@@ -2,17 +2,17 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { ImagePath, validateEmail, Colors, GlobalStyles } from '../../Config';
+import { ImagePath, validateEmail, Colors, GlobalStyles } from '../../../Config';
 
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import { Credential } from '../../Redux/Actions';
+import { Credential } from '../../../Redux/Actions';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import Container from '../../Components/Container';
-import HeaderArrow from '../../Components/HeaderArrow';
-import GradientButton from '../../Components/GradientButton';
-import SocialButton from '../../Components/SocialButton'
-import Input from '../../Components/Input'
+import Container from '../../../Components/Container';
+import HeaderArrow from '../../../Components/HeaderArrow';
+import GradientButton from '../../../Components/GradientButton';
+import SocialButton from '../../../Components/SocialButton'
+import Input from '../../../Components/Input'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: Colors.lightGray,
-        marginBottom: hp('4%'),
+        marginBottom: hp('3%'),
         paddingTop: hp('2%')
     },
 })

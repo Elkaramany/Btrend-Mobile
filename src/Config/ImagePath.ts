@@ -145,7 +145,7 @@ export const ImagePath = {
   upArrow:require('./assets/images/up_arrow.png'),
   ic_play:require('./assets/images/ic_play.png'),
   unarchive:require('./assets/images/unarchive.png'),
-  profileAdd:require('./assets/images/profileAdd.png'),
+  profileAdd:require('./assets/images/profileAdd.jpg'),
   iconPlus:require('./assets/images/iconPlus.png'),
   unarchive_ic:require('./assets/images/unarchive_ic.png'),
 };

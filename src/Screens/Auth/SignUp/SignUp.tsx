@@ -18,7 +18,7 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
-const Index: React.FC<Props> = ({ navigation }) => {
+const SignUp: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [emailVerified, setEmailVerified] = React.useState(false)
     const { email } = useSelector((state: RootStateOrAny) => state.AuthReducer)
@@ -30,13 +30,13 @@ const Index: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
         if (emailVerified) {
-            navigation.navigate('Password')
+            navigation.navigate('EmailPassword')
         }
     }
 
     return (
         <Container>
-            <HeaderArrow headerText={'Create Account'} navigateMeBack={() => navigation.goBack()} />
+            <HeaderArrow headerText={'Sign Up'} navigateMeBack={() => navigation.goBack()} />
             <Input
                 label="Email"
                 value={email}
@@ -57,4 +57,4 @@ const Index: React.FC<Props> = ({ navigation }) => {
     )
 }
 
-export default Index
+export default SignUp
