@@ -1,7 +1,0 @@
-export * from './Container'
-export * from './Header'
-export * from './HeaderArrow'
-export * from './GradientButton'
-export * from './Input'
-export * from './Spinner'
-export * from './SocialButton'

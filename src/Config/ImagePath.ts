@@ -113,8 +113,6 @@ export const ImagePath = {
   youtube_select:require('./assets/images/youtube_select.png'),
   snapchat_select:require('./assets/images/snapchat_select.png'),
   tiktok_select:require('./assets/images/tiktok_select.png'),
-  
-
   multiple:require('./assets/images/multiple.png'),
   arrowRight:require('./assets/images/arrowRight.png'),
 
