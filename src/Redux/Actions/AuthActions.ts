@@ -1,7 +1,7 @@
 
 interface Cred {
     prop: string
-    value: number | object | string
+    value: number | object | string | null
 }
 
 

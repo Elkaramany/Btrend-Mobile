@@ -20,6 +20,7 @@ interface Props {
   categories: string[]
   location: Location | null
   posted: boolean
+  token: null | string
 }
 
 const INITIAL_STATE: Props = {
@@ -33,7 +34,8 @@ const INITIAL_STATE: Props = {
   photo: '',
   categories: [],
   location: null,
-  posted: false
+  posted: false,
+  token: null
 }
 
 export default (state = { INITIAL_STATE }, action: Action) => {

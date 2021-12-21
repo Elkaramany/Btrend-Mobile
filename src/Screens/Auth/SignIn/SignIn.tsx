@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { ImagePath, validateEmail, Colors, GlobalStyles } from '../../../Config';
+import { ImagePath, validateEmail, Colors, GlobalStyles, IOS } from '../../../Config';
 
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { Credential } from '../../../Redux/Actions';
@@ -13,6 +13,10 @@ import HeaderArrow from '../../../Components/HeaderArrow';
 import GradientButton from '../../../Components/GradientButton';
 import SocialButton from '../../../Components/SocialButton'
 import Input from '../../../Components/Input'
+
+import GoogleLogin from '../../../Config/Utils/Google'
+import FacebookLogin from '../../../Config/Utils/Facebook'
+import AppleLogin from '../../../Config/Utils/Apple'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -51,9 +55,9 @@ const Home: React.FC<Props> = ({ navigation }) => {
                 <View style={{ backgroundColor: Colors.gray, height: hp('0.2%'), marginVertical: hp('4%') }} />
 
                 <SocialButton text={'Continue with Phone'} imageName={ImagePath.phone} onPress={() => { }} />
-                <SocialButton text={'Continue with Google'} imageName={ImagePath.google} onPress={() => { }} />
-                <SocialButton text={'Continue with Facebook'} imageName={ImagePath.fb} onPress={() => { }} />
-                <SocialButton text={'Continue with Apple'} imageName={ImagePath.apple} onPress={() => { }} />
+                <SocialButton text={'Continue with Google'} imageName={ImagePath.google} onPress={() => GoogleLogin()} />
+                <SocialButton text={'Continue with Facebook'} imageName={ImagePath.fb} onPress={() => FacebookLogin()} />
+                {IOS && <SocialButton text={'Continue with Apple'} imageName={ImagePath.apple} onPress={() => { }} />}
             </Container>
             <TouchableOpacity style={styles.signUpButton}
                 onPress={() => navigation.navigate("EmailSignUp")}

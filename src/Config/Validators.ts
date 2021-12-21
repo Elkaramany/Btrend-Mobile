@@ -22,3 +22,7 @@ export const validatePhone = (phone: string) => {
     if (!phone || phone.length < 8) return true;
     return false;
 }
+
+export const formatDate = (date: Date) => {
+    return date.toString().substring(0, date.toString().length - 18)
+}

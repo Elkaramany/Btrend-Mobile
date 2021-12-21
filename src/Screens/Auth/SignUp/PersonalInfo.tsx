@@ -16,7 +16,7 @@ import Input from '../.././../Components/Input'
 import GradientButton from '../../../Components/GradientButton'
 import RadioBtn from '../../../Components/RadioBtn';
 
-import { formatDate } from '../../../Config/Utils';
+import { formatDate } from '../../../Config/Validators';
 
 interface Props {
     navigation: StackNavigationProp<any, any>,

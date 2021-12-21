@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">BTrend</string>
+    <string name="server_client_id">1063069842951-oa9q6nvab5cgfplld3pjf552nls7b01g.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">232598762216903</string>
+    <string name="fb_login_protocol_scheme">fb232598762216903</string>
 </resources>
