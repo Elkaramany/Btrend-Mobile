@@ -16,13 +16,15 @@ import Spinner from '../../../Components/Spinner';
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
+    route: any
 }
 
-const Password: React.FC<Props> = ({ navigation }) => {
+const Password: React.FC<Props> = ({ navigation, route }) => {
     const dispatch = useDispatch()
     const [passwordVerified, setPasswordVerified] = React.useState(false)
     const [secured, setSecured] = React.useState(true)
     const { email, password, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const isSignUp = route.params.screenType === "SignUp"
 
     React.useEffect(() => {
         if (validatePassword(password)) setPasswordVerified(true)
@@ -31,7 +33,10 @@ const Password: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
         if (passwordVerified) {
-            dispatch(SignIn({ authType: "email", email, password }))
+            if (isSignUp) {
+                dispatch(Credential({ prop: 'authType', value: "email" }))
+                navigation.navigate("PersonalInfo")
+            } else dispatch(SignIn({ authType: "email", email, password }))
         }
     }
 
@@ -44,7 +49,7 @@ const Password: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <HeaderArrow headerText={'Sign In'} navigateMeBack={() => navigation.goBack()} />
+            <HeaderArrow headerText={isSignUp ? 'Sign Up' : 'Sign In'} navigateMeBack={() => navigation.goBack()} />
             <Input
                 secureTextEntry={secured}
                 label="Password"

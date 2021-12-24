@@ -64,7 +64,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
             dispatch(Credential({ prop: 'loading', value: true }))
             const { success, data }: any = await GET(`${USERS_URL}/verifyEmailSignIn/${email}`)
             dispatch(Credential({ prop: 'loading', value: false }))
-            if (success) navigation.navigate('Password')
+            if (success) navigation.navigate('Password',{screenType: "SignIn"})
             else showToastMessage(data)
         }
     }

@@ -5,7 +5,6 @@ import Home from '../../Screens/Home'
 import SignIn from '../../Screens/Auth/SignIn/SignIn';
 import Password from '../../Screens/Auth/SignIn/Password';
 import EmailSignUp from '../../Screens/Auth/SignUp/SignUp'
-import EmailPassword from '../../Screens/Auth/SignUp/Password'
 import PersonalInfo from "../../Screens/Auth/SignUp/PersonalInfo";
 import Genders from "../../Screens/Auth/SignUp/Genders"
 import Categories from "../../Screens/Auth/SignUp/Categories";
@@ -27,7 +26,6 @@ const MainStackNavigator = () => {
       <Stack.Screen name="SignIn" component={SignIn} />
       <Stack.Screen name="Password" component={Password} />
       <Stack.Screen name="EmailSignUp" component={EmailSignUp} />
-      <Stack.Screen name="EmailPassword" component={EmailPassword} />
       <Stack.Screen name="PersonalInfo" component={PersonalInfo} />
       <Stack.Screen name="Categories" component={Categories} />
       <Stack.Screen name="Genders" component={Genders} />

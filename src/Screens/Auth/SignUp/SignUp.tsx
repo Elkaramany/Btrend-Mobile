@@ -61,7 +61,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
     const pressedContinue = async () => {
         if (emailVerified) {
             const res = await VerifyEmailSignUp(email)
-            if (res) navigation.navigate("PersonalInfo")
+            if (res) navigation.navigate("Password",{screenType: "SignUp"})
         }
     }
 
