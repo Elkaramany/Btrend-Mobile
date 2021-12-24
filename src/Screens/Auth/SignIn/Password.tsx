@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native'
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Credential } from '../../../Redux/Actions';
+import { Credential, SignIn } from '../../../Redux/Actions';
 import { validatePassword, Colors } from '../../../Config';
 
 import Container from '../../../Components/Container'
@@ -12,6 +12,7 @@ import HeaderArrow from '../../../Components/HeaderArrow'
 import Input from '../../../Components/Input'
 import GradientButton from '../../../Components/GradientButton'
 import { TextInput } from 'react-native-paper'
+import Spinner from '../../../Components/Spinner';
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -21,7 +22,7 @@ const Password: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [passwordVerified, setPasswordVerified] = React.useState(false)
     const [secured, setSecured] = React.useState(true)
-    const { password } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email, password, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     React.useEffect(() => {
         if (validatePassword(password)) setPasswordVerified(true)
@@ -30,8 +31,15 @@ const Password: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
         if (passwordVerified) {
-            console.log('pressed')
+            dispatch(SignIn({ authType: "email", email, password }))
         }
+    }
+
+    const showButton = () => {
+        if (loading) return <Spinner size={false} />
+        else return <GradientButton text={'Continue'} colors={passwordVerified ? Colors.gradientButton : Colors.disabledButton}
+            onPress={() => pressedContinue()}
+        />
     }
 
     return (
@@ -45,9 +53,7 @@ const Password: React.FC<Props> = ({ navigation }) => {
                 rightIcon={<TextInput.Icon name={secured ? "eye-off" : "eye"} color={Colors.gray} onPress={() => setSecured(!secured)} />}
             />
 
-            <GradientButton text={'Continue'} colors={passwordVerified ? Colors.gradientButton : Colors.disabledButton}
-                onPress={() => pressedContinue()}
-            />
+            {showButton()}
         </Container>
     )
 }

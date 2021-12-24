@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Header from '../Components/Header'
 import { GlobalStyles, Colors, ImagePath } from '../Config'
-import { Credential } from '../Redux/Actions';
+import { Credential, ClearAll } from '../Redux/Actions';
 import { useDispatch } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Container from '../Components/Container'
@@ -19,6 +19,10 @@ const Home: React.FC<Props> = ({ navigation }) => {
         dispatch(Credential({ prop: 'userType', value: type }))
         navigation.navigate("SignIn")
     }
+
+    React.useEffect(() => {
+        dispatch(ClearAll())
+    }, [])
 
     return (
         <Container>

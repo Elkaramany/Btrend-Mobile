@@ -14,7 +14,7 @@ export interface Props {
     userType: string
     firstName: string
     lastName: string
-    dob: Date
+    dob: Date | string
     gender: string
     photo: string
     categories: string[]
@@ -25,4 +25,6 @@ export interface Props {
     phone: string
     countryCode: string
     loading: boolean
+    otpVerify: string
+    error: string
 }

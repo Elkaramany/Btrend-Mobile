@@ -34,7 +34,7 @@ const Location: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <ProgressBar progress={0.8} color={'red'} />
+            <ProgressBar progress={1} color={'red'} />
             <HeaderArrow headerText={"Enable location"} navigateMeBack={() => navigation.goBack()} onSkip={() => navigation.navigate("Ready")} />
             <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>
                 You'll need to enable your location in order to use BTrend

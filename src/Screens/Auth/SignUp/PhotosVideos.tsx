@@ -27,7 +27,7 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <ProgressBar progress={0.6} color={'red'} />
+            <ProgressBar progress={0.75} color={'red'} />
             <HeaderArrow headerText={"Add Photos & Videos"} navigateMeBack={() => navigation.goBack()} onSkip={() => pressedContinue()} />
 
             {userType == "Influencer" ? (

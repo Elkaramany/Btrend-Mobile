@@ -6,7 +6,7 @@ const INITIAL_STATE: Props = {
   userType: '',
   firstName: '',
   lastName: '',
-  dob: new Date(),
+  dob: '',
   gender: '',
   photo: '',
   id: null,
@@ -15,14 +15,18 @@ const INITIAL_STATE: Props = {
   location: null,
   token: null,
   phone: '',
-  countryCode: '+000',
+  countryCode: '000',
   loading: false,
+  otpVerify: '',
+  error: ''
 }
 
 export default (state = INITIAL_STATE, action: Action) => {
   switch (action.type) {
     case 'Credential_In':
       return { ...state, [action.payload.prop]: action.payload.value }
+    case 'Sign_In_Success':
+      return { ...state, ...INITIAL_STATE, ...action.payload.user, token: action.payload.token }
     case 'Sign_Up_Success':
       return { ...state, token: action.payload }
     case 'load':

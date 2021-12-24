@@ -30,6 +30,7 @@ const Password: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
         if (passwordVerified) {
+            dispatch(Credential({ prop: 'authType', value: "email" }))
             navigation.navigate("PersonalInfo")
         }
     }

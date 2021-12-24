@@ -65,7 +65,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <ProgressBar progress={0.4} color={'red'} />
+            <ProgressBar progress={0.5} color={'red'} />
             <HeaderArrow headerText={"Categories"} navigateMeBack={() => navigation.goBack()} onSkip={() => pressedContinue()} />
             <View style={{ height: hp('63%') }}>
                 <FlatList

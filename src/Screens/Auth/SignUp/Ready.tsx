@@ -9,6 +9,7 @@ import { Colors, GlobalStyles, ImagePath } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import Header from '../../../Components/Header'
+import Spinner from '../../../Components/Spinner';
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -18,6 +19,19 @@ const Ready: React.FC<Props> = ({ navigation }) => {
     const user = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const dispatch = useDispatch()
 
+    const showButton = () => {
+        if (user.loading) return <Spinner size={false} />
+        else {
+            return (
+                <TouchableOpacity
+                    onPress={() => dispatch(SignUp(user))}
+                    style={styles.tutorialStyle}>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.darkRed, marginRight: wp('5%') }]}>Start tutorial</Text>
+                    <Image source={ImagePath.rightArrowGray} style={GlobalStyles.arrowImage} />
+                </TouchableOpacity>
+            )
+        }
+    }
 
     return (
         <Container mainStyle={{ flex: 1 }}>
@@ -32,12 +46,7 @@ const Ready: React.FC<Props> = ({ navigation }) => {
             <Header headerText={"You're ready!"} textStyle={{ fontSize: hp('5%') }}
                 headerStyle={{ justifyContent: 'center', height: hp('15%') }} />
             <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Everything you need to know</Text>
-            <TouchableOpacity
-                onPress={() => dispatch(SignUp(user))}
-                style={styles.tutorialStyle}>
-                <Text style={[GlobalStyles.regularText, { color: Colors.darkRed, marginRight: wp('5%') }]}>Start tutorial</Text>
-                <Image source={ImagePath.rightArrowGray} style={GlobalStyles.arrowImage} />
-            </TouchableOpacity>
+            {showButton()}
         </Container >
     )
 }

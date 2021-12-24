@@ -59,7 +59,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     }
 
     const handleImage = async (type: string) => {
-        const image =
+        const image: any =
             type === "gallery"
                 ? await ImagePicker.openPicker({
                     width: 300,
@@ -95,12 +95,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     const sendMeBack = () => {
         dispatch(ClearAll())
-        navigation.navigate("SignIn")
+        navigation.navigate("Home")
     }
 
     return (
         <Container>
-            <ProgressBar progress={0.2} color={'red'} />
+            <ProgressBar progress={0.25} color={'red'} />
             <HeaderArrow headerText={userType === "Brand" ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
             <TouchableOpacity style={styles.addProfile}
                 onPress={() => handleSelection()}
@@ -122,10 +122,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                 style={[GlobalStyles.buttonContainer, styles.dateButton]}
                 onPress={() => setDateOpen(true)}
             >
-                <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob && dob.toString().length ? formatDate(dob) : "Date of Birth"}</Text>
+                <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob.length ? formatDate(dob) : "Date of Birth"}</Text>
             </TouchableOpacity>
 
             <DateTimePickerModal
+                date={new Date("1996-08-26")}
+                maximumDate={new Date()}
                 isVisible={dateOpen}
                 mode="date"
                 onConfirm={(date) => setDate(date)}

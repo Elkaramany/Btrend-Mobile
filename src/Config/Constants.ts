@@ -18,7 +18,8 @@ const Colors = {
     mediumGray: "#C4C4C4",
     darkGray: "#666666",
     gray: "#CCCCCC",
-    blue: "#0E94F6"
+    blue: "#0E94F6",
+    blackOpacity30: 'rgba(0,0,0,0.30)',
 }
 
 const GlobalStyles = StyleSheet.create({
