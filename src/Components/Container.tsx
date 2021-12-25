@@ -5,13 +5,14 @@ import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 interface Props {
     mainStyle?: ViewStyle
+    mainBgColor?: string
 }
 
-const Container: React.FC<Props> = props => {
+const Container: React.FC<Props> = ({mainStyle, mainBgColor, children}) => {
     return (
-        <View style={{ flex: 1, backgroundColor: Colors.primary }}>
-            <View style={[props.mainStyle, { marginHorizontal: wp('3%') }]}>
-                {props.children}
+        <View style={{ flex: 1, backgroundColor: mainBgColor || Colors.primary }}>
+            <View style={[mainStyle, { marginHorizontal: wp('3%') }]}>
+                {children}
             </View>
         </View>
     )

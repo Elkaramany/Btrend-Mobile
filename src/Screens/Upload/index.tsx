@@ -1,50 +1,67 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, FlatList } from 'react-native'
+import { View, Text, StyleSheet, Image, FlatList, ScrollView } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { GlobalStyles, Colors } from '../../Config'
+import { GlobalStyles, Colors, ImagePath } from '../../Config'
+import Arr from './arr'
 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 import Container from '../../Components/Container'
 import GradientButton from '../../Components/GradientButton'
 import AllSocials from '../../Components/AllSocials'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 interface Props {
 
 }
 
 const Upload: React.FC<Props> = props => {
-    const [canUpload, setCanUpload] = React.useState(false)
-    const [mainImage, setImage] = React.useState('https://picsum.photos/414/359?random=2')
-    const [imgArr, setImgArr] = React.useState([])
+    const [selected, setSelected] = React.useState<string[]>([])
+    const [imgArr, setImgArr] = React.useState(Arr)
 
     const pressedUpload = () => {
 
     }
 
-    const renderItem = ({ item }: any) => {
-        return (
-            <Image source={{ uri: mainImage }} style={styles.mainImageStyle} />
-        )
+    const addImg = (item: string) => {
+        let newArr = [...selected]
+        if (selected.includes(item)) {
+            newArr = newArr.filter(i => i !== item);
+        } else {
+            newArr.push(item)
+        }
+        setSelected(newArr)
     }
 
     return (
         <Container>
-            <View style={styles.header}>
-                <Text style={GlobalStyles.regularText}>New post</Text>
-                <GradientButton text={'Post'} colors={canUpload ? Colors.gradientButton : Colors.disabledButton}
-                    onPress={() => pressedUpload()} buttonContainerStyle={{ paddingVertical: hp('0.5%') }}
-                />
-            </View>
-            <Text style={GlobalStyles.regularText}>Select your content based on your social media profiles.</Text>
-            <AllSocials />
-            <Image source={{ uri: mainImage }} style={styles.mainImageStyle} />
-            <FlatList
-                data={imgArr}
-                renderItem={renderItem}
-                keyExtractor={item => item.index}
-            />
+            <ScrollView style={{ flexGrow: 1 }}>
+                <View style={styles.header}>
+                    <Text style={GlobalStyles.regularText}>New post</Text>
+                    <GradientButton text={'Post'} colors={selected.length ? Colors.gradientButton : Colors.disabledButton}
+                        onPress={() => pressedUpload()} buttonContainerStyle={{ paddingVertical: hp('0.5%') }}
+                    />
+                </View>
+                <Text style={GlobalStyles.regularText}>Select your content based on your social media profiles.</Text>
+                <AllSocials />
+                {selected[0] && <Image source={{ uri: selected[0] }} style={styles.mainImageStyle} />}
+
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
+                    {imgArr.map((img, index) => {
+                        return (
+                            <TouchableOpacity key={img.id} onPress={() => addImg(img.img)}>
+                                <Image source={{ uri: img.img }} style={styles.secondaryImageStyle} />
+                                {selected.includes(img.img) &&
+                                    <Image source={ImagePath.postShadow} style={[styles.secondaryImageStyle, { position: 'absolute' }]} />
+                                }
+                            </TouchableOpacity>
+                        )
+                    })}
+                </View>
+
+            </ScrollView>
+
         </Container >
     )
 }
@@ -55,16 +72,22 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginTop: hp('2%'),
+        marginBottom: hp('3%'),
     }, mainImageStyle: {
-        height: hp('40%'),
-        width: wp('100%'),
+        height: hp('28%'),
+        width: wp('90%'),
         resizeMode: 'cover',
-        alignSelf: 'center'
+        alignSelf: 'center',
+        borderRadius: hp('5%'),
+        marginBottom: hp('1%')
     }, secondaryImageStyle: {
-        height: hp('15%'),
-        width: wp('25%'),
-        resizeMode: 'contain',
-        alignSelf: 'center'
+        height: wp('27%'),
+        width: wp('27%'),
+        resizeMode: 'cover',
+        alignSelf: 'center',
+        marginVertical: hp('0.5%'),
+        marginHorizontal: wp('2%'),
+        borderRadius: hp('2%')
     }
 })
 
