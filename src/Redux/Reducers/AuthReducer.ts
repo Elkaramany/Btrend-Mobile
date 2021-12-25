@@ -18,6 +18,8 @@ const INITIAL_STATE: Props = {
   countryCode: '000',
   loading: false,
   otpVerify: '',
+  companyName: '',
+  companyEmail: '',
 }
 
 export default (state = INITIAL_STATE, action: Action) => {

@@ -26,4 +26,6 @@ export interface Props {
     countryCode: string
     loading: boolean
     otpVerify: string
+    companyName: string
+    companyEmail: string
 }

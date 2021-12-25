@@ -12,6 +12,7 @@ import PhotosVideos from '../../Screens/Auth/SignUp/PhotosVideos'
 import Location from '../../Screens/Auth/SignUp/Location'
 import Ready from "../../Screens/Auth/SignUp/Ready";
 import Phone from '../../Screens/Auth/SignUp/Phone'
+import Trouble from "../../Screens/Auth/SignIn/Trouble";
 
 import User from '../AppStack/BottomTab'
 
@@ -24,6 +25,8 @@ const MainStackNavigator = () => {
     >
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="SignIn" component={SignIn} />
+      <Stack.Screen name="Trouble" component={Trouble} />
+
       <Stack.Screen name="Password" component={Password} />
       <Stack.Screen name="EmailSignUp" component={EmailSignUp} />
       <Stack.Screen name="PersonalInfo" component={PersonalInfo} />

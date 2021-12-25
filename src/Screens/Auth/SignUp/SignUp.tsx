@@ -21,6 +21,7 @@ import FacebookLogin from '../../../Config/Utils/Facebook';
 import AppleLogin from '../../../Config/Utils/Apple';
 import Phone from './Phone';
 import Spinner from '../../../Components/Spinner';
+import LoginMethods from '../../../Components/LoginMethods';
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -36,8 +37,7 @@ interface User {
 
 const SignUp: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
-    const [emailVerified, setEmailVerified] = React.useState(false)
-    const { email, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const VerifyEmailSignUp = async (email: string): Promise<boolean> => {
         dispatch(Credential({ prop: 'loading', value: true }))
@@ -53,15 +53,11 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         return success
     }
 
-    React.useEffect(() => {
-        if (validateEmail(email)) setEmailVerified(true)
-        else setEmailVerified(false)
-    }, [email])
 
     const pressedContinue = async () => {
-        if (emailVerified) {
+        if (validateEmail(email)) {
             const res = await VerifyEmailSignUp(email)
-            if (res) navigation.navigate("Password",{screenType: "signup"})
+            if (res) navigation.navigate("Password", { screenType: "signup" })
         }
     }
 
@@ -98,36 +94,15 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         }
     }
 
-    const ShowButtons = () => {
-        if (loading) return <Spinner size={true} />
-        else {
-            return (
-                <>
-                    <GradientButton text={'Continue'} colors={emailVerified ? Colors.gradientButton : Colors.disabledButton}
-                        onPress={() => pressedContinue()}
-                    />
-
-                    <View style={{ backgroundColor: Colors.gray, height: hp('0.2%'), marginVertical: hp('6%') }} />
-
-                    <SocialButton text={'Continue with Phone'} imageName={ImagePath.phone} onPress={() => Phone()} />
-                    <SocialButton text={'Continue with Google'} imageName={ImagePath.google} onPress={() => Google()} />
-                    <SocialButton text={'Continue with Facebook'} imageName={ImagePath.fb} onPress={() => Facebook()} />
-                    {IOS && <SocialButton text={'Continue with Apple'} imageName={ImagePath.apple} onPress={() => { }} />}
-                </>
-            )
-        }
-    }
-
     return (
         <Container>
             <HeaderArrow headerText={'Sign Up'} navigateMeBack={() => navigation.goBack()} />
-            <Input
-                label="Email"
-                value={email}
-                onChangeText={text => dispatch(Credential({ prop: 'email', value: text }))}
-            />
 
-            {ShowButtons()}
+            <LoginMethods label={'Email'} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
+                apple={() => Apple()}
+                google={() => Google()}
+                facebook={() => Facebook()}
+                phone={() => Phone()} />
         </Container>
     )
 }

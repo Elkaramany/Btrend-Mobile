@@ -1,12 +1,15 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Header from '../Components/Header'
+
 import { GlobalStyles, Colors, ImagePath } from '../Config'
 import { Credential, ClearAll } from '../Redux/Actions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
+
 import Container from '../Components/Container'
+import Header from '../Components/Header'
+import Spinner from '../Components/Spinner'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -14,6 +17,8 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
+    const { token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const [loading, setLoading] = React.useState(true)
 
     const navigateToSignIn = (type: string) => {
         dispatch(Credential({ prop: 'userType', value: type }))
@@ -21,35 +26,55 @@ const Home: React.FC<Props> = ({ navigation }) => {
     }
 
     React.useEffect(() => {
-        dispatch(ClearAll())
-    }, [])
+        setLoading(true)
+        //User signed in
+        if (token) {
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'User' }]
+            })
+            setLoading(false)
+        } else {
+            setLoading(false)
+        }
+    }, [token])
 
-    return (
-        <Container>
-            <View style={styles.headerStyle}>
-                <Header headerText={"Let's get \nstarted"} />
-            </View>
-            <Text style={[GlobalStyles.regularText, { color: Colors.tertiary }]}>Select your account type</Text>
+    const showHome = () => {
+        if (loading) {
+            <Container mainStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+                <Spinner size={false} />
+            </Container>
+        } else {
+            return (
+                <Container>
+                    <View style={styles.headerStyle}>
+                        <Header headerText={"Let's get \nstarted"} />
+                    </View>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.tertiary }]}>Select your account type</Text>
 
-            <TouchableOpacity
-                onPress={() => navigateToSignIn("Influencer")}
-                style={styles.cardStyle}>
-                <Image source={ImagePath.profilePicture} style={styles.cardImg} />
-                <Header headerText={"I am an \nInfluencer"} textStyle={{ fontSize: hp('3.5%') }}
-                    headerStyle={{ justifyContent: 'center' }} />
-                <Image source={ImagePath.rightArrow} style={[GlobalStyles.arrowImage, styles.arrowStyle]} />
-            </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigateToSignIn("Influencer")}
+                        style={styles.cardStyle}>
+                        <Image source={ImagePath.profilePicture} style={styles.cardImg} />
+                        <Header headerText={"I am an \nInfluencer"} textStyle={{ fontSize: hp('3.5%') }}
+                            headerStyle={{ justifyContent: 'center' }} />
+                        <Image source={ImagePath.rightArrow} style={[GlobalStyles.arrowImage, styles.arrowStyle]} />
+                    </TouchableOpacity>
 
-            <TouchableOpacity
-                onPress={() => navigateToSignIn("Brand")}
-                style={styles.cardStyle}>
-                <Image source={ImagePath.brand} style={styles.cardImg} />
-                <Header headerText={"I am a \nBrand"} headerStyle={{ justifyContent: 'center' }}
-                    textStyle={{ fontSize: hp('3.5%') }} />
-                <Image source={ImagePath.rightArrow} style={[GlobalStyles.arrowImage, styles.arrowStyle]} />
-            </TouchableOpacity>
-        </Container >
-    )
+                    <TouchableOpacity
+                        onPress={() => navigateToSignIn("Brand")}
+                        style={styles.cardStyle}>
+                        <Image source={ImagePath.brand} style={styles.cardImg} />
+                        <Header headerText={"I am a \nBrand"} headerStyle={{ justifyContent: 'center' }}
+                            textStyle={{ fontSize: hp('3.5%') }} />
+                        <Image source={ImagePath.rightArrow} style={[GlobalStyles.arrowImage, styles.arrowStyle]} />
+                    </TouchableOpacity>
+                </Container>
+            )
+        }
+    }
+
+    return <>{showHome()}</>
 }
 
 const styles = StyleSheet.create({

@@ -8,7 +8,7 @@ import { ProgressBar } from 'react-native-paper';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Credential, ClearAll } from '../../../Redux/Actions';
-import { Colors, ImagePath, GlobalStyles, validateName } from '../../../Config';
+import { Colors, ImagePath, GlobalStyles, validateName, validateEmail } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
@@ -26,19 +26,8 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [verified, setVerified] = React.useState(false)
     const [dateOpen, setDateOpen] = React.useState(false)
-    const { userType, photo, firstName, lastName, dob, gender } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-
-    const pressedContinue = () => {
-        if (verified) {
-            navigation.navigate("Categories")
-        }
-    }
-
-    React.useEffect(() => {
-        if (validateName(firstName) && validateName(lastName) && validateName(dob) && validateName(gender)) {
-            setVerified(true)
-        } else setVerified(false)
-    }, [dob, gender, firstName, lastName])
+    const { userType, photo, firstName, lastName, dob, gender, companyName, companyEmail } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const isBrand = userType === 'Brand'
 
     const handleUrlPress = React.useCallback(async (url) => {
         // Checking if the link is supported for links with custom URL scheme.
@@ -52,11 +41,6 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             Alert.alert(`Don't know how to open this URL: ${url}`);
         }
     }, []);
-
-    const setDate = (date: Date) => {
-        dispatch(Credential({ prop: 'dob', value: date }))
-        setDateOpen(false)
-    }
 
     const handleImage = async (type: string) => {
         const image: any =
@@ -79,6 +63,23 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
         }
     };
 
+    const pressedContinue = () => {
+        if (verified) {
+            navigation.navigate("Categories")
+        }
+    }
+
+    React.useEffect(() => {
+        if (userType === "Brand") {
+            if (validateEmail(companyEmail) && validateName(companyName)) setVerified(true)
+            else setVerified(false)
+        } else if (userType === "Influencer") {
+            if (validateName(firstName) && validateName(lastName) && validateName(dob) && validateName(gender)) {
+                setVerified(true)
+            } else setVerified(false)
+        }
+    }, [dob, gender, firstName, lastName, companyName, companyEmail])
+
     const handleSelection = () => {
         Alert.alert("Add an image", "", [
             {
@@ -93,76 +94,113 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
         ]);
     };
 
+
+    const setDate = (date: Date) => {
+        dispatch(Credential({ prop: 'dob', value: date }))
+        setDateOpen(false)
+    }
+
     const sendMeBack = () => {
         dispatch(ClearAll())
         navigation.navigate("Home")
     }
 
+    const showInput = () => {
+        if (isBrand) {
+            return (
+                <>
+                    <Input
+                        label="Company Name"
+                        value={companyName}
+                        onChangeText={text => dispatch(Credential({ prop: 'companyName', value: text }))}
+                    />
+                    <Input
+                        label="Company Email"
+                        value={companyEmail}
+                        onChangeText={text => dispatch(Credential({ prop: 'companyEmail', value: text }))}
+                    />
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <Input
+                        label="First Name"
+                        value={firstName}
+                        onChangeText={text => dispatch(Credential({ prop: 'firstName', value: text }))}
+                    />
+                    <Input
+                        label="Last Name"
+                        value={lastName}
+                        onChangeText={text => dispatch(Credential({ prop: 'lastName', value: text }))}
+                    />
+                </>
+            )
+        }
+    }
+
     return (
-        <Container>
+        <Container mainStyle={{flex: 1}}>
             <ProgressBar progress={0.25} color={'red'} />
-            <HeaderArrow headerText={userType === "Brand" ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
-            <TouchableOpacity style={styles.addProfile}
-                onPress={() => handleSelection()}
-            >
-                <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAdd} style={styles.imageStyle} />
-                <Text style={[GlobalStyles.regularText, { marginLeft: wp('10%') }]}>Add profile photo</Text>
-            </TouchableOpacity>
-            <Input
-                label="First Name"
-                value={firstName}
-                onChangeText={text => dispatch(Credential({ prop: 'firstName', value: text }))}
-            />
-            <Input
-                label="Last Name"
-                value={lastName}
-                onChangeText={text => dispatch(Credential({ prop: 'lastName', value: text }))}
-            />
-            <TouchableOpacity
-                style={[GlobalStyles.buttonContainer, styles.dateButton]}
-                onPress={() => setDateOpen(true)}
-            >
-                <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob && dob.toString().length ? formatDate(dob) : "Date of Birth"}</Text>
-            </TouchableOpacity>
-
-            <DateTimePickerModal
-                date={new Date("1996-08-26")}
-                maximumDate={new Date()}
-                isVisible={dateOpen}
-                mode="date"
-                onConfirm={(date) => setDate(date)}
-                onCancel={() => setDateOpen(false)}
-            />
-
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('5%') }}>
-                <RadioBtn
-                    text={"Female"}
-                    selected={gender === "Female"}
-                    onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Female" ? "" : "Female" }))}
-                />
-
-                <RadioBtn
-                    text={"Male"}
-                    selected={gender === "Male"}
-                    onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Male" ? "" : "Male" }))}
-                />
-
-                <TouchableOpacity
-                    style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
-                    onPress={() => navigation.navigate("Genders")}
+            <HeaderArrow headerText={isBrand ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
+            {!isBrand &&
+                <TouchableOpacity style={styles.addProfile}
+                    onPress={() => handleSelection()}
                 >
-                    <Text style={[GlobalStyles.regularText,{color: Colors.blue}]}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
-                    <Image source={ImagePath.rightArrow} style={{ width: wp('3%'), height: wp('3%'), left: wp('4.5%'), top: hp('0.3%') }} />
+                    <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAdd} style={styles.imageStyle} />
+                    <Text style={[GlobalStyles.regularText, { marginLeft: wp('10%') }]}>Add profile photo</Text>
                 </TouchableOpacity>
-            </View>
+            }
+            {showInput()}
+            {!isBrand &&
+                <>
+                    <TouchableOpacity
+                        style={[GlobalStyles.buttonContainer, styles.dateButton]}
+                        onPress={() => setDateOpen(true)}
+                    >
+                        <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob && dob.toString().length ? formatDate(dob) : "Date of Birth"}</Text>
+                    </TouchableOpacity>
+
+                    <DateTimePickerModal
+                        date={new Date("1996-08-26")}
+                        maximumDate={new Date()}
+                        isVisible={dateOpen}
+                        mode="date"
+                        onConfirm={(date) => setDate(date)}
+                        onCancel={() => setDateOpen(false)}
+                    />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('5%') }}>
+                        <RadioBtn
+                            text={"Female"}
+                            selected={gender === "Female"}
+                            onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Female" ? "" : "Female" }))}
+                        />
+
+                        <RadioBtn
+                            text={"Male"}
+                            selected={gender === "Male"}
+                            onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Male" ? "" : "Male" }))}
+                        />
+
+                        <TouchableOpacity
+                            style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                            onPress={() => navigation.navigate("Genders")}
+                        >
+                            <Text style={[GlobalStyles.regularText, { color: Colors.blue }]}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
+                            <Image source={ImagePath.rightArrow} style={{ width: wp('3%'), height: wp('3%'), left: wp('4.5%'), top: hp('0.3%') }} />
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
 
             <View style={{ marginBottom: hp('3%') }}>
                 <Text style={GlobalStyles.regularText}>
-                    Before continue take a look at{" "}
+                    Before you continue take a look at{" "}
                     <Text
                         style={[
                             GlobalStyles.regularText,
-                            { textDecorationLine: "underline", color: Colors.blue }
+                            { textDecorationLine: "underline", color: Colors.brightRed }
                         ]}
                         onPress={() => handleUrlPress("https://google.com")}
                     >
@@ -172,7 +210,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                     <Text
                         style={[
                             GlobalStyles.regularText,
-                            { textDecorationLine: "underline", color: Colors.blue }
+                            { textDecorationLine: "underline", color: Colors.brightRed }
                         ]}
                         onPress={() => handleUrlPress("https://google.com")}
                     >
@@ -181,10 +219,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                 </Text>
             </View>
 
+            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
+                <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
+                    onPress={() => pressedContinue()}
+                />
+            </View>
 
-            <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
-                onPress={() => pressedContinue()}
-            />
         </Container >
     )
 }

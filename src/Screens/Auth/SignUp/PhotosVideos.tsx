@@ -11,6 +11,7 @@ import { Colors, GlobalStyles, ImagePath } from '../../../Config';
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
 import GradientButton from '../../../Components/GradientButton'
+import AllSocials from '../../../Components/AllSocials'
 
 
 interface Props {
@@ -36,61 +37,22 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
                         Show us the fabulous you to get the Brands to know you better!
                     </Text>
                     <Text style={GlobalStyles.regularText}>
-                        Select your content based on your social media profiles.
+                        Please  connect at least one of your social media accounts to start using Btrend.
                     </Text>
                 </>
             ) : (
-                <Text style={[GlobalStyles.regularText, { marginVertical: hp('5%') }]}>
-                    Share your Brand products and service, increase your visibility
-                    and find the perfect partnership!
-                </Text>
+                <>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, marginBottom: hp('2%') }]}>
+                        Share your Brand products and service, increase your visibility
+                        and find the perfect partnership!
+                    </Text>
+                    <Text style={GlobalStyles.regularText}>
+                        Please  connect at least one of your social media accounts to start using Btrend.
+                    </Text>
+                </>
             )}
 
-            <View
-                style={{
-                    flexDirection: "row",
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                <TouchableOpacity
-                    style={{ marginEnd: 25 }}
-                    onPress={() => setSelected("Instagram")}
-                >
-
-                    <Image source={selected === "Instagram" ? ImagePath.insta_select : ImagePath.ic_insta}
-                        style={styles.socialMediaIcon} />
-
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={{ marginEnd: 25 }}
-                    onPress={() => setSelected("Tiktok")}
-                >
-
-
-                    <Image source={selected === "Tiktok" ? ImagePath.tiktok_select : ImagePath.ic_tiktok}
-                        style={styles.socialMediaIcon} />
-
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    style={{ marginEnd: 25 }}
-                    onPress={() => setSelected("Snapchat")}
-                >
-
-                    <Image source={selected === "Snapchat" ? ImagePath.snapchat_select : ImagePath.ic_snapchat}
-                        style={styles.socialMediaIcon} />
-
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => setSelected("Youtube")}>
-
-                    <Image source={selected === "Youtube" ? ImagePath.youtube_select : ImagePath.ic_youtube}
-                        style={styles.socialMediaIcon} />
-
-                </TouchableOpacity>
-            </View>
+            <AllSocials />
 
             <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
                 <GradientButton text={'Continue'} colors={Colors.gradientButton}
@@ -100,22 +62,5 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
         </Container >
     )
 }
-
-const styles = StyleSheet.create({
-    mainButton: {
-        padding: hp('1%'),
-        paddingHorizontal: wp('3%'),
-        marginVertical: hp('1%'),
-        marginHorizontal: wp('3%'),
-        justifyContent: 'space-between',
-        borderWidth: hp('0.25%'),
-        borderColor: Colors.lightGray,
-        borderRadius: wp('10%')
-    }, socialMediaIcon: {
-        width: wp('12%'),
-        height: wp('12%'),
-        marginVertical: hp('5%')
-    }
-})
 
 export default PhotosVideos
