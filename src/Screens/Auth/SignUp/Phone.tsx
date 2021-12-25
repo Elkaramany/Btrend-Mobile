@@ -53,15 +53,15 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
         setValue,
     });
     const screenType = route.params.screenType
-    const isSignUp = screenType === "SignUp"
-    const { phone, countryCode, loading, otpVerify, error, authType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const isSignUp = screenType === "signup"
+    const { phone, countryCode, loading, otpVerify } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const pressedContinue = () => {
         if (OTPSent) {
-            dispatch(SendOTP(countryCode, phone, value,screenType))
+            dispatch(SendOTP(countryCode, phone, value, screenType))
         } else {
             if (validatePhone(`+${countryCode}${phone}`)) {
-                dispatch(SendCode(countryCode, phone,screenType))
+                dispatch(SendCode(countryCode, phone, screenType))
             } else {
                 Alert.alert("Please enter a valid phone number")
             }
@@ -70,24 +70,10 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
 
     React.useEffect(() => {
         if (otpVerify === "Code Sent") setOTPSent(true)
-        else if (otpVerify === 'Code Not Sent') {
-            Toast.show({
-                type: 'error',
-                text1: error || "Please try again.",
-                text2: `Error sending code to +${countryCode}${phone}`,
-            });
-        }
         else if (otpVerify === 'Correct Code') {
             if (isSignUp) navigation.navigate("PersonalInfo")
         }
-        else if (otpVerify === 'InCorrect Code') {
-            Toast.show({
-                type: 'error',
-                text1: "You've entered an icorrect code!",
-                text2: "Please try again."
-            });
-        }
-    }, [otpVerify, error])
+    }, [otpVerify])
 
     const chosenCountry = (selectedCountry: any) => {
         dispatch(Credential({ prop: 'countryCode', value: selectedCountry.callingCode[0] }))

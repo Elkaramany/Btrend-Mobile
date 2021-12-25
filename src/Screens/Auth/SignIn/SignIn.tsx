@@ -29,7 +29,7 @@ interface Props {
 const Home: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [emailVerified, setEmailVerified] = React.useState(false)
-    const { email, token, error, authType, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email, token, authType, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     React.useEffect(() => {
         if (validateEmail(email)) setEmailVerified(true)
@@ -43,12 +43,6 @@ const Home: React.FC<Props> = ({ navigation }) => {
             routes: [{ name: 'User' }]
         })
     }, [token])
-
-    React.useEffect(() => {
-        if (error && error.length) {
-            showToastMessage(error)
-        }
-    }, [error])
 
     const showToastMessage = (message: string) => {
         Toast.show({
@@ -64,13 +58,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
             dispatch(Credential({ prop: 'loading', value: true }))
             const { success, data }: any = await GET(`${USERS_URL}/verifyEmailSignIn/${email}`)
             dispatch(Credential({ prop: 'loading', value: false }))
-            if (success) navigation.navigate('Password',{screenType: "SignIn"})
+            if (success) navigation.navigate('Password',{screenType: "signin"})
             else showToastMessage(data)
         }
     }
 
     const Phone = async () => {
-        navigation.navigate("Phone", { screenType: "SignIn" })
+        navigation.navigate("Phone", { screenType: "signin" })
         dispatch(Credential({ prop: 'authType', value: "phone" }))
     }
 

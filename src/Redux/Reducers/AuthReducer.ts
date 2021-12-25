@@ -18,7 +18,6 @@ const INITIAL_STATE: Props = {
   countryCode: '000',
   loading: false,
   otpVerify: '',
-  error: ''
 }
 
 export default (state = INITIAL_STATE, action: Action) => {

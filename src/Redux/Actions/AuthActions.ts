@@ -1,6 +1,7 @@
 import { USERS_URL } from '@env'
 import { Props } from '../Types'
 import { GET, POST } from '../../Config/API'
+import Toast from 'react-native-toast-message'
 
 interface Cred {
     prop: string
@@ -28,7 +29,13 @@ export const SignIn = (user: SignInType) => async (dispatch: any) => {
     const { success, data }: any = await POST(`${USERS_URL}/signin`, user)
 
     if (success) SignInSuccess(dispatch, data)
-    else dispatch(Credential({ prop: "error", value: data }))
+    else {
+        Toast.show({
+            type: 'error',
+            text1: `Error signing in with ${user.authType || "email"}`,
+            text2: data,
+        });
+    }
     changeLoader(dispatch, false)
 }
 
@@ -36,8 +43,13 @@ export const SignUp = (user: Props) => async (dispatch: any) => {
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/signup`, user)
     if (success) SignInSuccess(dispatch, data)
-
-    else dispatch(Credential({ prop: "error", value: data }))
+    else {
+        Toast.show({
+            type: 'error',
+            text1: `Error signing up with ${user.authType || "email"}`,
+            text2: data,
+        });
+    }
     changeLoader(dispatch, false)
 }
 
@@ -47,7 +59,6 @@ const SignInSuccess = (dispatch: any, data: any) => {
 
 export const SendCode = (countryCode: string, phone: string, type: string) => async (dispatch: any) => {
     changeLoader(dispatch, true)
-    Credential({ prop: "error", value: '' })
     const { success, data } = await POST(`${USERS_URL}/signupWithPhone`, {
         countryCode,
         phone,
@@ -56,8 +67,11 @@ export const SendCode = (countryCode: string, phone: string, type: string) => as
     if (success) {
         dispatch(Credential({ prop: 'otpVerify', value: "Code Sent" }))
     } else {
-        dispatch(Credential({ prop: "otpVerify", value: "Code Not Sent" }))
-        dispatch(Credential({ prop: "error", value: data }))
+        Toast.show({
+            type: 'error',
+            text1: data || "Please try again.",
+            text2: `Error sending code to +${countryCode}${phone}`,
+        });
     }
     changeLoader(dispatch, false)
 }
@@ -72,10 +86,15 @@ export const SendOTP = (countryCode: string, phone: string, code: string, type: 
     })
     if (success) {
         //User signed in with phone number
-        if (type === "SignIn") SignInSuccess(dispatch, data)
+        if (type === "signin") SignInSuccess(dispatch, data)
+        //User is signing up
         else dispatch(Credential({ prop: 'otpVerify', value: "Correct Code" }))
     } else {
-        dispatch(Credential({ prop: 'otpVerify', value: "InCorrect Code" }))
+        Toast.show({
+            type: 'error',
+            text1: data || "Please try again.",
+            text2: `Error verifying otp to +${countryCode}${phone}`,
+        });
     }
     changeLoader(dispatch, false)
 }

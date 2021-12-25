@@ -26,5 +26,4 @@ export interface Props {
     countryCode: string
     loading: boolean
     otpVerify: string
-    error: string
 }

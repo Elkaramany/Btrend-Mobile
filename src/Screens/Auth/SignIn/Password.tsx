@@ -24,7 +24,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
     const [passwordVerified, setPasswordVerified] = React.useState(false)
     const [secured, setSecured] = React.useState(true)
     const { email, password, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const isSignUp = route.params.screenType === "SignUp"
+    const isSignUp = route.params.screenType === "signup"
 
     React.useEffect(() => {
         if (validatePassword(password)) setPasswordVerified(true)
