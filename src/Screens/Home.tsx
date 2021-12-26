@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { GlobalStyles, Colors, ImagePath } from '../Config'
-import { Credential, ClearAll } from '../Redux/Actions';
+import { Credential } from '../Redux/Actions';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -18,6 +18,7 @@ interface Props {
 const Home: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const { token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const user = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const [loading, setLoading] = React.useState(true)
 
     const navigateToSignIn = (type: string) => {

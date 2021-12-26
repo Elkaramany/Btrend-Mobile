@@ -7,7 +7,7 @@ import { ProgressBar } from 'react-native-paper';
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { Credential, ClearAll } from '../../../Redux/Actions';
+import { Credential } from '../../../Redux/Actions';
 import { Colors, ImagePath, GlobalStyles, validateName, validateEmail } from '../../../Config';
 
 import Container from '../../../Components/Container'
@@ -27,6 +27,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     const [verified, setVerified] = React.useState(false)
     const [dateOpen, setDateOpen] = React.useState(false)
     const { userType, photo, firstName, lastName, dob, gender, companyName, companyEmail } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const user = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const isBrand = userType === 'Brand'
 
     const handleUrlPress = React.useCallback(async (url) => {
@@ -101,7 +102,6 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     }
 
     const sendMeBack = () => {
-        dispatch(ClearAll())
         navigation.navigate("Home")
     }
 
@@ -140,7 +140,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <Container mainStyle={{flex: 1}}>
+        <Container mainStyle={{ flex: 1 }}>
             <ProgressBar progress={0.25} color={'red'} />
             <HeaderArrow headerText={isBrand ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
             {!isBrand &&

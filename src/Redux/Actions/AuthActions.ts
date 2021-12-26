@@ -40,6 +40,7 @@ export const SignIn = (user: SignInType) => async (dispatch: any) => {
 }
 
 export const SignUp = (user: Props) => async (dispatch: any) => {
+    console.log(user)
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/signup`, user)
     if (success) SignInSuccess(dispatch, data)
@@ -57,7 +58,7 @@ const SignInSuccess = (dispatch: any, data: any) => {
     dispatch({ type: "Sign_In_Success", payload: { user: data.user, token: data.token } })
 }
 
-export const SendCode = (countryCode: string, phone: string, type: string) => async (dispatch: any) => {
+export const SendCode = (countryCode: string, phone: string, type: string, setOTPSent: () => void) => async (dispatch: any) => {
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/signupWithPhone`, {
         countryCode,
@@ -65,7 +66,7 @@ export const SendCode = (countryCode: string, phone: string, type: string) => as
         type,
     })
     if (success) {
-        dispatch(Credential({ prop: 'otpVerify', value: "Code Sent" }))
+        setOTPSent()
     } else {
         Toast.show({
             type: 'error',
@@ -76,7 +77,7 @@ export const SendCode = (countryCode: string, phone: string, type: string) => as
     changeLoader(dispatch, false)
 }
 
-export const SendOTP = (countryCode: string, phone: string, code: string, type: string) => async (dispatch: any) => {
+export const SendOTP = (countryCode: string, phone: string, code: string, type: string, navigation: any) => async (dispatch: any) => {
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/verifySignupWithPhone`, {
         countryCode,
@@ -88,7 +89,7 @@ export const SendOTP = (countryCode: string, phone: string, code: string, type: 
         //User signed in with phone number
         if (type === "signin") SignInSuccess(dispatch, data)
         //User is signing up
-        else dispatch(Credential({ prop: 'otpVerify', value: "Correct Code" }))
+        else navigation.navigate("PersonalInfo")
     } else {
         Toast.show({
             type: 'error',

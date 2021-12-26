@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-    View, TouchableOpacity, Image, StyleSheet, Text, TextInput, ToastAndroid,
-    Platform,
+    View, TouchableOpacity, Image,
+    StyleSheet, Text,
     Alert
 } from 'react-native';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
@@ -14,8 +14,6 @@ import {
     useBlurOnFulfill,
     useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import Toast from 'react-native-toast-message';
-
 
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
 import { ClearAll, Credential, SendCode, SendOTP } from '../../../Redux/Actions';
@@ -43,6 +41,7 @@ interface User {
 const Phone: React.FC<Props> = ({ navigation, route }) => {
     const dispatch = useDispatch()
     const [OTPSent, setOTPSent] = React.useState(false)
+    const OTPSentSuccessFully = () => setOTPSent(true)
     const [visible, setVisible] = React.useState(false)
     const [country, setCountry] = React.useState("Country")
     const [cca2, setCca2] = React.useState("")
@@ -53,27 +52,20 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
         setValue,
     });
     const screenType = route.params.screenType
-    const isSignUp = screenType === "signup"
-    const { phone, countryCode, loading, otpVerify } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { phone, countryCode, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+
 
     const pressedContinue = () => {
         if (OTPSent) {
-            dispatch(SendOTP(countryCode, phone, value, screenType))
+            dispatch(SendOTP(countryCode, phone, value, screenType, navigation))
         } else {
             if (validatePhone(`+${countryCode}${phone}`)) {
-                dispatch(SendCode(countryCode, phone, screenType))
+                dispatch(SendCode(countryCode, phone, screenType, OTPSentSuccessFully))
             } else {
                 Alert.alert("Please enter a valid phone number")
             }
         }
     }
-
-    React.useEffect(() => {
-        if (otpVerify === "Code Sent") setOTPSent(true)
-        else if (otpVerify === 'Correct Code') {
-            if (isSignUp) navigation.navigate("PersonalInfo")
-        }
-    }, [otpVerify])
 
     const chosenCountry = (selectedCountry: any) => {
         dispatch(Credential({ prop: 'countryCode', value: selectedCountry.callingCode[0] }))
@@ -112,7 +104,7 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
                         value={value}
                         onChangeText={setValue}
                         cellCount={6}
-                        rootStyle={styles.codeFieldRoot}
+                        rootStyle={{ marginTop: 20 }}
                         keyboardType="number-pad"
                         textContentType="oneTimeCode"
                         renderCell={({ index, symbol, isFocused }) => (
@@ -156,7 +148,7 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <HeaderArrow headerText={isSignUp ? 'Sign Up' : "Sign In"} navigateMeBack={() => goBack()} />
+            <HeaderArrow headerText={screenType === "signup" ? 'Sign Up' : "Sign In"} navigateMeBack={() => goBack()} />
 
             {showVerification()}
 
@@ -189,7 +181,6 @@ const styles = StyleSheet.create({
         marginVertical: hp('2%'),
     }, root: { flex: 1, padding: 20 },
     title: { textAlign: 'center', fontSize: 30 },
-    codeFieldRoot: { marginTop: 20 },
     cell: {
         width: 40,
         height: 40,

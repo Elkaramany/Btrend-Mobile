@@ -17,7 +17,6 @@ const INITIAL_STATE: Props = {
   phone: '',
   countryCode: '000',
   loading: false,
-  otpVerify: '',
   companyName: '',
   companyEmail: '',
 }
@@ -33,7 +32,7 @@ export default (state = INITIAL_STATE, action: Action) => {
     case 'load':
       return { ...state, loading: action.payload }
     case 'clear':
-      return { ...state, ...INITIAL_STATE }
+      return { ...INITIAL_STATE }
     default:
       return state
   }

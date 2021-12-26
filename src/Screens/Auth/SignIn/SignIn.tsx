@@ -8,7 +8,7 @@ import { GET } from '../../../Config/API';
 import { USERS_URL } from '@env';
 
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux';
-import { Credential, SignIn } from '../../../Redux/Actions';
+import { ClearAll, Credential, SignIn } from '../../../Redux/Actions';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../../Components/Container';
@@ -63,22 +63,27 @@ const Home: React.FC<Props> = ({ navigation }) => {
         dispatch(SignIn({ authType: "facebook", id }))
     }
 
+    const backHome = () => {
+        dispatch(ClearAll())
+        navigation.navigate("Home")
+    }
+
     return (
         <>
             <Container>
-                <HeaderArrow headerText={'Sign In'} navigateMeBack={() => navigation.navigate("Home")} />
+                <HeaderArrow headerText={'Sign In'} navigateMeBack={() => backHome()} />
 
                 <LoginMethods label={'Email'} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
                     apple={() => Apple()}
                     google={() => Google()}
                     facebook={() => Facebook()}
                     phone={() => Phone()} />
-                {!loading && 
-                <TouchableOpacity
-                    onPress={() => navigation.navigate("Trouble")}
-                >
-                    <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Trouble signing in?</Text>
-                </TouchableOpacity>}
+                {!loading &&
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Trouble")}
+                    >
+                        <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Trouble signing in?</Text>
+                    </TouchableOpacity>}
 
             </Container>
             <TouchableOpacity style={styles.signUpButton}
