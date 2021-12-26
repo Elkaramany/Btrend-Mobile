@@ -146,14 +146,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             <ProgressBar progress={0.25} color={'red'} />
             <ScrollView style={{ flexGrow: 1 }}>
                 <HeaderArrow headerText={isBrand ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
-                {!isBrand &&
-                    <TouchableOpacity style={styles.addProfile}
-                        onPress={() => handleSelection()}
-                    >
-                        <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAdd} style={styles.imageStyle} />
-                        <Text style={[GlobalStyles.regularText, { marginLeft: wp('10%') }]}>Add profile photo</Text>
-                    </TouchableOpacity>
-                }
+                <TouchableOpacity style={styles.addProfile}
+                    onPress={() => handleSelection()}
+                >
+                    <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAdd} style={styles.imageStyle} />
+                    <Text style={[GlobalStyles.regularText, { marginLeft: wp('10%') }]}>Add a {isBrand ? "company" : "profile"} photo</Text>
+                </TouchableOpacity>
                 {showInput()}
                 {!isBrand &&
                     <>

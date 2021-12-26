@@ -2,18 +2,7 @@ import { LoginManager, Profile, AccessToken } from 'react-native-fbsdk-next';
 import { Alert } from 'react-native';
 import axios from 'axios'
 
-const api = axios.create({
-    baseURL: `https://graph.facebook.com/`,
-    method:'get',
-    timeout: 30000,
-    headers: {
-        "X-Requested-With": "XMLHttpRequest",
-        "Content-Type": "application/json"
-    }
-});
-
 // Get the user's profile using Facebook's Graph API
-const profile = (query: string) => api(`/me?${query}`).then(response => response.data);
 
 export default async () => {
     const permissions = ["public_profile", "email"]
@@ -21,19 +10,29 @@ export default async () => {
     if (result.isCancelled) {
         return null
     } else {
-        const fields = ["id", "email", "first_name", "last_name", "picture"];
         const { accessToken }: any = await AccessToken.getCurrentAccessToken()
-        const query = `access_token=${accessToken}&&fields=${fields}`
-        const user = await profile(query)
-        if (user) {
-            return {
-                firstName: user.first_name,
-                lastName: user.last_name,
-                email: user.email,
-                photo: user.picture.data.url,
-                id: user.id
+        if (accessToken) {
+            const Base_URL = "https://graph.facebook.com/"
+            const fields = ["id", "email", "first_name", "last_name"];
+            const query = `${Base_URL}me?access_token=${accessToken}&&fields=${fields}&&type=large`
+            const { data } = await axios.get(query)
+            if (data) {
+                //Get an enhances user picture
+                const { config } = await axios.get(`${Base_URL}${data.id}/picture?type=large&&access_token=${accessToken}`)
+                return {
+                    firstName: data.first_name,
+                    lastName: data.last_name,
+                    email: data.email,
+                    photo: config?.url || "",
+                    id: data.id
+                }
+            } else {
+                Alert.alert("Couldn't get your profile from facebook.")
+                return null
             }
+        } else {
+            Alert.alert("Couldn't get Facebook' permission to get your profile.")
+            return null
         }
-        return null
     }
 }
