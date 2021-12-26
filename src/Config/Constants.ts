@@ -26,6 +26,10 @@ const GlobalStyles = StyleSheet.create({
     centeredContainer: {
         justifyContent: 'center',
         alignItems: 'center'
+    }, rowBetween: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
     },
     buttonContainer: {
         backgroundColor: Colors.primary,

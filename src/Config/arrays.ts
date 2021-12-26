@@ -107,3 +107,28 @@ export const CategoriesArr = [
     "Aesthetic", "Wellness", "Artist", "Religion and philosophy", "Politics",
     "Charity", "Books", "Education", "Sexuality", "Relationship", "Plastic surgery", "TV shows", "Others"
 ]
+
+export const ArabCountries = [
+    "EG",
+    "UAE",
+    "BH",
+    "DZ",
+    "COM",
+    "LY",
+    "LB",
+    "DJ",
+    "IQ",
+    "KW",
+    "JO",
+    "MR",
+    "PS",
+    "MA",
+    "OM",
+    "QA",
+    "SA",
+    "SO",
+    "SD",
+    "SY",
+    "YE",
+    "TN",
+]

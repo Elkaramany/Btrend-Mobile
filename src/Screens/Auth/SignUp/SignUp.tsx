@@ -13,14 +13,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../../Components/Container';
 import HeaderArrow from '../../../Components/HeaderArrow';
-import GradientButton from '../../../Components/GradientButton';
-import SocialButton from '../../../Components/SocialButton'
-import Input from '../../../Components/Input'
 import GoogleLogin from '../../../Config/Utils/Google'
 import FacebookLogin from '../../../Config/Utils/Facebook';
 import AppleLogin from '../../../Config/Utils/Apple';
-import Phone from './Phone';
-import Spinner from '../../../Components/Spinner';
 import LoginMethods from '../../../Components/LoginMethods';
 
 interface Props {

@@ -8,7 +8,6 @@ import { Colors, ImagePath } from "../../Config";
 
 import Search from "../../Screens/Search";
 import Chat from "../../Screens/Chat";
-import Upload from "../../Screens/Upload";
 import Profile from "../../Screens/Profile";
 
 const BottomTab = createBottomTabNavigator();
@@ -43,31 +42,6 @@ const TabRoutes = () => {
                     },
                 }}
             />
-
-            <BottomTab.Screen
-                name={'Upload'}
-                component={Upload}
-                options={{
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ focused }) => {
-                        return (
-                            <Image
-                                // style={{ tintColor: Colors.blackOpacity30}}
-                                source={
-                                    userType == "Influencer"
-                                        ? focused
-                                            ? ImagePath.upload
-                                            : ImagePath.uploadFocus
-                                        : focused
-                                            ? ImagePath.workFocus
-                                            : ImagePath.work
-                                }
-                            />
-                        );
-                    },
-                }}
-            />
-
             <BottomTab.Screen
                 name={'Chat'}
                 component={Chat}

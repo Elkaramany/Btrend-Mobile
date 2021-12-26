@@ -15,7 +15,7 @@ interface Props {
     multiline?: boolean
     inputStyle?: ViewStyle
     label: string
-    value: string
+    value: string | number
     onChangeText: (text: string) => void
     secureTextEntry?: boolean
     rightIcon?: any
@@ -34,7 +34,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             multiline={false}
             style={[{ marginBottom: hp('3.5%') }, inputStyle]}
             label={label}
-            value={value}
+            value={value.toString()}
             onChangeText={text => onChangeText(text)}
             theme={textInputTheme}
             keyboardType={type ? type : "default"}

@@ -13,7 +13,7 @@ import { ImagePath } from '../../../Config'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 interface Props {
-    navigation: StackNavigationProp<any, any>,
+    navigation: StackNavigationProp<any, any>
 }
 
 interface ArrItem {

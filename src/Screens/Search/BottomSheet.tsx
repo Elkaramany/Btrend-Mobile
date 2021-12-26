@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react'
-import { View, Text, StyleSheet, Modal, Image, TouchableWithoutFeedback, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Modal, Image, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 
 import { GlobalStyles, Colors, ImagePath } from '../../Config'
 import { Filter, INITIAL_FILTERS } from './Types'
@@ -22,6 +22,7 @@ interface Props {
 
 
 const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, changeFilter, clearFilters }) => {
+  const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
   const validateFilters = () => {
     return true
@@ -29,6 +30,52 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
   const pressedSearch = () => {
 
+  }
+
+  const showBrandFilters = () => {
+    if (userType === "Brand") {
+      return (
+        <View style={{ width: '95%' }}>
+          <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>Number of followers</Text>
+          <View style={GlobalStyles.rowBetween}>
+            <Input
+              label=''
+              type={'numeric'}
+              value={filters.nof[0] || ""}
+              onChangeText={(text) => changeFilter('nof', [parseInt(text), filters.nof[1]])}
+              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
+            />
+            <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>-</Text>
+            <Input
+              label=''
+              type={'numeric'}
+              value={filters.nof[1] || ""}
+              onChangeText={(text) => changeFilter('nof', [filters.nof[0], parseInt(text)])}
+              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
+            />
+          </View>
+
+          <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>Engagement rate</Text>
+          <View style={GlobalStyles.rowBetween}>
+            <Input
+              label='%'
+              type={'numeric'}
+              value={filters.engagementRate[0] || ""}
+              onChangeText={(text) => changeFilter('engagementRate', [parseFloat(text), filters.engagementRate[1]])}
+              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
+            />
+            <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>-</Text>
+            <Input
+              label='%'
+              type={'numeric'}
+              value={filters.engagementRate[1] || ""}
+              onChangeText={(text) => changeFilter('engagementRate', [filters.engagementRate[0], parseFloat(text)])}
+              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
+            />
+          </View>
+        </View>
+      )
+    }
   }
 
   return (
@@ -40,88 +87,79 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
         onRequestClose={() => hideModal()}
       >
         <View style={styles.centeredView}>
-
           <TouchableWithoutFeedback onPress={() => hideModal()}>
             <View style={styles.modalOverlay} />
           </TouchableWithoutFeedback>
+          <ScrollView style={{ flexGrow: 1, height: hp('100%') }} onScroll={(e) => e.nativeEvent.contentOffset.y < 0 ? hideModal() : {}}>
+            <View style={styles.modalView}>
 
-          <View style={styles.modalView}>
-
-            <View style={styles.header}>
-              <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>Filter</Text>
-              <View style={styles.horizontalLine} />
-              <TouchableOpacity onPress={() => hideModal()}>
-                <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
-              </TouchableOpacity>
+              <View style={styles.header}>
+                <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>Filter</Text>
+                <View style={styles.horizontalLine} />
+                <TouchableOpacity onPress={() => hideModal()}>
+                  <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
+                </TouchableOpacity>
+              </View>
+              <Input
+                label={'Categories'}
+                value={filters.categories}
+                onChangeText={(text) => changeFilter('categories', text)}
+                inputStyle={{ width: wp('90%'), marginBottom: 5 }}
+              />
+              <Input
+                label={'Language'}
+                value={filters.language}
+                onChangeText={(text) => changeFilter('language', text)}
+                inputStyle={{ width: wp('90%'), marginBottom: 10 }}
+              />
+              {showBrandFilters()}
+              <Input
+                label={'Country'}
+                value={filters.country}
+                onChangeText={(text) => changeFilter('country', text)}
+                inputStyle={{ width: wp('90%'), marginBottom: 5 }}
+              />
+              <Input
+                label={'City'}
+                value={filters.city}
+                onChangeText={(text) => changeFilter('city', text)}
+                inputStyle={{ width: wp('90%'), marginBottom: 5 }}
+              />
+              <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>
+              <Text style={[GlobalStyles.regularText, styles.priceRange, { color: Colors.darkGray }]}>{filters.range[0]} US$ - {filters.range[1]} US$</Text>
+              <View style={{ marginVertical: hp('1%') }}>
+                <MultiSlider
+                  values={[filters.range[0], filters.range[1]]}
+                  sliderLength={wp('80%')}
+                  onValuesChange={(data: number[]) => changeFilter('range', data)}
+                  min={10}
+                  max={50000}
+                  step={1000}
+                />
+              </View>
+              <Text style={[GlobalStyles.regularText, styles.priceRange]}>Type of payment</Text>
+              <View style={{ marginTop: hp('2%'), flexDirection: 'row', width: wp('80%'), justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('3%') }}>
+                <RadioBtn
+                  text={"In-Kind"}
+                  selected={filters.payment === "In-Kind"}
+                  onPress={() => changeFilter('payment', "In-Kind")}
+                />
+                <RadioBtn
+                  text={"Other"}
+                  selected={filters.payment === "Other"}
+                  onPress={() => changeFilter('payment', "Other")}
+                />
+              </View>
+              <View style={[GlobalStyles.rowBetween,{marginBottom: hp('5%')}]}>
+                <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
+                  onPress={() => pressedSearch()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
+                />
+                <GradientButton text={'Clear all'} colors={Colors.disabledButton}
+                  onPress={() => clearFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
+                />
+              </View>
             </View>
-            <Input
-              label={'Categories'}
-              value={filters.categories}
-              onChangeText={(text) => changeFilter('categories', text)}
-              inputStyle={{ width: wp('90%'), marginBottom: 5 }}
-            />
-            <Input
-              label={'Language'}
-              value={filters.language}
-              onChangeText={(text) => changeFilter('language', text)}
-              inputStyle={{ width: wp('90%'), marginBottom: 10 }}
-            />
-            <TouchableOpacity
-              style={[GlobalStyles.buttonContainer, styles.dateButton]}
-              onPress={() => { }}
-            >
-              <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>
-                {filters.top && filters.top.length ? filters.top : "Type of product"}
-              </Text>
-              <Image style={GlobalStyles.arrowImage} source={ImagePath.arrowRight} />
-            </TouchableOpacity>
-            <Input
-              label={'Country'}
-              value={filters.country}
-              onChangeText={(text) => changeFilter('country', text)}
-              inputStyle={{ width: wp('90%'), marginBottom: 5 }}
-            />
-            <Input
-              label={'City'}
-              value={filters.city}
-              onChangeText={(text) => changeFilter('city', text)}
-              inputStyle={{ width: wp('90%'), marginBottom: 5 }}
-            />
-            <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>
-            <Text style={[GlobalStyles.regularText, styles.priceRange, { color: Colors.darkGray }]}>{filters.range[0]} US$ - {filters.range[1]} US$</Text>
-            <View style={{ marginVertical: hp('1%') }}>
-              <MultiSlider
-                values={[filters.range[0], filters.range[1]]}
-                sliderLength={wp('80%')}
-                onValuesChange={(data: number[]) => changeFilter('range', data)}
-                min={10}
-                max={50000}
-                step={1000}
-              />
-            </View>
-            <Text style={[GlobalStyles.regularText, styles.priceRange]}>Type of payment</Text>
-            <View style={{ marginTop: hp('2%'), flexDirection: 'row', width: wp('80%'), justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('3%') }}>
-              <RadioBtn
-                text={"In-Kind"}
-                selected={filters.payment === "In-Kind"}
-                onPress={() => changeFilter('payment', "In-Kind")}
-              />
-              <RadioBtn
-                text={"Other"}
-                selected={filters.payment === "Other"}
-                onPress={() => changeFilter('payment', "Other")}
-              />
-            </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-              <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                onPress={() => pressedSearch()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
-              />
-              <GradientButton text={'Clear all'} colors={Colors.disabledButton}
-                onPress={() => clearFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
-              />
-            </View>
-
-          </View>
+          </ScrollView>
         </View>
       </Modal>
     </View>

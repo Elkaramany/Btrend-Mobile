@@ -17,7 +17,7 @@ interface Props {
 const Search: React.FC<Props> = props => {
     const [searchField, setSearchField] = React.useState('')
     const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const [filters, setFilters] = React.useState<Filter>({...INITIAL_FILTERS, userType})
+    const [filters, setFilters] = React.useState<Filter>({ ...INITIAL_FILTERS, userType })
     const [arr, setArr] = React.useState([])
     const [visible, setVisible] = React.useState(false)
 

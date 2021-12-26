@@ -1,9 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
-import { Colors, IOS } from './src/Config/Constants';
+import { View, NativeModules } from 'react-native'
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Toast from 'react-native-toast-message'
 import SplashScreen from "react-native-splash-screen";
+
+import { Colors, IOS } from './src/Config/Constants';
 
 //Redux
 import Redux from './src/Redux'
@@ -15,16 +16,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import StackNavigator from './src/Navigation/AuthStack'
 
 export default () => {
-  const { Persistor, Store } = Redux
 
   React.useEffect(() => {
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 1000)
   }, []);
 
   return (
-    <Provider store={Store}>
+    <Provider store={Redux['Store']}>
       <View style={{ flex: 1, backgroundColor: Colors.primary, paddingTop: IOS ? getStatusBarHeight() : 0 }}>
-        <PersistGate persistor={Persistor}>
+        <PersistGate persistor={Redux['Persistor']}>
           <NavigationContainer>
             <StackNavigator />
             <Toast />

@@ -3,12 +3,13 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, Alert, Scroll
 import ImagePicker from 'react-native-image-crop-picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import * as RNLocalize from "react-native-localize";
 import { ProgressBar } from 'react-native-paper';
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ClearAll, Credential } from '../../../Redux/Actions';
-import { Colors, ImagePath, GlobalStyles, validateName, validateEmail } from '../../../Config';
+import { Colors, ImagePath, GlobalStyles, validateName, validateEmail, ArabCountries } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
@@ -172,7 +173,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                             onCancel={() => setDateOpen(false)}
                         />
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('5%') }}>
+                        <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%') }]}>
                             <RadioBtn
                                 text={"Female"}
                                 selected={gender === "Female"}
@@ -185,13 +186,15 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                                 onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Male" ? "" : "Male" }))}
                             />
 
-                            <TouchableOpacity
-                                style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
-                                onPress={() => navigation.navigate("Genders")}
-                            >
-                                <Text style={[GlobalStyles.regularText, { color: Colors.blue }]}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
-                                <Image source={ImagePath.rightArrow} style={{ width: wp('3%'), height: wp('3%'), left: wp('4.5%'), top: hp('0.3%') }} />
-                            </TouchableOpacity>
+                            {!ArabCountries.includes(RNLocalize.getCountry()) &&
+                                <TouchableOpacity
+                                    style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                                    onPress={() => navigation.navigate("Genders")}
+                                >
+                                    <Text style={[GlobalStyles.regularText, { color: Colors.blue }]}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
+                                    <Image source={ImagePath.rightArrow} style={{ width: wp('3%'), height: wp('3%'), left: wp('4.5%'), top: hp('0.3%') }} />
+                                </TouchableOpacity>
+                            }
                         </View>
                     </>
                 }
