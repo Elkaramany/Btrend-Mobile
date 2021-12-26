@@ -81,6 +81,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
                 {!loading &&
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Trouble")}
+                        style={{marginTop: hp('2%')}}
                     >
                         <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Trouble signing in?</Text>
                     </TouchableOpacity>}

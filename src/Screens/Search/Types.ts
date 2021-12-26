@@ -1,5 +1,5 @@
 export interface Filter {
-    categories: string
+    categories: string[]
     language: string
     top: string
     country: string
@@ -7,11 +7,12 @@ export interface Filter {
     range: number[]
     payment: string
     search: string
+    userType: string
 }
 
 export const INITIAL_FILTERS = {
-    categories: '', language: '', 
-    top: '', country: '', city: '', 
+    categories: [], language: '',
+    top: '', country: '', city: '',
     range: [1000, 50000], payment: '',
-    search: ''
+    search: '', userType: ''
 }

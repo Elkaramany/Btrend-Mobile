@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, Modal } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 
 import { GlobalStyles, ImagePath, Colors } from '../../Config'
 import { Filter, INITIAL_FILTERS } from './Types'
@@ -16,7 +16,8 @@ interface Props {
 
 const Search: React.FC<Props> = props => {
     const [searchField, setSearchField] = React.useState('')
-    const [filters, setFilters] = React.useState<Filter>(INITIAL_FILTERS)
+    const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const [filters, setFilters] = React.useState<Filter>({...INITIAL_FILTERS, userType})
     const [arr, setArr] = React.useState([])
     const [visible, setVisible] = React.useState(false)
 

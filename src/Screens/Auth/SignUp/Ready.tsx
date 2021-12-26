@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux'
@@ -35,18 +35,20 @@ const Ready: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={{ marginTop: hp('3%') }} onPress={() => navigation.goBack()}>
                 <Image source={ImagePath.leftArrow} style={GlobalStyles.arrowImage} />
             </TouchableOpacity>
-            <View style={{ marginBottom: hp('6%') }} />
-            <Image source={ImagePath.ic_ready} style={styles.locationIcon} />
-            <View style={styles.userTypeContainer}>
-                <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontSize: hp('3%') }]}>{user.userType}</Text>
-            </View>
-            <Header headerText={"You're ready!"} textStyle={{ fontSize: hp('5%') }}
-                headerStyle={{ justifyContent: 'center', height: hp('15%') }} />
-            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Everything you need to know</Text>
-            {showButton()}
+            <ScrollView style={{ flexGrow: 1 }}>
+                <View style={{ marginBottom: hp('6%') }} />
+                <Image source={ImagePath.ic_ready} style={styles.locationIcon} />
+                <View style={styles.userTypeContainer}>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontSize: hp('3%') }]}>{user.userType}</Text>
+                </View>
+                <Header headerText={"You're ready!"} textStyle={{ fontSize: hp('5%') }}
+                    headerStyle={{ justifyContent: 'center', height: hp('15%') }} />
+                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Everything you need to know</Text>
+                {showButton()}
+            </ScrollView>
         </Container >
     )
 }
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginBottom: hp('5%'),
         marginRight: wp('5%'),
+        marginTop: hp('5%')
     }
 })
 
