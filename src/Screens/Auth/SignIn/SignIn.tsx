@@ -49,13 +49,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
     }
 
     const Apple = async () => {
-        const { email }: any = await AppleLogin()
-        dispatch(SignIn({ authType: "apple", email }))
+        const { id }: any = await AppleLogin()
+        dispatch(SignIn({ authType: "apple", id }))
     }
 
     const Google = async () => {
-        const { email }: any = await GoogleLogin()
-        dispatch(SignIn({ authType: "google", email }))
+        const { id }: any = await GoogleLogin()
+        dispatch(SignIn({ authType: "google", id }))
     }
 
     const Facebook = async () => {
