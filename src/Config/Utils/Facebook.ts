@@ -13,7 +13,7 @@ export default async () => {
         const { accessToken }: any = await AccessToken.getCurrentAccessToken()
         if (accessToken) {
             const Base_URL = "https://graph.facebook.com/"
-            const fields = ["id", "email", "first_name", "last_name"];
+            const fields = ["id", "email", "first_name", "last_name", "picture"];
             const query = `${Base_URL}me?access_token=${accessToken}&&fields=${fields}&&type=large`
             const { data } = await axios.get(query)
             if (data) {
@@ -23,7 +23,7 @@ export default async () => {
                     firstName: data.first_name,
                     lastName: data.last_name,
                     email: data.email,
-                    photo: config?.url || "",
+                    photo: config?.url || data.picture.data.url,
                     id: data.id
                 }
             } else {
