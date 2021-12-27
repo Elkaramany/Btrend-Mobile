@@ -132,3 +132,8 @@ export const ArabCountries = [
     "YE",
     "TN",
 ]
+
+export const Languages = [
+    "English",
+    "French"
+]

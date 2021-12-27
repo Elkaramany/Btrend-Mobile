@@ -55,7 +55,13 @@ const GlobalStyles = StyleSheet.create({
     },
     regularText: {
         fontSize: hp('2%'),
-    }
+        color: Colors.secondary
+    }, rowWrap: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
 })
 
 export { Colors, GlobalStyles, IOS, ANDROID, WIDTH, HEIGHT };

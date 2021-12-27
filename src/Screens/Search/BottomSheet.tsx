@@ -1,12 +1,16 @@
-import React, { useCallback } from 'react'
-import { View, Text, StyleSheet, Modal, Image, TouchableWithoutFeedback, TouchableOpacity, ScrollView } from 'react-native'
+import React from 'react'
+import {
+  View, Text, StyleSheet, Modal,
+  TouchableWithoutFeedback, TouchableOpacity,
+  ScrollView, Image
+} from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
+import { useSelector, RootStateOrAny } from 'react-redux'
 
-import { GlobalStyles, Colors, ImagePath } from '../../Config'
-import { Filter, INITIAL_FILTERS } from './Types'
+import { GlobalStyles, Colors, ImagePath, itemSelected, selectItem, Languages, CategoriesArr } from '../../Config'
+import { Filter, getSuggesions } from './Types'
 
 import Input from '../../Components/Input'
 import RadioBtn from '../../Components/RadioBtn'
@@ -23,6 +27,18 @@ interface Props {
 
 const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, changeFilter, clearFilters }) => {
   const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+  const [categoriesText, setCategoriesText] = React.useState('')
+  const [catArr, setCatArr] = React.useState<string[]>([])
+  const [langText, setLangText] = React.useState('')
+  const [langArr, setLangArr] = React.useState<string[]>([])
+
+  React.useEffect(() => {
+    changeFilter('categories', catArr)
+  }, [catArr])
+
+  React.useEffect(() => {
+    changeFilter('language', langArr)
+  }, [langArr])
 
   const validateFilters = () => {
     return true
@@ -78,6 +94,41 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
     }
   }
 
+  const showSuggestions = (text: string, SuggestionsArr: string[], arr: string[], setArr: (value: string[]) => void) => {
+    if (text && text.length) {
+      return (
+        <View>
+          <View style={GlobalStyles.rowWrap}>
+            {getSuggesions(text, SuggestionsArr).map((item) => {
+              if (!arr.includes(item)) {
+                return (
+                  <TouchableOpacity key={item}
+                    style={styles.suggestionsContainer}
+                    onPress={() => setArr(selectItem(item, arr))}
+                  >
+                    <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.darkGray }]}>{item}</Text>
+                  </TouchableOpacity>
+                )
+              }
+            })}
+          </View>
+          <View style={GlobalStyles.rowWrap}>
+            {arr.map((item) => {
+              return (
+                <TouchableOpacity key={item}
+                  style={[styles.suggestionsContainer, { backgroundColor: Colors.darkRed, borderWidth: 0 }]}
+                  onPress={() => setArr(selectItem(item, arr))}
+                >
+                  <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>
+                </TouchableOpacity>
+              )
+            })}
+          </View>
+        </View>
+      )
+    }
+  }
+
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -102,16 +153,18 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
               </View>
               <Input
                 label={'Categories'}
-                value={filters.categories}
-                onChangeText={(text) => changeFilter('categories', text)}
+                value={categoriesText}
+                onChangeText={(text) => setCategoriesText(text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
+              {showSuggestions(categoriesText, CategoriesArr, catArr, setCatArr)}
               <Input
                 label={'Language'}
-                value={filters.language}
-                onChangeText={(text) => changeFilter('language', text)}
+                value={langText}
+                onChangeText={(text) => setLangText(text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 10 }}
               />
+              {showSuggestions(langText, Languages, langArr, setLangArr)}
               {showBrandFilters()}
               <Input
                 label={'Country'}
@@ -150,7 +203,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                   onPress={() => changeFilter('payment', "Other")}
                 />
               </View>
-              <View style={[GlobalStyles.rowBetween,{marginBottom: hp('5%')}]}>
+              <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%') }]}>
                 <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
                   onPress={() => pressedSearch()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
                 />
@@ -243,7 +296,17 @@ const styles = StyleSheet.create({
     height: hp('10%'),
     width: wp('80%'),
     resizeMode: 'contain'
-  }
+  }, suggestionsContainer: {
+    backgroundColor: Colors.primary,
+    padding: hp('0.5%'),
+    paddingHorizontal: wp('2%'),
+    ...GlobalStyles.rowBetween,
+    justifyContent: 'center',
+    margin: wp('1%'),
+    borderWidth: hp('0.25%'),
+    borderColor: Colors.mediumGray,
+    borderRadius: wp('10%')
+  },
 });
 
 

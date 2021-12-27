@@ -32,7 +32,7 @@ interface User {
 
 const SignUp: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
-    const { email } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const VerifyEmailSignUp = async (email: string): Promise<boolean> => {
         dispatch(Credential({ prop: 'loading', value: true }))
@@ -80,8 +80,12 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         const res = await VerifyEmailSignUp(user?.email)
         if (user && user !== null && res) {
             dispatch(Credential({ prop: 'email', value: user?.email || "" }))
-            dispatch(Credential({ prop: 'firstName', value: user.firstName || "" }))
-            dispatch(Credential({ prop: 'lastName', value: user.lastName || "" }))
+            if (userType === "Influencer") {
+                dispatch(Credential({ prop: 'firstName', value: user.firstName || "" }))
+                dispatch(Credential({ prop: 'lastName', value: user.lastName || "" }))
+            } else {
+                dispatch(Credential({ prop: 'companyName', value: `${user.firstName} ${user.lastName}` || "" }))
+            }
             dispatch(Credential({ prop: 'photo', value: user.photo || "" }))
             dispatch(Credential({ prop: 'authType', value: type || "" }))
             dispatch(Credential({ prop: 'id', value: user.id || "" }))

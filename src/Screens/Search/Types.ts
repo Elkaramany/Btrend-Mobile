@@ -1,3 +1,5 @@
+import { CategoriesArr } from "../../Config";
+
 export interface Filter {
     categories: string[]
     language: string
@@ -17,4 +19,10 @@ export const INITIAL_FILTERS = {
     range: [1000, 50000], payment: '',
     search: '', userType: '', nof: [1000, 100000],
     engagementRate: [0.5, 4.5]
+}
+
+export const getSuggesions = (text: string, arr: string[]) => {
+    return arr.filter(
+        (val) => val?.toLowerCase()?.indexOf(text?.toLowerCase()) > -1
+    );
 }

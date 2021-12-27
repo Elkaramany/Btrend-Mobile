@@ -40,7 +40,6 @@ export const SignIn = (user: SignInType) => async (dispatch: any) => {
 }
 
 export const SignUp = (user: Props) => async (dispatch: any) => {
-    console.log(user)
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/signup`, user)
     if (success) SignInSuccess(dispatch, data)
