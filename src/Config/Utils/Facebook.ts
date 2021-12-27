@@ -17,7 +17,7 @@ export default async () => {
             const query = `${Base_URL}me?access_token=${accessToken}&&fields=${fields}&&type=large`
             const { data } = await axios.get(query)
             if (data) {
-                //Get an enhances user picture
+                //Get an enhanced user picture
                 const { config } = await axios.get(`${Base_URL}${data.id}/picture?type=large&&access_token=${accessToken}`)
                 return {
                     firstName: data.first_name,
