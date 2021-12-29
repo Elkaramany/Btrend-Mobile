@@ -28,7 +28,7 @@ const GlobalStyles = StyleSheet.create({
         alignItems: 'center'
     }, rowBetween: {
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         alignItems: 'center'
     },
     buttonContainer: {
@@ -61,6 +61,17 @@ const GlobalStyles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'center',
         alignItems: 'center'
+    }, horizontalLine: {
+        alignSelf: 'center',
+        backgroundColor: Colors.mediumGray,
+        height: hp('0.25%'),
+        width: wp('85%'),
+        marginVertical: hp('1%')
+    }, roundedImg: {
+        height: hp('7%'),
+        width: hp('7%'),
+        resizeMode: 'cover',
+        borderRadius: wp('50%'),
     },
 })
 

@@ -49,7 +49,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <View style={{ flex: 1, backgroundColor: visible ? Colors.lightGray : Colors.primary }}>
+        <View style={{ flex: 1, backgroundColor: Colors.primary }}>
             <Container mainStyle={{ flex: 1, marginTop: hp('2%') }} mainBgColor={'transparent'}>
                 <View style={styles.header}>
                     <Input

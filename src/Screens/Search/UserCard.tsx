@@ -74,10 +74,10 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, onFavorite, viewUserProfile 
                 <Card style={styles.userContainer}>
                     <Image source={{ uri: item.img }} style={styles.userImg} />
                     <Text style={styles.userTitle}>{item.title}</Text>
-                    <View style={{ alignSelf: 'center', backgroundColor: Colors.mediumGray, height: hp('0.25%'), width: wp('85%'), marginVertical: hp('1%') }} />
+                    <View style={GlobalStyles.horizontalLine} />
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
                         <View style={GlobalStyles.rowBetween} >
-                            <Image source={{ uri: item.img }} style={[styles.roundedImg, { marginRight: wp('2%') }]} />
+                            <Image source={{ uri: item.img }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View>
                                 <Text style={GlobalStyles.regularText}>{item.title}</Text>
                                 <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.title}</Text>
@@ -114,12 +114,7 @@ const styles = StyleSheet.create({
         marginLeft: wp('10%'),
         alignSelf: 'flex-start',
     },
-    roundedImg: {
-        height: hp('7%'),
-        width: hp('7%'),
-        resizeMode: 'cover',
-        borderRadius: wp('50%'),
-    }, heartImg: {
+    heartImg: {
         height: hp('4%'),
         width: hp('4%'),
         resizeMode: 'contain',

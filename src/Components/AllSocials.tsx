@@ -4,13 +4,8 @@ import { ImagePath } from '../Config'
 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
-interface Props {
-
-}
-
-const Name: React.FC<Props> = props => {
-
-    const [selected, setSelected] = React.useState('')
+const Name: React.FC = () => {
+    const [selected, setSelected] = React.useState('Instagram')
 
     return (
         <View
@@ -65,8 +60,7 @@ const styles = StyleSheet.create({
     socialMediaIcon: {
         width: wp('12%'),
         height: wp('12%'),
-        marginTop: hp('5%'),
-        marginBottom: hp('2%'),
+        marginVertical: hp('2%'),
     }
 })
 

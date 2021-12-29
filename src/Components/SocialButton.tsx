@@ -5,7 +5,7 @@ import { GlobalStyles } from '../Config'
 
 interface Props {
     text: string
-    imageName: string
+    imageName: string | any
     onPress: () => void
 }
 
