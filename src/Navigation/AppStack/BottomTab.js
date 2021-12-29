@@ -1,6 +1,8 @@
+import { NavigationContainer } from '@react-navigation/native';
 import {
     createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
@@ -11,6 +13,7 @@ import Chat from "../../Screens/Chat";
 import Profile from "../../Screens/Profile";
 
 const BottomTab = createBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const TabRoutes = () => {
     const { userType } = useSelector((state) => state.AuthReducer)

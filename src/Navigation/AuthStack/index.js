@@ -14,7 +14,7 @@ import Ready from "../../Screens/Auth/SignUp/Ready";
 import Phone from '../../Screens/Auth/SignUp/Phone'
 import Trouble from "../../Screens/Auth/SignIn/Trouble";
 
-import User from '../AppStack/BottomTab'
+import User from '../AppStack/Stack'
 
 const Stack = createStackNavigator();
 

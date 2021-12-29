@@ -1,9 +1,14 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native'
+import {
+    View, Text, StyleSheet, Image,
+    TouchableOpacity, FlatList,
+}
+    from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { TextInput, Card } from 'react-native-paper'
+import { TextInput } from 'react-native-paper';
 
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useSelector, RootStateOrAny } from 'react-redux'
 
 import { GlobalStyles, ImagePath, Colors } from '../../Config'
 import { Filter, INITIAL_FILTERS } from './Types'
@@ -12,16 +17,19 @@ import Food from './food'
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
 import BottomSheet from './BottomSheet'
+import UserCard from './UserCard'
 
 interface Props {
-
+    navigation: StackNavigationProp<any, any>,
 }
 
-const Search: React.FC<Props> = props => {
+
+const Search: React.FC<Props> = ({ navigation }) => {
     const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const [filters, setFilters] = React.useState<Filter>({ ...INITIAL_FILTERS, userType })
-    const [arr, setArr] = React.useState([])
+    const [arr, setArr] = React.useState(Food)
     const [visible, setVisible] = React.useState(false)
+
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {
         const newFilters: any = { ...filters }
@@ -29,31 +37,16 @@ const Search: React.FC<Props> = props => {
         setFilters(newFilters)
     }
 
-    React.useEffect(() => {
-        console.log(filters)
-    }, [filters])
-
-
-    const renderItem = ({ item }: any) => {
-        return (
-            <Card style={styles.userContainer}>
-                <Image source={{ uri: item.img }} style={styles.userImg} />
-                <Text style={styles.userTitle}>{item.title}</Text>
-                <View style={{ alignSelf: 'center', backgroundColor: Colors.mediumGray, height: hp('0.25%'), width: wp('85%'), marginVertical: hp('1%') }} />
-                <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
-                    <View style={GlobalStyles.rowBetween} >
-                        <Image source={{ uri: item.img }} style={[styles.roundedImg,{marginRight: wp('2%')}]} />
-                        <View>
-                            <Text style={GlobalStyles.regularText}>{item.title}</Text>
-                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.title}</Text>
-                        </View>
-                    </View>
-                    <Image source={ImagePath.heart} style={styles.heartImg} />
-                </View>
-            </Card >
-        )
+    const onSwipe = (id: number, direction: string) => {
+        console.log(id, direction)
+        let newArr = [...arr]
+        newArr = newArr.filter(i => i.id !== id);
+        setArr(newArr)
     }
 
+    const onFavorite = (id: number) => {
+        console.log(id)
+    }
 
     return (
         <View style={{ flex: 1, backgroundColor: visible ? Colors.lightGray : Colors.primary }}>
@@ -79,9 +72,13 @@ const Search: React.FC<Props> = props => {
                 <Text style={[GlobalStyles.regularText, { fontWeight: '600', marginVertical: hp('2%'), marginLeft: wp('2%') }]}>Most Popular</Text>
 
                 <FlatList
-                    data={Food}
+                    data={arr}
                     keyExtractor={(item, index) => `${item.id}-${index}`}
-                    renderItem={renderItem}
+                    renderItem={({ item }) => <UserCard
+                        item={item} onSwipe={onSwipe} onFavorite={onFavorite}
+                        viewUserProfile={(item) => navigation.navigate("UserProfile", { item })}
+                    />
+                    }
                 />
             </Container>
         </View>
@@ -93,35 +90,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
-    }, userContainer: {
-        ...GlobalStyles.centeredContainer,
-        marginVertical: hp('2%'),
-
-    },
-    userImg: {
-        ...GlobalStyles.arrowImage,
-        height: hp('15%'),
-        width: wp('90%'),
-        resizeMode: 'cover',
-        borderTopRightRadius: hp('4%'),
-        borderTopLeftRadius: hp('4%'),
-    }, userTitle: {
-        fontWeight: '600',
-        marginVertical: hp('2%'),
-        fontSize: hp('3%'),
-        marginLeft: wp('10%'),
-        alignSelf: 'flex-start',
-    },
-    roundedImg: {
-        height: hp('7%'),
-        width: hp('7%'),
-        resizeMode: 'cover',
-        borderRadius: wp('50%'),
-    }, heartImg: {
-        height: hp('4%'),
-        width: hp('4%'),
-        resizeMode: 'contain',
-
     }
 })
 
