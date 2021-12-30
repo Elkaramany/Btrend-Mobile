@@ -6,7 +6,7 @@ import UserProfile from '../../Screens/Search/UserProfile'
 
 const Stack = createStackNavigator();
 
-const AppStackNavigator = () => {
+export default () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}
             initialRouteName={'User'}
@@ -16,5 +16,3 @@ const AppStackNavigator = () => {
         </Stack.Navigator>
     );
 };
-
-export default AppStackNavigator;

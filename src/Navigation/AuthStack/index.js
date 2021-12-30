@@ -14,11 +14,9 @@ import Ready from "../../Screens/Auth/SignUp/Ready";
 import Phone from '../../Screens/Auth/SignUp/Phone'
 import Trouble from "../../Screens/Auth/SignIn/Trouble";
 
-import User from '../AppStack/Stack'
-
 const Stack = createStackNavigator();
 
-const MainStackNavigator = () => {
+export default() => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}
       initialRouteName={'Home'}
@@ -36,10 +34,6 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Location" component={Location} />
       <Stack.Screen name="Ready" component={Ready} />
       <Stack.Screen name="Phone" component={Phone} />
-
-      <Stack.Screen name="User" component={User} />
     </Stack.Navigator>
   );
 };
-
-export default MainStackNavigator;

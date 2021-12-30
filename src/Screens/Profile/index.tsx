@@ -15,10 +15,6 @@ const Profile: React.FC<Props> = ({ navigation }) => {
 
     const signUserOut = () => {
         dispatch(ClearAll())
-        navigation.reset({
-            index: 0,
-            routes: [{ name: 'Home' }]
-        })
     }
 
     return (

@@ -1,11 +1,9 @@
-import { NavigationContainer } from '@react-navigation/native';
 import {
     createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { Image, StyleSheet } from "react-native";
-import { useSelector } from "react-redux";
+
 import { Colors, ImagePath } from "../../Config";
 
 import Search from "../../Screens/Search";
@@ -13,11 +11,8 @@ import Chat from "../../Screens/Chat";
 import Profile from "../../Screens/Profile";
 
 const BottomTab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
-const TabRoutes = () => {
-    const { userType } = useSelector((state) => state.AuthReducer)
-
+export default () => {
     return (
         <BottomTab.Navigator
             initialRouteName={'Search'}
@@ -88,5 +83,3 @@ const styles = StyleSheet.create({
         height: 50,
     },
 });
-
-export default TabRoutes;

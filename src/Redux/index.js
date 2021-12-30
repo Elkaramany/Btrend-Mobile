@@ -22,4 +22,6 @@ const Persistor = persistStore(Store)
 
 const Redux = {Persistor, Store}
 
+Persistor.purge()
+
 export default Redux
