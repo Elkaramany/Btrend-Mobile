@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, Alert, ScrollView } from 'react-native'
-import ImagePicker from 'react-native-image-crop-picker';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as RNLocalize from "react-native-localize";
@@ -10,6 +9,7 @@ import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ClearAll, Credential } from '../../../Redux/Actions';
 import { Colors, ImagePath, GlobalStyles, validateName, validateEmail, ArabCountries } from '../../../Config';
+import { handleSelection } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
@@ -44,26 +44,6 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
         }
     }, []);
 
-    const handleImage = async (type: string) => {
-        const image: any =
-            type === "gallery"
-                ? await ImagePicker.openPicker({
-                    width: 300,
-                    height: 300,
-                    cropping: true,
-                    includeBase64: true
-                })
-                : await ImagePicker.openCamera({
-                    width: 300,
-                    height: 300,
-                    cropping: true,
-                    includeBase64: true,
-                })
-
-        if (image) {
-            dispatch(Credential({ prop: 'photo', value: `data:image/jpg;base64,${image.data}` }))
-        }
-    };
 
     const pressedContinue = () => {
         if (verified) {
@@ -82,18 +62,9 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
         }
     }, [dob, gender, firstName, lastName, companyName, companyEmail])
 
-    const handleSelection = () => {
-        Alert.alert("Add an image", "", [
-            {
-                text: "Take photo",
-                onPress: () => handleImage("camera")
-            },
-            {
-                text: "Choose from library",
-                onPress: () => handleImage("gallery")
-            },
-            { text: "Cancel", style: "cancel" },
-        ]);
+    const handleImage = async () => {
+        const image: string | null = await handleSelection()
+        dispatch(Credential({ prop: 'photo', value: image }))
     };
 
 
@@ -147,7 +118,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             <ScrollView style={{ flexGrow: 1 }}>
                 <HeaderArrow headerText={isBrand ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
                 <TouchableOpacity style={styles.addProfile}
-                    onPress={() => handleSelection()}
+                    onPress={() => handleImage()}
                 >
                     <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAdd} style={styles.imageStyle} />
                     <Text style={[GlobalStyles.regularText, { marginLeft: wp('10%') }]}>Add a {isBrand ? "company" : "profile"} photo</Text>

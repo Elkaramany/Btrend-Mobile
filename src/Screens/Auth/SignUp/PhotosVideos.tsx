@@ -20,7 +20,6 @@ interface Props {
 
 const PhotosVideos: React.FC<Props> = ({ navigation }) => {
     const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const [selected, setSelected] = React.useState("")
 
     const pressedContinue = () => {
         navigation.navigate("Location")

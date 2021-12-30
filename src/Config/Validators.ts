@@ -1,3 +1,6 @@
+import { Alert } from "react-native";
+import ImagePicker from 'react-native-image-crop-picker';
+
 export const validateName = (name: string): boolean => {
     if (!name || name.length < 2) return false;
     return true;
@@ -40,7 +43,7 @@ export const selectItem = (item: string, arr: string[]) => {
             const newArr = [...arr]
             newArr.push(item)
             return newArr
-        }else{
+        } else {
             return arr
         }
     }
@@ -50,3 +53,42 @@ export const itemSelected = (cat: string, arr: string[]) => {
     if (arr && arr.length && arr.includes(cat)) return true
     return false
 }
+
+const handleImage = async (type: string) => {
+    const image: any =
+        type === "gallery"
+            ? await ImagePicker.openPicker({
+                width: 300,
+                height: 300,
+                cropping: true,
+                includeBase64: true
+            })
+            : await ImagePicker.openCamera({
+                width: 300,
+                height: 300,
+                cropping: true,
+                includeBase64: true,
+            })
+
+    if (image) return `data:image/jpg;base64,${image.data}`
+    return null
+};
+
+
+export const handleSelection = async (): Promise<string | null> => new Promise((resolve) => {
+    Alert.alert("Add an image", "", [
+        {
+            text: "Take photo",
+            onPress: async () => {
+                resolve(await handleImage("camera"))
+            }
+        },
+        {
+            text: "Choose from library",
+            onPress: async () => {
+                resolve(await handleImage("gallery"))
+            }
+        },
+        { text: "Cancel", style: "cancel" },
+    ])
+});

@@ -3,8 +3,7 @@ import { CategoriesArr } from "../../Config";
 export interface Filter {
     categories: string[]
     language: string
-    country: string
-    city: string
+    location: string
     range: number[]
     payment: string
     search: string
@@ -13,11 +12,28 @@ export interface Filter {
     engagementRate: number[]
 }
 
+export interface addFilter {
+    name: string
+    startingDate: string | Date
+    endingDate: string | Date
+    categories: string[]
+    aim: string
+    price: number
+    payment: string
+    type: string
+    need: string
+    gender: string
+    nof: number[]
+    engagementRate: number[]
+    location: string
+    photo: string
+}
+
 export const INITIAL_FILTERS = {
     categories: [], language: '',
-    country: '', city: '',
-    range: [1000, 50000], payment: '',
-    search: '', userType: '', nof: [1000, 100000],
+    location: '', range: [1000, 50000],
+    payment: '', search: '',
+    userType: '', nof: [1000, 100000],
     engagementRate: [0.5, 4.5]
 }
 

@@ -16,8 +16,6 @@ import Navigator from './src/Navigation/index'
 export default () => {
 
   React.useEffect(() => {
-    LogBox.ignoreLogs(['Sending...']);
-    console.log(JSON.stringify(<Navigator />))
     setTimeout(() => {
       SplashScreen.hide();
     }, 1000)

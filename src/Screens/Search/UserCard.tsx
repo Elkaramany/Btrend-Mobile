@@ -96,7 +96,6 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, onFavorite, viewUserProfile 
 const styles = StyleSheet.create({
     userContainer: {
         ...GlobalStyles.centeredContainer,
-        marginVertical: hp('1%'),
         zIndex: -1,
         height: CARD_HEIGHT,
         width: CARD_WIDTH

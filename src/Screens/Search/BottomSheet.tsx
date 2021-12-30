@@ -9,12 +9,13 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import { useSelector, RootStateOrAny } from 'react-redux'
 
-import { GlobalStyles, Colors, ImagePath, itemSelected, selectItem, Languages, CategoriesArr } from '../../Config'
+import { GlobalStyles, Colors, ImagePath, selectItem, Languages, CategoriesArr } from '../../Config'
 import { Filter, getSuggesions } from './Types'
 
 import Input from '../../Components/Input'
 import RadioBtn from '../../Components/RadioBtn'
 import GradientButton from '../../Components/GradientButton'
+import FollowersEngagement from './FollowersEngagement'
 
 interface Props {
   modalVisible: boolean
@@ -51,50 +52,12 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
   const showBrandFilters = () => {
     if (userType === "Brand") {
       return (
-        <View style={{ width: '95%' }}>
-          <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>Number of followers</Text>
-          <View style={GlobalStyles.rowBetween}>
-            <Input
-              label=''
-              type={'numeric'}
-              value={filters.nof[0] || ""}
-              onChangeText={(text) => changeFilter('nof', [parseInt(text), filters.nof[1]])}
-              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
-            />
-            <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>-</Text>
-            <Input
-              label=''
-              type={'numeric'}
-              value={filters.nof[1] || ""}
-              onChangeText={(text) => changeFilter('nof', [filters.nof[0], parseInt(text)])}
-              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
-            />
-          </View>
-
-          <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>Engagement rate</Text>
-          <View style={GlobalStyles.rowBetween}>
-            <Input
-              label='%'
-              type={'numeric'}
-              value={filters.engagementRate[0] || ""}
-              onChangeText={(text) => changeFilter('engagementRate', [parseFloat(text), filters.engagementRate[1]])}
-              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
-            />
-            <Text style={[GlobalStyles.regularText, { fontWeight: '600', textAlign: 'center' }]}>-</Text>
-            <Input
-              label='%'
-              type={'numeric'}
-              value={filters.engagementRate[1] || ""}
-              onChangeText={(text) => changeFilter('engagementRate', [filters.engagementRate[0], parseFloat(text)])}
-              inputStyle={{ width: wp('40%'), marginBottom: 5 }}
-            />
-          </View>
-        </View>
+        <FollowersEngagement nof={filters.nof} engagementRate={filters.engagementRate} changeFilter={changeFilter}/>
       )
     }
   }
 
-  const showSuggestions = (text: string, SuggestionsArr: string[], arr: string[], setArr: (value: string[]) => void) => {
+  const showSuggestions = (text: string, SuggestionsArr: any, arr: string[], setArr: (value: string[]) => void) => {
     if (text && text.length) {
       return (
         <View>
@@ -167,15 +130,9 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
               {showSuggestions(langText, Languages, langArr, setLangArr)}
               {showBrandFilters()}
               <Input
-                label={'Country'}
-                value={filters.country}
-                onChangeText={(text) => changeFilter('country', text)}
-                inputStyle={{ width: wp('90%'), marginBottom: 5 }}
-              />
-              <Input
-                label={'City'}
-                value={filters.city}
-                onChangeText={(text) => changeFilter('city', text)}
+                label={'Location'}
+                value={filters.location}
+                onChangeText={(text) => changeFilter('location', text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
               <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>

@@ -18,6 +18,7 @@ import Container from '../../Components/Container'
 import Input from '../../Components/Input'
 import BottomSheet from './BottomSheet'
 import UserCard from './UserCard'
+import AddCampaign from './AddCampaign'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -29,6 +30,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
     const [filters, setFilters] = React.useState<Filter>({ ...INITIAL_FILTERS, userType })
     const [arr, setArr] = React.useState(Food)
     const [visible, setVisible] = React.useState(false)
+    const [campaignVisible, setCampaignVisible] = React.useState(false)
 
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {
@@ -66,7 +68,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
 
                     <BottomSheet modalVisible={visible} hideModal={() => setVisible(false)}
                         clearFilters={() => setFilters({ ...INITIAL_FILTERS, userType })}
-                        filters={filters} changeFilter={(type: string, text: string | number | number[]) => changeFilter(type, text)}
+                        filters={filters} changeFilter={(type: string, text: string | number | number[] | string[]) => changeFilter(type, text)}
                     />
                 </View>
                 <Text style={[GlobalStyles.regularText, { fontWeight: '600', marginVertical: hp('2%'), marginLeft: wp('2%') }]}>Most Popular</Text>
@@ -75,11 +77,20 @@ const Search: React.FC<Props> = ({ navigation }) => {
                     data={arr}
                     keyExtractor={(item, index) => `${item.id}-${index}`}
                     renderItem={({ item }) => <UserCard
-                        item={item} onSwipe={onSwipe} onFavorite={onFavorite}
-                        viewUserProfile={(item) => navigation.navigate("UserProfile", { item })}
+                        item={item} onSwipe={onSwipe} onFavorite={(onFavorite)}
+                        viewUserProfile={(item) => navigation.navigate("UserProfile", { item, onFavorite: (id: number) => onFavorite(id) })}
                     />
                     }
                 />
+                {userType === "Brand" &&
+                    <>
+                        <TouchableOpacity onPress={() => setCampaignVisible(true)}
+                            style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'flex-end', marginBottom: hp('3%'), marginRight: wp('5%') }}>
+                            <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
+                        </TouchableOpacity>
+                        <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
+                    </>
+                }
             </Container>
         </View>
     )

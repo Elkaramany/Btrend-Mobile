@@ -21,12 +21,16 @@ interface Props {
     rightIcon?: any
     leftIcon?: any
     type?: any
+    numLines?: number
+    dense?: boolean
 }
 
 const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { },
-    secureTextEntry, rightIcon, leftIcon, type }) => {
+    secureTextEntry, rightIcon, leftIcon, type, numLines, dense }) => {
     return (
         <TextInput
+            dense={dense || false}
+            numberOfLines={numLines || 1}
             right={rightIcon ? rightIcon : null}
             left={leftIcon ? leftIcon : null}
             secureTextEntry={secureTextEntry || false}

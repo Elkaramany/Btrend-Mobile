@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, Text, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { GlobalStyles } from '../Config'
 

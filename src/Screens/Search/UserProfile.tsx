@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Touchable } from 'react-native'
 // @ts-ignore
 import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
@@ -12,6 +12,7 @@ import { GlobalStyles, Colors, ImagePath } from '../../Config';
 import Container from '../../Components/Container'
 import SocialStats from '../../Components/SocialStats'
 import GradientButton from '../../Components/GradientButton'
+import InfluencerProfile from '../../Components/InfluencerProfile';
 
 interface Props {
     route: any
@@ -57,7 +58,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const [typeValue, setTypeValue] = React.useState(false)
     const [needsValue, setNeedsValue] = React.useState(false)
     const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const item = route.params.item
+    const { item, onFavorite } = route.params
 
     const pressedMessage = () => {
         console.log("Message")
@@ -148,13 +149,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <Text style={[GlobalStyles.regularText, { marginLeft: wp('8.5%') }]}>{item.title}</Text>
                 </View>
             )
-        } else {
-            return (
-                <View>
-
-                </View>
-            )
-        }
+        } else return <InfluencerProfile />
     }
 
     return (
@@ -163,54 +158,56 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.xImage}>
                 <Image source={ImagePath.ic_crosss} style={{ flex: 1 }} />
             </TouchableOpacity>
-            <ScrollView style={styles.scroller}>
-                <View style={[GlobalStyles.rowBetween, { marginTop: hp('2%') }]}>
-                    <Text style={GlobalStyles.regularText}>{item.title}</Text>
-                    <Image source={item.favorite ? ImagePath.heartFilled : ImagePath.heart} style={GlobalStyles.arrowImage} />
-                </View>
-                <View style={GlobalStyles.horizontalLine} />
-                <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
-                    <View style={GlobalStyles.rowBetween} >
-                        <Image source={{ uri: item.img }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
-                        <View>
-                            <Text style={GlobalStyles.regularText}>{item.title}</Text>
-                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.title}</Text>
+            <ScrollView style={styles.scroller} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{ marginTop: hp('3%'), marginHorizontal: wp('5%') }}>
+                    <View style={GlobalStyles.rowBetween}>
+                        <Text style={GlobalStyles.regularText}>{item.title}</Text>
+                        <TouchableOpacity onPress={() => onFavorite(item.id)}>
+                            <Image source={item.favorite ? ImagePath.heartFilled : ImagePath.heart} style={GlobalStyles.arrowImage} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={GlobalStyles.horizontalLine} />
+                    <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
+                        <View style={GlobalStyles.rowBetween} >
+                            <Image source={{ uri: item.img }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
+                            <View>
+                                <Text style={GlobalStyles.regularText}>{item.title}</Text>
+                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.title}</Text>
+                            </View>
+                        </View>
+                        <View style={styles.activeContainer} >
+                            <Text style={[GlobalStyles.regularText, { color: Colors.primary }]}>{item.active || "nothing yet"}</Text>
                         </View>
                     </View>
-                    <View style={styles.activeContainer} >
-                        <Text style={[GlobalStyles.regularText, { color: Colors.primary }]}>{item.active || "nothing yet"}</Text>
+                    <SocialStats />
+                    <View style={[GlobalStyles.rowBetween, { marginBottom: hp('2%') }]}>
+                        <GradientButton text={'Follow'} colors={Colors.gradientButton}
+                            onPress={() => pressedFollow()} buttonContainerStyle={styles.bottomButton}
+                        />
+                        <GradientButton text={'Message'} colors={[Colors.primary, Colors.primary]}
+                            textStyle={{ color: Colors.secondary }}
+                            onPress={() => pressedMessage()} buttonContainerStyle={{ ...styles.bottomButton, borderColor: Colors.secondary }}
+                        />
                     </View>
+                    <View style={GlobalStyles.horizontalLine} />
+                    {userView()}
                 </View>
-                <SocialStats />
-                <View style={[GlobalStyles.rowBetween, { marginBottom: hp('2%') }]}>
-                    <GradientButton text={'Follow'} colors={Colors.gradientButton}
-                        textStyle={{ fontStyle: 'italic' }}
-                        onPress={() => pressedFollow()} buttonContainerStyle={styles.bottomButton}
-                    />
-                    <GradientButton text={'Message'} colors={Colors.disabledButton}
-                        textStyle={{ fontStyle: 'italic' }}
-                        onPress={() => pressedMessage()} buttonContainerStyle={styles.bottomButton}
-                    />
-                </View>
-                <View style={GlobalStyles.horizontalLine} />
-                {userView()}
             </ScrollView>
         </View>
-
     )
 }
 
 const styles = StyleSheet.create({
     image: {
         width: '100%',
-        height: hp('30%'),
+        height: hp('25%'),
         resizeMode: 'cover',
         zIndex: 1
     }, xImage: {
         flex: 1,
         height: hp('5%'),
         width: hp('5%'),
-        resizeMode: 'cover',
+        resizeMode: 'contain',
         alignSelf: 'flex-end',
         right: wp('3%'),
         marginTop: hp('2%'),
@@ -242,10 +239,9 @@ const styles = StyleSheet.create({
         padding: hp('1.5%'),
         borderRadius: hp('1.5%'),
         marginHorizontal: wp('2%')
-    }, bottomButton: { 
-        width: wp('40%'), 
-        marginHorizontal: wp('5%'), 
-        paddingVertical: hp('0.5%') 
+    }, bottomButton: {
+        paddingHorizontal: wp('6%'),
+        paddingVertical: hp('0.5%'),
     }
 })
 

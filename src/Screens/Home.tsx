@@ -4,12 +4,11 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 
 import { GlobalStyles, Colors, ImagePath } from '../Config'
 import { Credential } from '../Redux/Actions';
-import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../Components/Container'
 import Header from '../Components/Header'
-import Spinner from '../Components/Spinner'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -17,7 +16,6 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
-    const { token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const navigateToSignIn = (type: string) => {
         dispatch(Credential({ prop: 'userType', value: type }))
