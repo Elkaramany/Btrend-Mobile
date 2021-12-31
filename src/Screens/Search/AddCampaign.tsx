@@ -30,10 +30,6 @@ interface Props {
     hideModal: () => void
 }
 
-//Date 10 days from today
-let someDate = new Date();
-let result = someDate.setDate(someDate.getDate() + 10);
-
 const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
     const [index, setIndex] = React.useState(0)
     const [otherPayment, setOtherPayment] = React.useState(false)
@@ -102,10 +98,11 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
     }
 
     const pressedCreate = () => {
-        if (filters.photo.length) {
-            console.log(filters)
+        if (!filters.photo.length) {
+            Alert.alert("Please attache a campaign photo")
         } else {
             dispatch(CreateCampaign(filters))
+            hideModal()
         }
     }
 

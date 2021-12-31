@@ -3,6 +3,9 @@ import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity
 import { Card } from 'react-native-paper'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
+import { FavoriteUser } from '../../Redux/Actions'
+
 import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
 const CARD_HEIGHT = hp('33%')
@@ -13,11 +16,14 @@ const ACTION_OFFSET = 100
 interface Props {
     item: any,
     onSwipe: (id: number, direction: string) => void
-    onFavorite: (id: number) => void
-    viewUserProfile: (item: any) => void
+    navigation: any
 }
 
-const UserCard: React.FC<Props> = ({ item, onSwipe, onFavorite, viewUserProfile }) => {
+const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
+    const dispatch = useDispatch()
+    const [favorite, setFavorite] = React.useState(item.isFavorite)
+    const { token, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const isBrand = userType === "Brand"
     const swipe = React.useRef(new Animated.ValueXY()).current;
     const titleSign = React.useRef(new Animated.Value(1)).current
     const panResponder = PanResponder.create({
@@ -58,6 +64,16 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, onFavorite, viewUserProfile 
         }).start(() => onSwipe(item.id, direction))
     }
 
+    const onFavorite = () => {
+        dispatch(FavoriteUser(item._id, token, changeFavorite, userType))
+    }
+
+    const changeFavorite = () => {
+        setFavorite(!favorite)
+    }
+
+    const name = isBrand ? item.brand.companyName : `${item.firstName} ${item.lastName}`
+    const photo = isBrand ? item.brand.photo : item.photo
     return (
         <Animated.View
             {...panResponder.panHandlers}
@@ -70,21 +86,23 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, onFavorite, viewUserProfile 
                 }]
             }}
         >
-            <TouchableOpacity onPress={() => viewUserProfile(item)}>
+            <TouchableOpacity onPress={() => navigation.navigate("UserProfile", { item, isFavorite: favorite })}>
                 <Card style={styles.userContainer}>
-                    <Image source={{ uri: item.img }} style={styles.userImg} />
-                    <Text style={styles.userTitle}>{item.title}</Text>
+                    <Image source={{ uri: item.photo }} style={styles.userImg} />
+                    <Text style={styles.userTitle}>{item.name}</Text>
                     <View style={GlobalStyles.horizontalLine} />
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
                         <View style={GlobalStyles.rowBetween} >
-                            <Image source={{ uri: item.img }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
+                            <Image source={{ uri: photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View>
-                                <Text style={GlobalStyles.regularText}>{item.title}</Text>
-                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.title}</Text>
+                                <Text style={GlobalStyles.regularText}>{name}</Text>
+                                <View style={{ width: wp('55%') }}>
+                                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.categories.join(" - ")}</Text>
+                                </View>
                             </View>
                         </View>
-                        <TouchableOpacity onPress={() => onFavorite(item.id)}>
-                            <Image source={item.favorite ? ImagePath.heartFilled : ImagePath.heart} style={styles.heartImg} />
+                        <TouchableOpacity onPress={() => onFavorite()}>
+                            <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart} style={styles.heartImg} />
                         </TouchableOpacity>
                     </View>
                 </Card >
@@ -109,7 +127,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: hp('4%'),
     }, userTitle: {
         fontWeight: '600',
-        marginVertical: hp('2%'),
+        marginVertical: hp('1%'),
         fontSize: hp('3%'),
         marginLeft: wp('10%'),
         alignSelf: 'flex-start',

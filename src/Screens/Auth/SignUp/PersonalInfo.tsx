@@ -27,8 +27,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [verified, setVerified] = React.useState(false)
     const [dateOpen, setDateOpen] = React.useState(false)
-    const { userType, photo, firstName, lastName, dob, gender, companyName, companyEmail } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const user = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { userType, photo, firstName, lastName, dob, gender, companyName, companyEmail, brandInformation } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const isBrand = userType === 'Brand'
 
     const handleUrlPress = React.useCallback(async (url) => {
@@ -53,14 +52,14 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     React.useEffect(() => {
         if (userType === "Brand") {
-            if (validateEmail(companyEmail) && validateName(companyName)) setVerified(true)
+            if (validateEmail(companyEmail) && validateName(companyName) && validateName(brandInformation)) setVerified(true)
             else setVerified(false)
         } else if (userType === "Influencer") {
             if (validateName(firstName) && validateName(lastName) && validateName(dob) && validateName(gender)) {
                 setVerified(true)
             } else setVerified(false)
         }
-    }, [dob, gender, firstName, lastName, companyName, companyEmail])
+    }, [dob, gender, firstName, lastName, companyName, companyEmail, brandInformation])
 
     const handleImage = async () => {
         const image: string | null = await handleSelection()
@@ -69,7 +68,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
 
     const setDate = (date: Date) => {
-        dispatch(Credential({ prop: 'dob', value: date }))
+        dispatch(Credential({ prop: 'dob', value: formatDate(date) }))
         setDateOpen(false)
     }
 
@@ -91,6 +90,14 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         label="Company Email"
                         value={companyEmail}
                         onChangeText={text => dispatch(Credential({ prop: 'companyEmail', value: text }))}
+                    />
+                    <Input
+                        dense
+                        multiline
+                        inputStyle={{ width: wp('90%'), marginBottom: 5, height: hp('15%') }}
+                        label="Brand Information"
+                        value={brandInformation}
+                        onChangeText={text => dispatch(Credential({ prop: 'brandInformation', value: text }))}
                     />
                 </>
             )
@@ -130,7 +137,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                             style={[GlobalStyles.buttonContainer, styles.dateButton]}
                             onPress={() => setDateOpen(true)}
                         >
-                            <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob && dob.toString().length ? formatDate(dob) : "Date of Birth"}</Text>
+                            <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob.length ? dob : "Date of Birth"}</Text>
                         </TouchableOpacity>
 
                         <DateTimePickerModal

@@ -9,8 +9,8 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 
 import { useSelector, RootStateOrAny } from 'react-redux'
 
-import { GlobalStyles, Colors, ImagePath, selectItem, Languages, CategoriesArr } from '../../Config'
-import { Filter, getSuggesions } from './Types'
+import { GlobalStyles, Colors, ImagePath, Languages, CategoriesArr } from '../../Config'
+import { Filter } from './Types'
 import { GoogleAutocomplete } from '../../Config/Utils/Google';
 
 import Input from '../../Components/Input'
@@ -25,10 +25,11 @@ interface Props {
   filters: Filter
   changeFilter: (type: string, text: number | string | number[] | string[]) => void
   clearFilters: () => void
+  pressedSearch: () => void
 }
 
 
-const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, changeFilter, clearFilters }) => {
+const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, changeFilter, clearFilters, pressedSearch }) => {
   const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
   const [categoriesText, setCategoriesText] = React.useState('')
   const [locationsText, setLocationsText] = React.useState('')
@@ -57,16 +58,17 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
     return true
   }
 
-  const pressedSearch = () => {
-
-  }
-
   const showBrandFilters = () => {
     if (userType === "Brand") {
       return (
         <FollowersEngagement nof={filters.nof} engagementRate={filters.engagementRate} changeFilter={changeFilter} />
       )
     }
+  }
+
+  const searchWithFilters = ()=>{
+    pressedSearch()
+    hideModal()
   }
 
   return (
@@ -86,11 +88,12 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
               <View style={styles.header}>
                 <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>Filter</Text>
-                <View style={GlobalStyles.horizontalLine} />
+                <View style={[GlobalStyles.horizontalLine, { width: wp('15%'), backgroundColor: Colors.darkGray }]} />
                 <TouchableOpacity onPress={() => hideModal()}>
                   <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
                 </TouchableOpacity>
               </View>
+              
               <Input
                 label={'Categories'}
                 value={categoriesText}
@@ -146,7 +149,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
               </View>
               <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%') }]}>
                 <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                  onPress={() => pressedSearch()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
+                  onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
                 />
                 <GradientButton text={'Clear all'} colors={Colors.disabledButton}
                   onPress={() => clearFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}

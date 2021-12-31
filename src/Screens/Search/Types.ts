@@ -7,7 +7,7 @@ export interface Filter {
     range: number[]
     payment: string
     search: string
-    userType: string
+    token: string
     nof: number[]
     engagementRate: number[]
 }
@@ -51,7 +51,7 @@ export const INITIAL_FILTERS = {
     categories: [], language: '',
     location: [], range: [1000, 50000],
     payment: '', search: '',
-    userType: '', nof: [1000, 100000],
+    token: '', nof: [1000, 100000],
     engagementRate: [0.5, 4.5]
 }
 

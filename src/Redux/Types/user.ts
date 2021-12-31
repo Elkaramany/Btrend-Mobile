@@ -27,4 +27,5 @@ export interface Props {
     loading: boolean
     companyName: string
     companyEmail: string
+    brandInformation: string
 }

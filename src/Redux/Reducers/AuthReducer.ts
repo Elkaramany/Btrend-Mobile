@@ -10,7 +10,7 @@ const INITIAL_STATE: Props = {
   gender: '',
   photo: '',
   id: null,
-  authType: "",
+  authType: '',
   categories: [],
   location: null,
   token: null,
@@ -19,6 +19,7 @@ const INITIAL_STATE: Props = {
   loading: false,
   companyName: '',
   companyEmail: '',
+  brandInformation: '',
 }
 
 export default (state = INITIAL_STATE, action: Action) => {
