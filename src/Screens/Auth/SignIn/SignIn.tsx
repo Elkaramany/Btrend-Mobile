@@ -14,7 +14,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import Container from '../../../Components/Container';
 import HeaderArrow from '../../../Components/HeaderArrow';
 
-import GoogleLogin from '../../../Config/Utils/Google'
+import { GoogleLogin } from '../../../Config/Utils/Google'
 import FacebookLogin from '../../../Config/Utils/Facebook'
 import AppleLogin from '../../../Config/Utils/Apple'
 import LoginMethods from '../../../Components/LoginMethods';
@@ -81,7 +81,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
                 {!loading &&
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Trouble")}
-                        style={{marginTop: hp('2%')}}
+                        style={{ marginTop: hp('2%') }}
                     >
                         <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Trouble signing in?</Text>
                     </TouchableOpacity>}

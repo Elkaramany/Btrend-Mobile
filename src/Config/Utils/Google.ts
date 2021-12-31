@@ -1,8 +1,9 @@
 import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
-import { GOOGLE_WEB_CLIENT_ID, GOOGLE_IOS_CLIENT_ID } from "@env"
+import { GOOGLE_WEB_CLIENT_ID, GOOGLE_IOS_CLIENT_ID, GOOGLE_PLACES } from "@env"
 import { Alert } from 'react-native';
+import axios from "axios";
 
-export default async () => {
+export const GoogleLogin = async () => {
     try {
         GoogleSignin.configure({
             webClientId: GOOGLE_WEB_CLIENT_ID, // client ID of type WEB for your server (needed to verify user ID and offline access)
@@ -27,4 +28,35 @@ export default async () => {
 
         return null
     }
+}
+
+const google = axios.create({
+    baseURL: `https://maps.googleapis.com/maps/api/`,
+    method: 'get',
+    timeout: 10000,
+    headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type": "application/json"
+    }
+});
+
+const SERVER_KEY = "AIzaSyAZJgEesnjYR6kkhNZmMeIdxLubYC2EMuI"
+const google_url = `/geocode/json?key=${SERVER_KEY}&sensor=false`;
+export const geocodeAsync = (address: string) =>
+    google.get(`${google_url}&address=${encodeURI(address)}`).then(resp => resp.data.results);
+
+export const reverseGeocodeAsync = (location: string) =>
+    google.get(`${google_url}&latlng=${location}`).then(resp => resp.data);
+
+export const GoogleAutocomplete = async (searchInput: string) => {
+    const GoogleAutocompleteURL = 'place/autocomplete/json'
+    const { data } = await google(`${GoogleAutocompleteURL}?input=${searchInput}&types=(cities)&key=${GOOGLE_PLACES}`)
+    if (data && data.predictions.length) {
+        let arr: string[] = []
+        data.predictions.map((prediction: any) => {
+            arr.push(prediction.description)
+        })
+        return arr
+    }
+    return []
 }

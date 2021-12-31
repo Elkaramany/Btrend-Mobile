@@ -13,7 +13,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../../Components/Container';
 import HeaderArrow from '../../../Components/HeaderArrow';
-import GoogleLogin from '../../../Config/Utils/Google'
+import { GoogleLogin } from '../../../Config/Utils/Google'
 import FacebookLogin from '../../../Config/Utils/Facebook';
 import AppleLogin from '../../../Config/Utils/Apple';
 import LoginMethods from '../../../Components/LoginMethods';

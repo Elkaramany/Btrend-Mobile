@@ -21,7 +21,7 @@ interface Props {
   modalVisible: boolean
   hideModal: () => void
   filters: Filter
-  changeFilter: (type: string, text: number | string | number[]) => void
+  changeFilter: (type: string, text: number | string | number[] | string[]) => void
   clearFilters: () => void
 }
 

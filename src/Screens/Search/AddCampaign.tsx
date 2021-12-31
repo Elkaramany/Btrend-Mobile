@@ -2,14 +2,15 @@ import React from 'react'
 import {
     View, Text, StyleSheet, Modal,
     TouchableWithoutFeedback, TouchableOpacity,
-    ScrollView, Image
+    ScrollView, Image, Alert
 } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 import { useSelector, RootStateOrAny } from 'react-redux'
 
-import { GlobalStyles, Colors, ImagePath, selectItem, handleSelection, CategoriesArr } from '../../Config'
-import { addFilter, getSuggesions } from './Types'
+import { GlobalStyles, Colors, ImagePath, selectItem, handleSelection, CategoriesArr, validateName } from '../../Config'
+import { addFilter, getSuggesions, CAMPAIGN_INITIAL_FILTERS } from './Types'
+import { GoogleAutocomplete } from '../../Config/Utils/Google'
 
 import Input from '../../Components/Input'
 import RadioBtn from '../../Components/RadioBtn'
@@ -22,26 +23,13 @@ interface Props {
     hideModal: () => void
 }
 
-const INITIAL_FILTERS = {
-    name: '', startingDate: '', endingDate: '', categories: [],
-    aim: '',
-    price: 1500,
-    payment: '',
-    type: '',
-    need: '',
-    gender: '',
-    nof: [1000, 100000],
-    engagementRate: [0.5, 4.5],
-    location: '',
-    photo: '',
-}
-
-
 const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
     const [index, setIndex] = React.useState(0)
     const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const [categoriesText, setCategoriesText] = React.useState('')
-    const [filters, setFilters] = React.useState<addFilter>(INITIAL_FILTERS)
+    const [locationsText, setLocationsText] = React.useState('')
+    const [filters, setFilters] = React.useState<addFilter>(CAMPAIGN_INITIAL_FILTERS)
+    const [googlePlacesPredictions, setGooglePlacesPredictions] = React.useState<string[]>([])
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {
         const newFilters: any = { ...filters }
@@ -51,15 +39,56 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
 
     const clearFilters = () => {
         setIndex(0)
-        setFilters(INITIAL_FILTERS)
+        setFilters(CAMPAIGN_INITIAL_FILTERS)
     }
 
-    const validateFilters = () => {
+    React.useEffect(() => {
+        async function fetchPlacesPredictions() {
+            const predictions = await GoogleAutocomplete(locationsText)
+            setGooglePlacesPredictions(predictions)
+        }
+        fetchPlacesPredictions()
+    }, [locationsText])
+
+    const validatePayment = () => {
+        if (!filters.payment.length) return false
+        if (filters.payment === "Other") {
+            if (validateName(filters.otherPayment)) return true
+            else return false
+        }
         return true
     }
 
-    const pressedCreate = () => {
+    const validateFilters = () => {
+        if (index === 0) {
+            if (validateName(filters.name) && validateName(filters.aim)
+                && validateName(filters.price.toString()) && filters.categories.length && validatePayment()) {
+                return true
+            } else return false
+        } else if (index === 1) {
+            if (validateName(filters.type) && validateName(filters.need) && filters.location.length
+                && validateName(filters.gender) && !isNaN(filters.nof[0])
+                && !isNaN(filters.nof[1]) && !isNaN(filters.engagementRate[0])
+                && !isNaN(filters.engagementRate[1])
+            ) {
+                return true
+            } else return false
+        }
+        return false
+    }
 
+    const pressedNext = () => {
+        if (validateFilters()) {
+            setIndex(index + 1)
+        }
+    }
+
+    const pressedCreate = () => {
+        if (filters.photo.length) {
+            console.log(filters)
+        } else {
+            Alert.alert("Please add a campaign image")
+        }
     }
 
     const showSuggestions = (text: string, SuggestionsArr: any, arr: string[], setArr: (value: string[]) => void) => {
@@ -125,7 +154,7 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                     />
                     <Input
                         type={'numeric'}
-                        label={'Price'}
+                        label={'Price in USD'}
                         value={filters.price}
                         onChangeText={(text) => changeFilter('price', text)}
                         inputStyle={{ width: wp('90%'), marginBottom: 5 }}
@@ -143,9 +172,19 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                             onPress={() => changeFilter('payment', "Other")}
                         />
                     </View>
+                    {filters.payment === "Other" &&
+                        <Input
+                            multiline={true}
+                            dense={true}
+                            label={'Please specify your other payment options'}
+                            value={filters.otherPayment}
+                            onChangeText={(text) => changeFilter('otherPayment', text)}
+                            inputStyle={{ width: wp('90%'), marginBottom: 10, height: hp('5%') }}
+                        />
+                    }
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%') }]}>
                         <GradientButton text={'Next'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                            onPress={() => setIndex(index + 1)} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
+                            onPress={() => pressedNext()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
                         />
                         <GradientButton text={'Clear all'} colors={Colors.disabledButton}
                             onPress={() => clearFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
@@ -189,13 +228,15 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                     <FollowersEngagement nof={filters.nof} engagementRate={filters.engagementRate} changeFilter={changeFilter} />
                     <Input
                         label={'Location'}
-                        value={filters.location}
-                        onChangeText={(text) => changeFilter('location', text)}
+                        value={locationsText}
+                        onChangeText={(text) => setLocationsText(text)}
                         inputStyle={{ width: wp('90%'), marginBottom: 5 }}
                     />
+                    {showSuggestions(locationsText, googlePlacesPredictions, filters.location, (arr) => changeFilter('location', arr))}
+
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%'), marginTop: hp('1%') }]}>
                         <GradientButton text={'Next'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                            onPress={() => setIndex(index + 1)} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
+                            onPress={() => pressedNext()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
                         />
                         <GradientButton text={'Clear all'} colors={Colors.disabledButton}
                             onPress={() => clearFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
@@ -206,7 +247,7 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
         } else {
             return (
                 <>
-                    <Header headerText={'3 Final step'} headerStyle={{ height: hp('7%') }} textStyle={{ color: Colors.darkRed, fontWeight: '500' }} />
+                    <Header headerText={'3 Final step'} headerStyle={{ height: hp('5%') }} textStyle={{ color: Colors.darkRed, fontWeight: '500' }} />
                     <TouchableOpacity style={styles.addProfile}
                         onPress={() => handleImage()}
                     >
@@ -215,7 +256,7 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                     </TouchableOpacity>
 
                     <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('5%') }}>
-                        <GradientButton text={'Create campaign'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
+                        <GradientButton text={'Create campaign'} colors={Colors.gradientButton}
                             onPress={() => pressedCreate()} buttonContainerStyle={{ width: wp('70%'), marginHorizontal: wp('5%'), }}
                         />
                     </View>
@@ -228,6 +269,10 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
         const image: string | null = await handleSelection()
         if (image) changeFilter('photo', image)
     };
+
+    const goToPreviousStep = () => {
+        if (index > 0) setIndex(index - 1)
+    }
 
     return (
         <View style={styles.centeredView}>
@@ -243,10 +288,14 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                     </TouchableWithoutFeedback>
                     <ScrollView style={{ flexGrow: 1, height: hp('100%') }} onScroll={(e) => e.nativeEvent.contentOffset.y < 0 ? hideModal() : {}}>
                         <View style={styles.modalView}>
-
                             <View style={styles.header}>
-                                <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>New campaign</Text>
-                                <View style={styles.horizontalLine} />
+                                <TouchableOpacity onPress={() => goToPreviousStep()}>
+                                    <Image source={index > 0 ? ImagePath.leftArrow : ImagePath.arrowBack} style={GlobalStyles.arrowImage} />
+                                </TouchableOpacity>
+                                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={styles.horizontalLine} />
+                                    <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>New campaign</Text>
+                                </View>
                                 <TouchableOpacity onPress={() => hideModal()}>
                                     <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
                                 </TouchableOpacity>
@@ -269,7 +318,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: wp('80%'),
+        width: wp('85%'),
         marginBottom: hp('1%'),
     }, horizontalLine: {
         height: hp('0.3%'),
@@ -350,6 +399,7 @@ const styles = StyleSheet.create({
     }, addProfile: {
         flexDirection: 'row',
         alignItems: 'center',
+        top: hp('10%'),
         marginBottom: hp('3%')
     }, imageStyle: {
         width: wp('30%'),

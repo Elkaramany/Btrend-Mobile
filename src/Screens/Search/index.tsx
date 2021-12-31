@@ -16,7 +16,7 @@ import Food from './food'
 
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
-import BottomSheet from './BottomSheet'
+import BottomSheet from './SearchFilters'
 import UserCard from './UserCard'
 import AddCampaign from './AddCampaign'
 

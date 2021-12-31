@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
         ...GlobalStyles.centeredContainer,
         zIndex: -1,
         height: CARD_HEIGHT,
-        width: CARD_WIDTH
+        width: CARD_WIDTH,
+        marginBottom: hp('1%')
     }, userImg: {
         ...GlobalStyles.arrowImage,
         height: hp('15%'),
