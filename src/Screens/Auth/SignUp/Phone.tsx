@@ -52,7 +52,7 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
         setValue,
     });
     const screenType = route.params.screenType
-    const { phone, countryCode, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { phone, countryCode, loading, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
 
     const pressedContinue = () => {
@@ -60,7 +60,7 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
             dispatch(SendOTP(countryCode, phone, value, screenType, navigation))
         } else {
             if (validatePhone(`+${countryCode}${phone}`)) {
-                dispatch(SendCode(countryCode, phone, screenType, OTPSentSuccessFully))
+                dispatch(SendCode(countryCode, phone, screenType, userType, OTPSentSuccessFully))
             } else {
                 Alert.alert("Please enter a valid phone number")
             }

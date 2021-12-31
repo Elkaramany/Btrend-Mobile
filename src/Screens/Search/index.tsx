@@ -32,6 +32,9 @@ const Search: React.FC<Props> = ({ navigation }) => {
     const [visible, setVisible] = React.useState(false)
     const [campaignVisible, setCampaignVisible] = React.useState(false)
 
+    React.useEffect(()=>{
+
+    },[filters])
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {
         const newFilters: any = { ...filters }

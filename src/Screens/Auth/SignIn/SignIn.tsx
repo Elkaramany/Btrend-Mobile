@@ -25,7 +25,7 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
-    const { email, authType, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email, authType, loading, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const pressedContinue = async () => {
         if (validateEmail(email)) {
@@ -50,17 +50,17 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
     const Apple = async () => {
         const { id }: any = await AppleLogin()
-        dispatch(SignIn({ authType: "apple", id }))
+        dispatch(SignIn({ authType: "apple", id, userType }))
     }
 
     const Google = async () => {
         const { id }: any = await GoogleLogin()
-        dispatch(SignIn({ authType: "google", id }))
+        dispatch(SignIn({ authType: "google", id, userType }))
     }
 
     const Facebook = async () => {
         const { id }: any = await FacebookLogin()
-        dispatch(SignIn({ authType: "facebook", id }))
+        dispatch(SignIn({ authType: "facebook", id, userType }))
     }
 
     const backHome = () => {

@@ -1,6 +1,6 @@
 import { USERS_URL } from '@env'
 import { Props } from '../Types'
-import { GET, POST } from '../../Config/API'
+import { POST } from '../../Config/API'
 import Toast from 'react-native-toast-message'
 
 interface Cred {
@@ -10,6 +10,7 @@ interface Cred {
 
 interface SignInType {
     authType: string
+    userType: string
     email?: string
     password?: string
     id?: string | number
@@ -57,12 +58,13 @@ const SignInSuccess = (dispatch: any, data: any) => {
     dispatch({ type: "Sign_In_Success", payload: { user: data.user, token: data.token } })
 }
 
-export const SendCode = (countryCode: string, phone: string, type: string, setOTPSent: () => void) => async (dispatch: any) => {
+export const SendCode = (countryCode: string, phone: string, type: string, userType: string, setOTPSent: () => void) => async (dispatch: any) => {
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/signupWithPhone`, {
         countryCode,
         phone,
         type,
+        userType,
     })
     if (success) {
         setOTPSent()

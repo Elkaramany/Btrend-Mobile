@@ -19,7 +19,7 @@ const Posts: React.FC<Props> = ({ user }) => {
         <View style={GlobalStyles.rowWrap}>
             {food.map((post) => {
                 return (
-                    <View>
+                    <View key={post.id}>
                         <Image source={{ uri: post.img }} style={styles.post} />
                     </View>
                 )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
@@ -23,7 +23,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
     const dispatch = useDispatch()
     const [passwordVerified, setPasswordVerified] = React.useState(false)
     const [secured, setSecured] = React.useState(true)
-    const { email, password, loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email, password, loading, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const isSignUp = route.params.screenType === "signup"
 
     React.useEffect(() => {
@@ -36,7 +36,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
             if (isSignUp) {
                 dispatch(Credential({ prop: 'authType', value: "email" }))
                 navigation.navigate("PersonalInfo")
-            } else dispatch(SignIn({ authType: "email", email, password }))
+            } else dispatch(SignIn({ authType: "email", email, password, userType }))
         }
     }
 

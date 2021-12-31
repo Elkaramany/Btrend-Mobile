@@ -5,17 +5,24 @@ import {
     ScrollView, Image, Alert
 } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-import { useSelector, RootStateOrAny } from 'react-redux'
+import { useSelector, RootStateOrAny, useDispatch } from 'react-redux'
 
-import { GlobalStyles, Colors, ImagePath, selectItem, handleSelection, CategoriesArr, validateName } from '../../Config'
-import { addFilter, getSuggesions, CAMPAIGN_INITIAL_FILTERS } from './Types'
+import {
+    GlobalStyles,
+    Colors, ImagePath, handleSelection, formatDate,
+    CategoriesArr, validateName, Languages
+} from '../../Config'
+import { AddFilter, CAMPAIGN_INITIAL_FILTERS } from './Types'
 import { GoogleAutocomplete } from '../../Config/Utils/Google'
+import { CreateCampaign } from '../../Redux/Actions'
 
 import Input from '../../Components/Input'
 import RadioBtn from '../../Components/RadioBtn'
 import GradientButton from '../../Components/GradientButton'
 import Header from '../../Components/Header'
+import Suggestions from '../../Components/Suggestions'
 import FollowersEngagement from './FollowersEngagement'
 
 interface Props {
@@ -23,13 +30,23 @@ interface Props {
     hideModal: () => void
 }
 
+//Date 10 days from today
+let someDate = new Date();
+let result = someDate.setDate(someDate.getDate() + 10);
+
 const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
     const [index, setIndex] = React.useState(0)
-    const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const [otherPayment, setOtherPayment] = React.useState(false)
     const [categoriesText, setCategoriesText] = React.useState('')
+    const [langText, setLangText] = React.useState('')
     const [locationsText, setLocationsText] = React.useState('')
-    const [filters, setFilters] = React.useState<addFilter>(CAMPAIGN_INITIAL_FILTERS)
     const [googlePlacesPredictions, setGooglePlacesPredictions] = React.useState<string[]>([])
+    const { token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const [startDate, setStartDate] = React.useState(false)
+    const [endDate, setEndDate] = React.useState(false)
+    const [filters, setFilters] = React.useState<AddFilter>({ ...CAMPAIGN_INITIAL_FILTERS, token })
+
+    const dispatch = useDispatch()
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {
         const newFilters: any = { ...filters }
@@ -39,7 +56,14 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
 
     const clearFilters = () => {
         setIndex(0)
-        setFilters(CAMPAIGN_INITIAL_FILTERS)
+        setFilters({ ...CAMPAIGN_INITIAL_FILTERS, token })
+    }
+
+    const setDate = (type: string, date: Date) => {
+        if (type === "startingDate") setStartDate(false)
+        else setEndDate(false)
+
+        changeFilter(type, formatDate(date))
     }
 
     React.useEffect(() => {
@@ -50,19 +74,11 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
         fetchPlacesPredictions()
     }, [locationsText])
 
-    const validatePayment = () => {
-        if (!filters.payment.length) return false
-        if (filters.payment === "Other") {
-            if (validateName(filters.otherPayment)) return true
-            else return false
-        }
-        return true
-    }
-
     const validateFilters = () => {
         if (index === 0) {
-            if (validateName(filters.name) && validateName(filters.aim)
-                && validateName(filters.price.toString()) && filters.categories.length && validatePayment()) {
+            if (validateName(filters.name) && validateName(filters.aim) && validateName(filters.startingDate)
+                && validateName(filters.endingDate) && validateName(filters.price.toString())
+                && filters.categories.length && validateName(filters.payment)) {
                 return true
             } else return false
         } else if (index === 1) {
@@ -79,7 +95,9 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
 
     const pressedNext = () => {
         if (validateFilters()) {
-            setIndex(index + 1)
+            if (filters.endingDate <= filters.startingDate) {
+                Alert.alert("Your campaign's ending date must be after your starting one.")
+            } else setIndex(index + 1)
         }
     }
 
@@ -87,42 +105,17 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
         if (filters.photo.length) {
             console.log(filters)
         } else {
-            Alert.alert("Please add a campaign image")
+            dispatch(CreateCampaign(filters))
         }
     }
 
-    const showSuggestions = (text: string, SuggestionsArr: any, arr: string[], setArr: (value: string[]) => void) => {
-        if (text && text.length) {
-            return (
-                <View>
-                    <View style={GlobalStyles.rowWrap}>
-                        {getSuggesions(text, SuggestionsArr).map((item) => {
-                            if (!arr.includes(item)) {
-                                return (
-                                    <TouchableOpacity key={item}
-                                        style={styles.suggestionsContainer}
-                                        onPress={() => setArr(selectItem(item, arr))}
-                                    >
-                                        <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.darkGray }]}>{item}</Text>
-                                    </TouchableOpacity>
-                                )
-                            }
-                        })}
-                    </View>
-                    <View style={GlobalStyles.rowWrap}>
-                        {arr.map((item) => {
-                            return (
-                                <TouchableOpacity key={item}
-                                    style={[styles.suggestionsContainer, { backgroundColor: Colors.darkRed, borderWidth: 0 }]}
-                                    onPress={() => setArr(selectItem(item, arr))}
-                                >
-                                    <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>
-                                </TouchableOpacity>
-                            )
-                        })}
-                    </View>
-                </View>
-            )
+    const defaultPayment = (val: boolean) => {
+        if (val) {
+            setOtherPayment(false)
+            changeFilter('payment', "In-Kind")
+        } else {
+            setOtherPayment(true)
+            changeFilter('payment', "")
         }
     }
 
@@ -137,13 +130,55 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                         onChangeText={(text) => changeFilter('name', text)}
                         inputStyle={{ width: wp('90%'), marginBottom: 5 }}
                     />
+                    <View style={GlobalStyles.rowBetween}>
+                        <View>
+                            <TouchableOpacity
+                                style={[GlobalStyles.buttonContainer, styles.dateButton]}
+                                onPress={() => setStartDate(true)}
+                            >
+                                <Text style={[GlobalStyles.regularText, { textAlign: 'center', fontSize: hp('1.85%') }]}>{filters.startingDate.length ? filters.startingDate : "Starting date"}</Text>
+                            </TouchableOpacity>
+
+                            <DateTimePickerModal
+                                date={filters.startingDate.length ? new Date(filters.startingDate) : new Date()}
+                                isVisible={startDate}
+                                mode="date"
+                                onConfirm={(date) => setDate("startingDate", date)}
+                                onCancel={() => setStartDate(false)}
+                            />
+                        </View>
+                        <Text style={GlobalStyles.regularText}>-</Text>
+                        <View>
+                            <TouchableOpacity
+                                style={[GlobalStyles.buttonContainer, styles.dateButton]}
+                                onPress={() => setEndDate(true)}
+                            >
+                                <Text style={[GlobalStyles.regularText, { textAlign: 'center', fontSize: hp('1.85%') }]}>{filters.endingDate.length ? filters.endingDate : "Ending date"}</Text>
+                            </TouchableOpacity>
+
+                            <DateTimePickerModal
+                                date={filters.endingDate.length ? new Date(filters.endingDate) : new Date(new Date().getTime() + (10 * 24 * 60 * 60 * 1000))}
+                                isVisible={endDate}
+                                mode="date"
+                                onConfirm={(date) => setDate("endingDate", date)}
+                                onCancel={() => setEndDate(false)}
+                            />
+                        </View>
+                    </View>
                     <Input
                         label={'Categories'}
                         value={categoriesText}
                         onChangeText={(text) => setCategoriesText(text)}
                         inputStyle={{ width: wp('90%'), marginBottom: 5 }}
                     />
-                    {showSuggestions(categoriesText, CategoriesArr, filters.categories, (arr) => changeFilter('categories', arr))}
+                    <Suggestions text={categoriesText} SuggestionsArr={CategoriesArr} arr={filters.categories} setArr={(arr) => changeFilter('categories', arr)} />
+                    <Input
+                        label={'Language(s)'}
+                        value={langText}
+                        onChangeText={(text) => setLangText(text)}
+                        inputStyle={{ width: wp('90%'), marginBottom: 5 }}
+                    />
+                    <Suggestions text={langText} SuggestionsArr={Languages} arr={filters.language} setArr={(arr) => changeFilter('language', arr)} />
                     <Input
                         multiline={true}
                         dense={true}
@@ -164,21 +199,21 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                         <RadioBtn
                             text={"In-Kind"}
                             selected={filters.payment === "In-Kind"}
-                            onPress={() => changeFilter('payment', "In-Kind")}
+                            onPress={() => defaultPayment(true)}
                         />
                         <RadioBtn
                             text={"Other"}
                             selected={filters.payment === "Other"}
-                            onPress={() => changeFilter('payment', "Other")}
+                            onPress={() => defaultPayment(false)}
                         />
                     </View>
-                    {filters.payment === "Other" &&
+                    {otherPayment &&
                         <Input
                             multiline={true}
                             dense={true}
                             label={'Please specify your other payment options'}
-                            value={filters.otherPayment}
-                            onChangeText={(text) => changeFilter('otherPayment', text)}
+                            value={filters.payment}
+                            onChangeText={(text) => changeFilter('payment', text)}
                             inputStyle={{ width: wp('90%'), marginBottom: 10, height: hp('5%') }}
                         />
                     }
@@ -232,7 +267,7 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                         onChangeText={(text) => setLocationsText(text)}
                         inputStyle={{ width: wp('90%'), marginBottom: 5 }}
                     />
-                    {showSuggestions(locationsText, googlePlacesPredictions, filters.location, (arr) => changeFilter('location', arr))}
+                    <Suggestions text={locationsText} SuggestionsArr={googlePlacesPredictions} arr={filters.location} setArr={(arr) => changeFilter('location', arr)} />
 
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%'), marginTop: hp('1%') }]}>
                         <GradientButton text={'Next'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
@@ -275,14 +310,14 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
     }
 
     return (
-        <View style={styles.centeredView}>
+        <View style={[GlobalStyles.centeredContainer, { flex: 1 }]}>
             <Modal
                 animationType="slide"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => hideModal()}
             >
-                <View style={styles.centeredView}>
+                <View style={[GlobalStyles.centeredContainer, { flex: 1 }]}>
                     <TouchableWithoutFeedback onPress={() => hideModal()}>
                         <View style={styles.modalOverlay} />
                     </TouchableWithoutFeedback>
@@ -314,16 +349,14 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-    }, header: {
+    },
+    header: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: wp('85%'),
+        marginHorizontal: wp('30%'),
+        width: wp('90%'),
         marginBottom: hp('1%'),
-    }, horizontalLine: {
-        height: hp('0.3%'),
-        width: wp('10%'),
-        backgroundColor: Colors.darkGray
     },
     modalView: {
         marginTop: hp('30%'),
@@ -343,26 +376,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
-    },
-    buttonOpen: {
-        backgroundColor: "#F194FF",
-    },
-    buttonClose: {
-        backgroundColor: "#2196F3",
-    },
-    textStyle: {
-        color: "white",
-        fontWeight: "bold",
-        textAlign: "center"
-    },
-    modalText: {
-        marginBottom: 15,
-        textAlign: "center"
-    }, modalOverlay: {
+    modalOverlay: {
         position: 'absolute',
         top: 0,
         bottom: 0,
@@ -372,30 +386,18 @@ const styles = StyleSheet.create({
     }, dateButton: {
         paddingVertical: hp('2%'),
         borderColor: Colors.secondary,
-        width: wp('90%'),
+        width: wp('38%'),
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginHorizontal: wp('5%'),
         marginBottom: 5,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        marginTop: hp('0.5%')
     },
     priceRange: {
         alignSelf: 'flex-start',
         marginTop: hp('1%'),
         marginLeft: wp('5%')
-    }, priceRangeStyle: {
-        height: hp('10%'),
-        width: wp('80%'),
-        resizeMode: 'contain'
-    }, suggestionsContainer: {
-        backgroundColor: Colors.primary,
-        padding: hp('0.5%'),
-        paddingHorizontal: wp('2%'),
-        ...GlobalStyles.rowBetween,
-        justifyContent: 'center',
-        margin: wp('1%'),
-        borderWidth: hp('0.25%'),
-        borderColor: Colors.mediumGray,
-        borderRadius: wp('10%')
     }, addProfile: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -406,6 +408,10 @@ const styles = StyleSheet.create({
         height: wp('30%'),
         resizeMode: 'contain',
         borderRadius: wp('4%'),
+    }, horizontalLine: {
+        height: hp('0.3%'),
+        width: wp('10%'),
+        backgroundColor: Colors.darkGray
     },
 });
 

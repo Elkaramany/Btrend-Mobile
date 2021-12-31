@@ -1,7 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView, Touchable } from 'react-native'
-// @ts-ignore
-import { Collapse, CollapseHeader, CollapseBody, AccordionList } from 'accordion-collapse-react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { Card } from 'react-native-paper'
 
@@ -9,47 +7,18 @@ import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { GlobalStyles, Colors, ImagePath } from '../../Config';
 
-import Container from '../../Components/Container'
 import SocialStats from '../../Components/SocialStats'
 import GradientButton from '../../Components/GradientButton'
 import InfluencerProfile from '../../Components/InfluencerProfile';
+import CollapsibleBody from '../../Components/CollapsibleBody'
+import GrayedContainer from '../../Components/GrayedContainer'
 
 interface Props {
     route: any
     navigation: StackNavigationProp<any, any>,
 }
 
-interface CollapsibleProps {
-    header: string
-    title: string
-    collapsibleValue: boolean
-    setCollapsibleValue: (value: boolean) => void
-}
 
-const CollapsibleBody: React.FC<CollapsibleProps> = ({ header, title, collapsibleValue, setCollapsibleValue }) => {
-    return (
-        <Collapse onToggle={(value: boolean) => setCollapsibleValue(value)}>
-            <CollapseHeader>
-                <Card style={styles.collapsibleHeader}>
-                    <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('3%') }]}>
-                        <Text style={[styles.sectionHeader, { fontStyle: collapsibleValue ? "italic" : "normal", }]}>{header}</Text>
-                        <View style={{ backgroundColor: Colors.gray, padding: hp('0.5%'), borderRadius: hp('3%') }}>
-                            <Image source={collapsibleValue ? ImagePath.upArrow : ImagePath.downArrow} style={[GlobalStyles.arrowImage, { alignSelf: 'flex-end' }]} />
-                        </View>
-                    </View>
-                </Card>
-            </CollapseHeader>
-            <CollapseBody>
-                <Card style={styles.collapsibleHeader}>
-                    <View style={[GlobalStyles.horizontalLine, { width: '90%' }]} />
-                    <Text style={[GlobalStyles.regularText, { fontStyle: 'italic', marginHorizontal: wp('4%') }]}>
-                        {title}
-                    </Text>
-                </Card>
-            </CollapseBody>
-        </Collapse >
-    )
-}
 
 const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const [basicInfoValue, setBasicInfoValue] = React.useState(false)
@@ -69,7 +38,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const userView = () => {
-        if (userType === "Brand") {
+        if (userType === "Influencer") {
             return (
                 <View>
                     <CollapsibleBody header={"Brand Information"} title={item.title}
@@ -106,22 +75,8 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         collapsibleValue={aimValue} setCollapsibleValue={setAimValue}
                     />
                     <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), width: wp('85%'), alignSelf: 'center' }]}>
-                        <View style={styles.paymentContainer}>
-                            <Text style={[GlobalStyles.regularText, { fontWeight: '700', fontStyle: basicInfoValue ? "italic" : 'normal' }]}>
-                                Price
-                            </Text>
-                            <Text style={[GlobalStyles.regularText, { fontWeight: '700', fontStyle: basicInfoValue ? "italic" : 'normal' }]}>
-                                {item.title}
-                            </Text>
-                        </View>
-                        <View style={styles.paymentContainer}>
-                            <Text style={[GlobalStyles.regularText, { fontWeight: '700', fontStyle: basicInfoValue ? "italic" : 'normal' }]}>
-                                Payment type
-                            </Text>
-                            <Text style={[GlobalStyles.regularText, { fontWeight: '700', fontStyle: basicInfoValue ? "italic" : 'normal' }]}>
-                                {item.title}
-                            </Text>
-                        </View>
+                        <GrayedContainer header='Price' title={item.title} visible={basicInfoValue} />
+                        <GrayedContainer header='Payment type' title={item.title} visible={basicInfoValue} />
                     </View>
                     <CollapsibleBody header={"Compensation in details"} title={item.title}
                         collapsibleValue={compValue} setCollapsibleValue={setCompValue}
@@ -132,15 +87,8 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <CollapsibleBody header={"What does the influencer\n need to do?"} title={item.title}
                         collapsibleValue={needsValue} setCollapsibleValue={setNeedsValue}
                     />
-                    <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), width: wp('85%'), alignSelf: 'center' }, styles.paymentContainer]}>
-                        <View >
-                            <Text style={[GlobalStyles.regularText, { fontWeight: '700', fontStyle: basicInfoValue ? "italic" : 'normal' }]}>
-                                Gender
-                            </Text>
-                            <Text style={GlobalStyles.regularText}>
-                                {item.title}
-                            </Text>
-                        </View>
+                    <View style={[GlobalStyles.rowBetween, { marginTop: hp('0.5%'), width: wp('85%'), alignSelf: 'center' }]}>
+                        <GrayedContainer header='Gender' title={item.title} visible={basicInfoValue} />
                         <View >
                             <Image source={ImagePath.heartFilled} style={{ height: hp('8%'), width: wp('30%'), resizeMode: 'contain' }} />
                         </View>
@@ -149,7 +97,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <Text style={[GlobalStyles.regularText, { marginLeft: wp('8.5%') }]}>{item.title}</Text>
                 </View>
             )
-        } else return <InfluencerProfile />
+        } else return <InfluencerProfile user={item} />
     }
 
     return (
@@ -158,7 +106,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.xImage}>
                 <Image source={ImagePath.ic_crosss} style={{ flex: 1 }} />
             </TouchableOpacity>
-            <ScrollView style={styles.scroller} contentContainerStyle={{alignItems: 'center', justifyContent: 'center'}}>
+            <ScrollView style={styles.scroller} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ marginTop: hp('3%'), marginHorizontal: wp('5%') }}>
                     <View style={GlobalStyles.rowBetween}>
                         <Text style={GlobalStyles.regularText}>{item.title}</Text>
@@ -234,11 +182,6 @@ const styles = StyleSheet.create({
     }, sectionHeader: {
         ...GlobalStyles.regularText,
         fontWeight: '600',
-    }, paymentContainer: {
-        backgroundColor: Colors.lightGray,
-        padding: hp('1.5%'),
-        borderRadius: hp('1.5%'),
-        marginHorizontal: wp('2%')
     }, bottomButton: {
         paddingHorizontal: wp('6%'),
         paddingVertical: hp('0.5%'),

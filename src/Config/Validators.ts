@@ -27,7 +27,7 @@ export const validatePhone = (phone: string) => {
     return false
 }
 
-export const formatDate = (date: Date) => {
+export const formatDate = (date: Date | string) => {
     return date.toString().substring(0, date.toString().length - 18)
 }
 
@@ -92,3 +92,9 @@ export const handleSelection = async (): Promise<string | null> => new Promise((
         { text: "Cancel", style: "cancel" },
     ])
 });
+
+export const getSuggesions = (text: string, arr: string[]) => {
+    return arr.filter(
+        (val) => val?.toLowerCase()?.indexOf(text?.toLowerCase()) > -1
+    );
+}

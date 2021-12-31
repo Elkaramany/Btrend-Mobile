@@ -30,7 +30,7 @@ export const GoogleLogin = async () => {
     }
 }
 
-const google = axios.create({
+const googleAPI = axios.create({
     baseURL: `https://maps.googleapis.com/maps/api/`,
     method: 'get',
     timeout: 10000,
@@ -40,17 +40,9 @@ const google = axios.create({
     }
 });
 
-const SERVER_KEY = "AIzaSyAZJgEesnjYR6kkhNZmMeIdxLubYC2EMuI"
-const google_url = `/geocode/json?key=${SERVER_KEY}&sensor=false`;
-export const geocodeAsync = (address: string) =>
-    google.get(`${google_url}&address=${encodeURI(address)}`).then(resp => resp.data.results);
-
-export const reverseGeocodeAsync = (location: string) =>
-    google.get(`${google_url}&latlng=${location}`).then(resp => resp.data);
-
 export const GoogleAutocomplete = async (searchInput: string) => {
     const GoogleAutocompleteURL = 'place/autocomplete/json'
-    const { data } = await google(`${GoogleAutocompleteURL}?input=${searchInput}&types=(cities)&key=${GOOGLE_PLACES}`)
+    const { data } = await googleAPI(`${GoogleAutocompleteURL}?input=${searchInput}&types=(cities)&key=${GOOGLE_PLACES}`)
     if (data && data.predictions.length) {
         let arr: string[] = []
         data.predictions.map((prediction: any) => {

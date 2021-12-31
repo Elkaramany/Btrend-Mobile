@@ -11,10 +11,12 @@ import { useSelector, RootStateOrAny } from 'react-redux'
 
 import { GlobalStyles, Colors, ImagePath, selectItem, Languages, CategoriesArr } from '../../Config'
 import { Filter, getSuggesions } from './Types'
+import { GoogleAutocomplete } from '../../Config/Utils/Google';
 
 import Input from '../../Components/Input'
 import RadioBtn from '../../Components/RadioBtn'
 import GradientButton from '../../Components/GradientButton'
+import Suggestions from '../../Components/Suggestions'
 import FollowersEngagement from './FollowersEngagement'
 
 interface Props {
@@ -29,6 +31,8 @@ interface Props {
 const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, changeFilter, clearFilters }) => {
   const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
   const [categoriesText, setCategoriesText] = React.useState('')
+  const [locationsText, setLocationsText] = React.useState('')
+  const [googlePlacesPredictions, setGooglePlacesPredictions] = React.useState<string[]>([])
   const [catArr, setCatArr] = React.useState<string[]>([])
   const [langText, setLangText] = React.useState('')
   const [langArr, setLangArr] = React.useState<string[]>([])
@@ -36,6 +40,14 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
   React.useEffect(() => {
     changeFilter('categories', catArr)
   }, [catArr])
+
+  React.useEffect(() => {
+    async function fetchPlacesPredictions() {
+      const predictions = await GoogleAutocomplete(locationsText)
+      setGooglePlacesPredictions(predictions)
+    }
+    fetchPlacesPredictions()
+  }, [locationsText])
 
   React.useEffect(() => {
     changeFilter('language', langArr)
@@ -52,55 +64,20 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
   const showBrandFilters = () => {
     if (userType === "Brand") {
       return (
-        <FollowersEngagement nof={filters.nof} engagementRate={filters.engagementRate} changeFilter={changeFilter}/>
-      )
-    }
-  }
-
-  const showSuggestions = (text: string, SuggestionsArr: any, arr: string[], setArr: (value: string[]) => void) => {
-    if (text && text.length) {
-      return (
-        <View>
-          <View style={GlobalStyles.rowWrap}>
-            {getSuggesions(text, SuggestionsArr).map((item) => {
-              if (!arr.includes(item)) {
-                return (
-                  <TouchableOpacity key={item}
-                    style={styles.suggestionsContainer}
-                    onPress={() => setArr(selectItem(item, arr))}
-                  >
-                    <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.darkGray }]}>{item}</Text>
-                  </TouchableOpacity>
-                )
-              }
-            })}
-          </View>
-          <View style={GlobalStyles.rowWrap}>
-            {arr.map((item) => {
-              return (
-                <TouchableOpacity key={item}
-                  style={[styles.suggestionsContainer, { backgroundColor: Colors.darkRed, borderWidth: 0 }]}
-                  onPress={() => setArr(selectItem(item, arr))}
-                >
-                  <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>
-                </TouchableOpacity>
-              )
-            })}
-          </View>
-        </View>
+        <FollowersEngagement nof={filters.nof} engagementRate={filters.engagementRate} changeFilter={changeFilter} />
       )
     }
   }
 
   return (
-    <View style={styles.centeredView}>
+    <View style={[GlobalStyles.centeredContainer, { flex: 1 }]}>
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => hideModal()}
       >
-        <View style={styles.centeredView}>
+        <View style={[GlobalStyles.centeredContainer, { flex: 1 }]}>
           <TouchableWithoutFeedback onPress={() => hideModal()}>
             <View style={styles.modalOverlay} />
           </TouchableWithoutFeedback>
@@ -109,7 +86,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
               <View style={styles.header}>
                 <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>Filter</Text>
-                <View style={styles.horizontalLine} />
+                <View style={GlobalStyles.horizontalLine} />
                 <TouchableOpacity onPress={() => hideModal()}>
                   <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
                 </TouchableOpacity>
@@ -120,21 +97,28 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 onChangeText={(text) => setCategoriesText(text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
-              {showSuggestions(categoriesText, CategoriesArr, catArr, setCatArr)}
+
+              <Suggestions text={categoriesText} SuggestionsArr={CategoriesArr} arr={catArr} setArr={setCatArr} />
+
               <Input
                 label={'Language'}
                 value={langText}
                 onChangeText={(text) => setLangText(text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 10 }}
               />
-              {showSuggestions(langText, Languages, langArr, setLangArr)}
+
+              <Suggestions text={langText} SuggestionsArr={Languages} arr={langArr} setArr={setLangArr} />
+
               {showBrandFilters()}
               <Input
                 label={'Location'}
-                value={filters.location}
-                onChangeText={(text) => changeFilter('location', text)}
+                value={locationsText}
+                onChangeText={(text) => setLocationsText(text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
+
+              <Suggestions text={locationsText} SuggestionsArr={googlePlacesPredictions} arr={filters.location} setArr={(arr) => changeFilter('location', arr)} />
+
               <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>
               <Text style={[GlobalStyles.regularText, styles.priceRange, { color: Colors.darkGray }]}>{filters.range[0]} US$ - {filters.range[1]} US$</Text>
               <View style={{ marginVertical: hp('1%') }}>
@@ -177,22 +161,13 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 }
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  }, header: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: wp('80%'),
     marginBottom: hp('1%'),
-  }, horizontalLine: {
-    height: hp('0.3%'),
-    width: wp('10%'),
-    backgroundColor: Colors.darkGray
-  },
-  modalView: {
+  }, modalView: {
     marginTop: hp('30%'),
     height: '100%',
     width: wp('100%'),
@@ -209,26 +184,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center"
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
   }, modalOverlay: {
     position: 'absolute',
     top: 0,
@@ -236,33 +191,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: 'rgba(0,0,0,0.5)'
-  }, dateButton: {
-    paddingVertical: hp('2%'),
-    borderColor: Colors.secondary,
-    width: wp('90%'),
-    marginBottom: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-  priceRange: {
+  }, priceRange: {
     alignSelf: 'flex-start',
     marginTop: hp('1%'),
     marginLeft: wp('5%')
-  }, priceRangeStyle: {
-    height: hp('10%'),
-    width: wp('80%'),
-    resizeMode: 'contain'
-  }, suggestionsContainer: {
-    backgroundColor: Colors.primary,
-    padding: hp('0.5%'),
-    paddingHorizontal: wp('2%'),
-    ...GlobalStyles.rowBetween,
-    justifyContent: 'center',
-    margin: wp('1%'),
-    borderWidth: hp('0.25%'),
-    borderColor: Colors.mediumGray,
-    borderRadius: wp('10%')
   },
 });
 
