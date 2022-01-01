@@ -61,7 +61,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                 y
             },
             useNativeDriver: true
-        }).start(() => onSwipe(item.id, direction))
+        }).start(() => onSwipe(item._id, direction))
     }
 
     const onFavorite = () => {
@@ -72,8 +72,6 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
         setFavorite(!favorite)
     }
 
-    const name = isBrand ? `${item.firstName} ${item.lastName}` : item.companyName
-    const photo = isBrand ? item.photo : item.brand.photo
     return (
         <Animated.View
             {...panResponder.panHandlers}
@@ -94,9 +92,9 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                     <View style={GlobalStyles.horizontalLine} />
                     <View style={GlobalStyles.rowBetween}>
                         <View style={GlobalStyles.rowBetween} >
-                            <Image source={{ uri: photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
+                            <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View>
-                                <Text style={GlobalStyles.regularText}>{name}</Text>
+                                <Text style={GlobalStyles.regularText}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}</Text>
                                 <View style={{ width: wp('55%') }}>
                                     <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.categories.join(" - ")}</Text>
                                 </View>

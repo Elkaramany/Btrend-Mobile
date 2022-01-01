@@ -1,5 +1,4 @@
 import { CAMPAIGNS_URL, INFLUENCERS_URL } from '@env'
-import { Alert } from 'react-native'
 import { POST } from '../../Config/API'
 import Toast from 'react-native-toast-message'
 import { AddFilter, Filter } from '../../Screens/Search/Types'
@@ -41,10 +40,19 @@ export const SearchFeed = (filters: Filter, userType: String) => async (dispatch
     dispatch({ type: "Switch_Loading", payload: false })
 }
 
+export const UserSwipe = (id: number | string, token: string, userType: string) => async (dispatch: any) => {
+    const { success, data }: any = await POST(`${URL(userType)}/swipe/${id}`, { token })
+    if (!success) {
+        Toast.show({
+            type: 'error',
+            text1: `Error swiping right on this ${ERROR_TYPE(userType)}`,
+            text2: data,
+        });
+    }
+}
+
 export const FavoriteUser = (id: string, token: string, changeFavorite: () => void, userType: string) => async (dispatch: any) => {
-    const URL = userType === "Brand" ? INFLUENCERS_URL : CAMPAIGNS_URL
-    const ERROR = userType === "Brand" ? "Influencer" : "campaign"
-    const { success, data }: any = await POST(`${URL}/favorite/${id}`, { token })
+    const { success, data }: any = await POST(`${URL(userType)}/favorite/${id}`, { token })
     if (success) {
         Toast.show({
             type: 'success',
@@ -55,8 +63,11 @@ export const FavoriteUser = (id: string, token: string, changeFavorite: () => vo
     else {
         Toast.show({
             type: 'error',
-            text1: `Error favoriting this ${ERROR}`,
+            text1: `Error favoriting this ${ERROR_TYPE(userType)}`,
             text2: data,
         });
     }
 }
+
+const ERROR_TYPE = (userType: string) => userType === "Brand" ? "Influencer" : "campaign"
+const URL = (userType: string) => userType === "Brand" ? INFLUENCERS_URL : CAMPAIGNS_URL

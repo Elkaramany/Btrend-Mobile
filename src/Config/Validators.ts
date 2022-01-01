@@ -93,8 +93,9 @@ export const handleSelection = async (): Promise<string | null> => new Promise((
     ])
 });
 
-export const getSuggesions = (text: string, arr: string[]) => {
+export const getSuggesions = (text: string, arr: any[]): any[] => {
+    if(!text.length || !arr.length) return []
     return arr.filter(
-        (val) => val?.toLowerCase()?.indexOf(text?.toLowerCase()) > -1
+        (val) => val.toLowerCase().indexOf(text.toLowerCase()) > -1
     );
 }

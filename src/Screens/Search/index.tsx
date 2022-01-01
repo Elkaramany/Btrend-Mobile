@@ -11,7 +11,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux'
 
 import { GlobalStyles, ImagePath, Colors } from '../../Config'
-import { SearchFeed } from '../../Redux/Actions'
+import { SearchFeed, UserSwipe } from '../../Redux/Actions'
 import { Filter, INITIAL_FILTERS } from './Types'
 
 import Container from '../../Components/Container'
@@ -51,68 +51,31 @@ const Search: React.FC<Props> = ({ navigation }) => {
 
     const getFeed = () => dispatch(SearchFeed(filters, userType))
 
-    const onSwipe = (id: number, direction: string) => {
-        console.log(id, direction)
+    const onSwipe = (id: number | string, direction: string) => {
+        if (direction === "right") dispatch(UserSwipe(id, token, userType))
         let newArr = [...arr]
         newArr = newArr.filter(i => i._id !== id);
         setArr(newArr)
     }
 
-    const showFetchedArr = () => {
-        if (!arr.length) {
-            return <Text style={[GlobalStyles.regularText, { marginTop: hp('5%') }]}>Nothing to show for now, come back later!</Text>
-        }
-        return (
-            <>
-                <Text style={[GlobalStyles.regularText, { fontWeight: '600', marginVertical: hp('2%'), marginLeft: wp('2%') }]}>Most Popular</Text>
-
-                <FlatList
-                    data={arr}
-                    keyExtractor={(item, index) => `${item.id}-${index}`}
-                    renderItem={({ item }) => <UserCard
-                        item={item} onSwipe={onSwipe} navigation={navigation}
-                    />
-                    }
-                />
-            </>
-        )
-    }
-
-
     const Feed = () => {
         if (loading) return <Spinner size={false} />
         else {
+            if (!arr.length) {
+                return <Text style={[GlobalStyles.regularText, { marginTop: hp('5%') }]}>Nothing to show for now, come back later!</Text>
+            }
             return (
                 <>
-                    <View style={GlobalStyles.rowBetween}>
-                        <Input
-                            label={'Search'}
-                            value={filters.search}
-                            onChangeText={(text) => changeFilter("search", text)}
-                            inputStyle={{ width: wp('80%'), marginBottom: 0 }}
-                            rightIcon={<TextInput.Icon name={"close"} color={Colors.darkGray} onPress={() => setFilters({ ...INITIAL_FILTERS, token })} />}
-                        />
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '600', marginVertical: hp('2%'), marginLeft: wp('2%') }]}>Most Popular</Text>
 
-                        <TouchableOpacity onPress={() => setVisible(true)}>
-                            <Image source={ImagePath.filter} style={[GlobalStyles.arrowImage, { paddingHorizontal: wp('3%'), marginHorizontal: wp('5%') }]} />
-                        </TouchableOpacity>
-
-                        <BottomSheet modalVisible={visible} hideModal={() => setVisible(false)}
-                            clearFilters={() => setFilters({ ...INITIAL_FILTERS, token })}
-                            filters={filters}
-                            changeFilter={(type: string, text: string | number | number[] | string[]) => changeFilter(type, text)}
-                            pressedSearch={() => getFeed()}
+                    <FlatList
+                        data={arr}
+                        keyExtractor={(item, index) => `${item.id}-${index}`}
+                        renderItem={({ item }) => <UserCard
+                            item={item} onSwipe={onSwipe} navigation={navigation}
                         />
-                    </View>
-                    {showFetchedArr()}
-                    {userType === "Brand" &&
-                        <View style={styles.addButton}>
-                            <TouchableOpacity onPress={() => setCampaignVisible(true)}>
-                                <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
-                            </TouchableOpacity>
-                            <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
-                        </View>
-                    }
+                        }
+                    />
                 </>
             )
         }
@@ -120,8 +83,36 @@ const Search: React.FC<Props> = ({ navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-            <Container mainStyle={{ flex: 1, marginTop: hp('2%'), }} mainBgColor={'transparent'}>
+            <Container mainStyle={{ flex: 1 }}>
+                <View style={GlobalStyles.rowBetween}>
+                    <Input
+                        label={'Search'}
+                        value={filters.search}
+                        onChangeText={(text) => changeFilter("search", text)}
+                        inputStyle={{ width: wp('80%'), marginBottom: 0 }}
+                        rightIcon={<TextInput.Icon name={"close"} color={Colors.darkGray} onPress={() => setFilters({ ...INITIAL_FILTERS, token })} />}
+                    />
+
+                    <TouchableOpacity onPress={() => setVisible(true)}>
+                        <Image source={ImagePath.filter} style={[GlobalStyles.arrowImage, { paddingHorizontal: wp('3%'), marginHorizontal: wp('5%') }]} />
+                    </TouchableOpacity>
+
+                    <BottomSheet modalVisible={visible} hideModal={() => setVisible(false)}
+                        clearFilters={() => setFilters({ ...INITIAL_FILTERS, token })}
+                        filters={filters}
+                        changeFilter={(type: string, text: string | number | number[] | string[]) => changeFilter(type, text)}
+                        pressedSearch={() => getFeed()}
+                    />
+                </View>
                 {Feed()}
+                {userType === "Brand" &&
+                    <View style={styles.addButton}>
+                        <TouchableOpacity onPress={() => setCampaignVisible(true)}>
+                            <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
+                        </TouchableOpacity>
+                        <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
+                    </View>
+                }
             </Container>
         </View>
     )

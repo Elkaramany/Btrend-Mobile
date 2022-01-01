@@ -21,6 +21,7 @@
     "@react-navigation/stack": "^6.0.11",
     "accordion-collapse-react-native": "^1.1.0",
     "axios": "^0.24.0",
+    "moment": "^2.29.1",
     "react": "17.0.2",
     "react-native": "0.66.4",
     "react-native-confirmation-code-field": "^7.2.0",
@@ -29,6 +30,7 @@
     "react-native-fbsdk-next": "^6.2.0",
     "react-native-gesture-handler": "^2.1.0",
     "react-native-get-location": "^2.2.1",
+    "react-native-gifted-chat": "^0.16.3",
     "react-native-image-crop-picker": "^0.37.2",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-localization": "2.1.7",
@@ -46,7 +48,8 @@
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "socket.io-client": "^4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
