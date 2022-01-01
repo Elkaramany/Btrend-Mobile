@@ -61,6 +61,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
     const renderItem = (item: any) => {
         const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.companyName
         const photo = isBrand ? item?.influencer?.photo : item?.brand?.photo
+        const lastSeen = isBrand ? item?.influencer?.lastSeen : item?.brand?.lastSeen
         return (
             <TouchableOpacity onPress={() => navigation.navigate("UserChat", { conversationId: item._id, name, socket, getAllChats: () => GetAllChats() })}>
                 <Card style={{ marginVertical: hp('2%') }} >
@@ -69,7 +70,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
                             <Image source={photo ? { uri: photo } : ImagePath.profilePlace} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View style={{ justifyContent: 'center' }}>
                                 <Text style={[GlobalStyles.regularText, { fontWeight: '500', textAlign: 'center' }]}>{name}</Text>
-                                <Text style={[GlobalStyles.regularText, { fontWeight: '300', color: Colors.darkGray }]}>{item.lastMessage}</Text>
+                                <Text style={[GlobalStyles.regularText, { fontWeight: '300', color: Colors.darkGray }]}>{lastSeen}</Text>
                             </View>
 
                         </View>
