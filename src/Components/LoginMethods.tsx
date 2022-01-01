@@ -1,8 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View } from 'react-native'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Credential } from '../Redux/Actions';
 import { Colors, ImagePath, IOS, validateEmail } from '../Config';
@@ -14,7 +13,7 @@ import Input from './Input'
 
 interface Props {
     buttonText?: string
-    label?:string
+    label?: string
     pressedContinue?: () => void
     phone?: () => void
     google?: () => void
@@ -23,9 +22,9 @@ interface Props {
 }
 
 const LoginMethods: React.FC<Props> = ({ pressedContinue = () => { }, phone = () => { },
-    google = () => { }, facebook = () => { }, apple = () => { }, buttonText,label
+    google = () => { }, facebook = () => { }, apple = () => { }, buttonText, label
 }) => {
-    const { loading,email } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { loading, email } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const dispatch = useDispatch()
 
     if (loading) return <Spinner size={false} />

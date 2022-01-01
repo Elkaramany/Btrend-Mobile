@@ -172,12 +172,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
     }, leftArrow: {
         position: "absolute",
-        backgroundColor: "#0B93F6",
-        width: 20,
-        height: 25,
+        backgroundColor: Colors.darkRed,
+        width: wp('5%'),
+        height: wp('5.25%'),
         bottom: 0,
-        borderBottomRightRadius: 25,
-        left: -10
+        borderBottomRightRadius: wp('10%'),
+        left: -wp('2.25%')
     },
     leftArrowOverlap: {
         position: "absolute",

@@ -1,9 +1,7 @@
 import React from 'react';
-import { View } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Toast from 'react-native-toast-message'
 
-import { ImagePath, validateEmail, Colors, IOS } from '../../../Config';
+import { validateEmail } from '../../../Config';
 import { GET } from '../../../Config/API';
 import { USERS_URL } from '@env';
 
@@ -23,7 +21,7 @@ interface Props {
 }
 
 interface User {
-    email?: string
+    email: string
     firstName?: string
     lastName?: string
     photo?: string
@@ -35,19 +33,25 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
     const { email, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const VerifyEmailSignUp = async (email: string): Promise<boolean> => {
+        if (!email || !email.length) return false
         dispatch(Credential({ prop: 'loading', value: true }))
         const { success, data } = await GET(`${USERS_URL}/verifyEmailSignUp/${email}`)
         if (!success) {
+            const errors = [`${email} is not allowed`]
+            if (Array.isArray(data)) {
+                errors[0] = data[0]
+                errors[1] = data[1]
+            } else errors[1] = data
+
             Toast.show({
                 type: 'error',
-                text1: `${email} is not allowed`,
-                text2: data
+                text1: errors[0],
+                text2: errors[1]
             });
         }
         dispatch(Credential({ prop: 'loading', value: false }))
         return success
     }
-
 
     const pressedContinue = async () => {
         if (validateEmail(email)) {
@@ -76,9 +80,10 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
         dispatchData(user, "facebook")
     }
 
-    const dispatchData = async (user: User | null, type: string) => {
-        const res = await VerifyEmailSignUp(user?.email)
-        if (user && user !== null && res) {
+    const dispatchData = async (user: User, type: string) => {
+        if (!user) return;
+        const res = await VerifyEmailSignUp(user.email)
+        if (res) {
             dispatch(Credential({ prop: 'email', value: user?.email || "" }))
             if (userType === "Influencer") {
                 dispatch(Credential({ prop: 'firstName', value: user.firstName || "" }))
