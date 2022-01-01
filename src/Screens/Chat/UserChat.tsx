@@ -30,31 +30,35 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
     const { conversationId, name, socket, getAllChats } = route.params
 
     React.useEffect(() => {
-        socket.emit(GET_MESSAGES, conversationId)
         socket.on(RECEIVE_MESSAGES, (newMessages: any) => {
             setMessages(newMessages)
         })
+        ReceiveMessages()
     }, [])
 
+    const ReceiveMessages = () => {
+        socket.emit(GET_MESSAGES, conversationId)
+        // @ts-ignore
+        scrollViewRef.current.scrollToEnd({ animated: false })
+    }
+
+    React.useEffect(() => {
+        ReceiveMessages()
+        // @ts-ignore
+        scrollViewRef.current.scrollToEnd({ animated: false })
+    }, [messages])
+
     const onSend = () => {
-        if(text.length){
+        if (text.length) {
             socket.emit(SEND_MESSAGE, { text, conversationId })
-        setMessages([...messages, { text, from: _id }])
-        setText('')
+            setMessages([...messages, { text, from: _id }])
+            setText('')
         }
     }
 
     const GoBack = () => {
         getAllChats()
         navigation.goBack()
-    }
-
-    const renderItem = (item: any) => {
-        return (
-            <View style={styles.chatContainer}>
-                <Text style={GlobalStyles.regularText}>{item.text}</Text>
-            </View>
-        )
     }
 
     const showBubble = (id: number, from: number) => {
@@ -92,8 +96,6 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
             <ScrollView
                 // @ts-ignore
                 ref={scrollViewRef}
-                // @ts-ignore
-                onContentSizeChange={() => scrollViewRef.current.scrollToEnd({ animated: false })}
                 pagingEnabled
                 style={{ flexGrow: 1, height: hp('65%') }}>
                 {messages.map((m: any, i: number) => {
@@ -139,6 +141,7 @@ const styles = StyleSheet.create({
         marginVertical: hp('1%'),
         borderRadius: hp('2%'),
         padding: hp('1%'),
+        minWidth: wp('10%')
     }, myChat: {
         backgroundColor: Colors.darkRed,
         marginLeft: '20%',
