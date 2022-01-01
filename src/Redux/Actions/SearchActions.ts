@@ -43,6 +43,7 @@ export const SearchFeed = (filters: Filter, userType: String) => async (dispatch
 
 export const FavoriteUser = (id: string, token: string, changeFavorite: () => void, userType: string) => async (dispatch: any) => {
     const URL = userType === "Brand" ? INFLUENCERS_URL : CAMPAIGNS_URL
+    const ERROR = userType === "Brand" ? "Influencer" : "campaign"
     const { success, data }: any = await POST(`${URL}/favorite/${id}`, { token })
     if (success) {
         Toast.show({
@@ -54,7 +55,7 @@ export const FavoriteUser = (id: string, token: string, changeFavorite: () => vo
     else {
         Toast.show({
             type: 'error',
-            text1: "Error favoriting this campaign",
+            text1: `Error favoriting this ${ERROR}`,
             text2: data,
         });
     }

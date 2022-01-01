@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity, ImageBackground } from 'react-native'
 import { Card } from 'react-native-paper'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
@@ -8,7 +8,7 @@ import { FavoriteUser } from '../../Redux/Actions'
 
 import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
-const CARD_HEIGHT = hp('33%')
+const CARD_HEIGHT = hp('32%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
 const ACTION_OFFSET = 100
@@ -72,8 +72,8 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
         setFavorite(!favorite)
     }
 
-    const name = isBrand ? item.brand.companyName : `${item.firstName} ${item.lastName}`
-    const photo = isBrand ? item.brand.photo : item.photo
+    const name = isBrand ? `${item.firstName} ${item.lastName}` : item.companyName
+    const photo = isBrand ? item.photo : item.brand.photo
     return (
         <Animated.View
             {...panResponder.panHandlers}
@@ -89,9 +89,10 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate("UserProfile", { item, isFavorite: favorite })}>
                 <Card style={styles.userContainer}>
                     <Image source={{ uri: item.photo }} style={styles.userImg} />
+
                     <Text style={styles.userTitle}>{item.name}</Text>
                     <View style={GlobalStyles.horizontalLine} />
-                    <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
+                    <View style={GlobalStyles.rowBetween}>
                         <View style={GlobalStyles.rowBetween} >
                             <Image source={{ uri: photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View>
@@ -117,7 +118,6 @@ const styles = StyleSheet.create({
         zIndex: -1,
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
-        marginBottom: hp('1%')
     }, userImg: {
         ...GlobalStyles.arrowImage,
         height: hp('15%'),
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
         borderTopRightRadius: hp('4%'),
         borderTopLeftRadius: hp('4%'),
+        overflow: 'hidden'
     }, userTitle: {
         fontWeight: '600',
         marginVertical: hp('1%'),

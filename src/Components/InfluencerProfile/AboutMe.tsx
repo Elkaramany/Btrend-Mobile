@@ -17,18 +17,30 @@ const AboutMe: React.FC<Props> = ({ user }) => {
 
     return (
         <View style={{}}>
-            <CollapsibleBody header={"Bio"} title={user.title}
-                collapsibleValue={bioVisible} setCollapsibleValue={setBioVisible}
-            />
-            <View style={[GlobalStyles.rowBetween, { marginTop: hp('1%')}]}>
-                <GrayedContainer header='Age' title={`${user.cookTime} years old`} />
-                <GrayedContainer header='Gender' title={user.title} />
+            {user.bio &&
+                <CollapsibleBody header={"Bio"} title={user.bio}
+                    collapsibleValue={bioVisible} setCollapsibleValue={setBioVisible}
+                />
+            }
+            <View style={[GlobalStyles.rowBetween, { marginTop: hp('1%') }]}>
+                {user.age &&
+                    <GrayedContainer header='Age' title={`${user.age} years old`} />
+                }
+                <GrayedContainer header='Gender' title={user.gender} />
             </View>
-            <GrayedContainer header='Language' title={user.title} />
-            <GrayedContainer header='Location' title={user.title} />
-            <GrayedContainer header='Payment type' title={user.title} />
-            <GrayedContainer header='Posts starting at' title={`$ ${user.title}`} />
-            <GrayedContainer header='Website' title={user.title} />
+            {user.language && user.language.length &&
+                <GrayedContainer header='Language' title={user.language.join(" - ")} />
+            }
+            {user.location && user.location.length &&
+                <GrayedContainer header='Location' title={user.location.join(" - ")} />
+            }
+            <GrayedContainer header='Payment type' title={user.payment} />
+            {user.postsStartingAt &&
+                <GrayedContainer header='Posts starting at' title={`$ ${user.postsStartingAt}`} />
+            }
+            {user.website && user.website.length &&
+                <GrayedContainer header='Website' title={user.website} />
+            }
         </View>
     )
 }

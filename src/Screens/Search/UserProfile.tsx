@@ -28,7 +28,8 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const [typeValue, setTypeValue] = React.useState(false)
     const [needsValue, setNeedsValue] = React.useState(false)
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const { item, isFavorite} = route.params
+    const isBrand = userType === "Brand"
+    const { item, isFavorite } = route.params
     const [favorite, setFavorite] = React.useState(isFavorite)
 
     const pressedMessage = () => {
@@ -48,7 +49,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const userView = () => {
-        if (userType === "Influencer") {
+        if (!isBrand) {
             return (
                 <View>
                     <CollapsibleBody header={"Brand Information"} title={item.brand.brandInformation}
@@ -107,9 +108,12 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
         } else return <InfluencerProfile user={item} />
     }
 
+    const name = isBrand ? `${item.firstName} ${item.lastName}` : item.companyName
+    const photo = isBrand ? item.photo : item.brand.photo
+    const categories = isBrand ? item.categories : item.brand.categories
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary }}>
-            <Image source={{ uri: item.photo }} style={styles.image} />
+            <Image source={{ uri: photo }} style={styles.image} />
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.xImage}>
                 <Image source={ImagePath.ic_crosss} style={{ flex: 1 }} />
             </TouchableOpacity>
@@ -124,17 +128,19 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <View style={GlobalStyles.horizontalLine} />
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
                         <View style={GlobalStyles.rowBetween} >
-                            <Image source={{ uri: item.brand.photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
+                            <Image source={{ uri: item.photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View>
-                                <Text style={GlobalStyles.regularText}>{item.brand.companyName}</Text>
+                                <Text style={GlobalStyles.regularText}>{name}</Text>
                                 <View style={{ width: wp('55%') }}>
-                                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.brand.categories.join(" - ")}</Text>
+                                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{categories.join(" - ")}</Text>
                                 </View>
                             </View>
                         </View>
-                        <View style={styles.activeContainer} >
-                            <Text style={[GlobalStyles.regularText, { color: Colors.primary, padding: hp('0.25%') }]}>{item.state}</Text>
-                        </View>
+                        {item.state &&
+                            <View style={styles.activeContainer} >
+                                <Text style={[GlobalStyles.regularText, { color: Colors.primary, padding: hp('0.25%') }]}>{item.state}</Text>
+                            </View>
+                        }
                     </View>
                     <SocialStats />
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('2%') }]}>
