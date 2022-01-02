@@ -12,6 +12,7 @@ import { BASE_URL } from '@env'
 
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
+import Spinner from '../../Components/Spinner'
 
 interface UserChat {
     name: string
@@ -31,6 +32,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
     const [search, setSearch] = React.useState('')
     const [chats, setChats] = React.useState([])
     const [fetchedChats, setFetchedChats] = React.useState<any>([])
+    const [loaded, setLoaded] = React.useState(false)
     const socketRef = React.useRef();
 
     React.useEffect(() => {
@@ -39,6 +41,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
         // @ts-ignore
         socketRef.current.on(GET_CHATS, chats => {
             setFetchedChats(chats)
+            setLoaded(true)
         })
 
         return () => {
@@ -68,7 +71,8 @@ const Chat: React.FC<Props> = ({ navigation }) => {
         const seen = isBrand ? item?.influencer?.lastSeen : item?.brand?.lastSeen
         const hours = moment(new Date).diff(moment(seen), "hours")
         const minutes = moment(new Date).diff(moment(seen), "minutes")
-        const lastSeen = minutes < 60 ? `${minutes} minutes ago` : `${hours} hours ago`
+        const days = moment(new Date).diff(moment(seen), "days")
+        const lastSeen = minutes < 60 ? `${minutes} minute(s) ago` : hours < 24 ? `${hours} hour(s) ago` : `${days} day(s) ago`
         return (
             <TouchableOpacity onPress={() => navigation.navigate("UserChat", { conversationId: item._id, name, socketRef })}>
                 <Card style={{ marginVertical: hp('2%') }} >
@@ -90,6 +94,18 @@ const Chat: React.FC<Props> = ({ navigation }) => {
         )
     }
 
+    const showChats = () => {
+        if (loaded) {
+            return (
+                <FlatList
+                    data={chats}
+                    keyExtractor={(item, index) => `${index}`}
+                    renderItem={({ item }) => renderItem(item)}
+                />
+            )
+        }else return <Spinner size={true} />
+    }
+
     return (
         <Container mainStyle={{ flex: 1 }}>
             <Input
@@ -99,11 +115,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
                 inputStyle={{ width: wp('93%'), marginBottom: 0 }}
                 rightIcon={<TextInput.Icon name={"close"} color={Colors.darkGray} onPress={() => setSearch('')} />}
             />
-            <FlatList
-                data={chats}
-                keyExtractor={(item, index) => `${index}`}
-                renderItem={({ item }) => renderItem(item)}
-            />
+            {showChats()}
         </Container>
     )
 }
