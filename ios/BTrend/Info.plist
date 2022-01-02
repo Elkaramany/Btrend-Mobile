@@ -74,9 +74,9 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) requires to access camera for uploading photos to your profile or posts</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>$(PRODUCT_NAME) requires to access your location for a better app experience</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>$(PRODUCT_NAME) requires to access Audio recording to record and uplod videos</string>
+	<string>$(PRODUCT_NAME) requires to access Audio recording to record and uplod voice messages</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) would like to upload photos from your photo gallery</string>
 	<key>UIAppFonts</key>

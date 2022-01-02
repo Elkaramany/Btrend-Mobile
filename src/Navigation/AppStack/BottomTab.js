@@ -20,7 +20,8 @@ export default () => {
                 style: styles.customBottomtabsStyle,
                 activeTintColor: Colors.secondary,
                 inactiveTintColor: "gray",
-                headerShown: false
+                headerShown: false,
+                unmountOnBlur: true
             }}
         >
             <BottomTab.Screen
