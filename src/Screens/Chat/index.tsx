@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, Image, FlatList } from 'react-native'
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { TextInput, Card } from 'react-native-paper'
@@ -25,13 +25,14 @@ interface Props {
 }
 
 const GET_CHATS = 'getAllChats'
+const GET_CHANGES = 'getChanges'
 
 const Chat: React.FC<Props> = ({ navigation }) => {
     const { token, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const isBrand = userType === "Brand"
     const [search, setSearch] = React.useState('')
     const [chats, setChats] = React.useState([])
-    const [fetchedChats, setFetchedChats] = React.useState<any>([])
+    const [fetchedChats, setFetchedChats] = React.useState([])
     const [loaded, setLoaded] = React.useState(false)
     const socketRef = React.useRef();
 
@@ -43,17 +44,18 @@ const Chat: React.FC<Props> = ({ navigation }) => {
             setFetchedChats(chats)
             setLoaded(true)
         })
-
-        return () => {
-            // @ts-ignore
-            socketRef.current.disconnect()
-        }
+        // @ts-ignore
+        socketRef.current.on(GET_CHANGES, (newList: any) => {
+            if (newList && newList.length) {
+                // @ts-ignore
+                setFetchedChats(newList)
+            }
+        })
     }, [])
 
     React.useEffect(() => {
         setChats(fetchedChats)
     }, [fetchedChats])
-
 
     React.useEffect(() => {
         if (fetchedChats.length) {
@@ -65,6 +67,11 @@ const Chat: React.FC<Props> = ({ navigation }) => {
         }
     }, [search])
 
+    const GoToChat = (conversationId: number, name: string) => {
+        // @ts-ignore
+        navigation.navigate("UserChat", { conversationId, name, socketRef })
+    }
+
     const renderItem = (item: any) => {
         const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.companyName
         const photo = isBrand ? item?.influencer?.photo : item?.brand?.photo
@@ -72,22 +79,31 @@ const Chat: React.FC<Props> = ({ navigation }) => {
         const hours = moment(new Date).diff(moment(seen), "hours")
         const minutes = moment(new Date).diff(moment(seen), "minutes")
         const days = moment(new Date).diff(moment(seen), "days")
-        const lastSeen = minutes < 60 ? `${minutes} minute(s) ago` : hours < 24 ? `${hours} hour(s) ago` : `${days} day(s) ago`
+        const lastSeen = minutes < 60 ? minutes === 0 ? `Active now` : `Seen ${minutes} minute(s) ago` : hours < 24 ? `Seen ${hours} hour(s) ago` : `Seen ${days} day(s) ago`
         return (
-            <TouchableOpacity onPress={() => navigation.navigate("UserChat", { conversationId: item._id, name, socketRef })}>
+            <TouchableOpacity onPress={() => GoToChat(item._id, name)}>
                 <Card style={{ marginVertical: hp('2%') }} >
                     <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%') }]}>
                         <View style={{ flexDirection: 'row' }}>
                             <Image source={photo ? { uri: photo } : ImagePath.profilePlace} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
                             <View style={{ justifyContent: 'center' }}>
                                 <Text style={[GlobalStyles.regularText, { fontWeight: '500', textAlign: 'center' }]}>{name}</Text>
-                                <Text style={[GlobalStyles.regularText, { fontWeight: '300', color: Colors.darkGray }]}>Last seen {lastSeen}</Text>
+                                <Text style={[GlobalStyles.regularText, { fontWeight: '300', color: Colors.darkGray }]}>{lastSeen}</Text>
                             </View>
 
                         </View>
-                        <TouchableOpacity style={{ padding: hp('2%') }} onPress={() => console.log('options')}>
-                            <Image source={ImagePath.options} style={GlobalStyles.arrowImage} />
-                        </TouchableOpacity>
+                        <View style={{ flexDirection: 'row' }}>
+                            {item.unread > 0 &&
+                                <View style={[GlobalStyles.rowBetween, { padding: hp('2%') }]}>
+                                    <Text style={GlobalStyles.regularText}>{item.unread}</Text>
+                                    <Image source={ImagePath.unread} style={GlobalStyles.arrowImage} />
+                                </View>
+                            }
+                            <TouchableOpacity style={{ padding: hp('2%') }} onPress={() => console.log('options')}>
+                                <Image source={ImagePath.options} style={GlobalStyles.arrowImage} />
+                            </TouchableOpacity>
+                        </View>
+
                     </View>
                 </Card>
             </TouchableOpacity>
@@ -103,7 +119,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
                     renderItem={({ item }) => renderItem(item)}
                 />
             )
-        }else return <Spinner size={true} />
+        } else return <Spinner size={false} />
     }
 
     return (

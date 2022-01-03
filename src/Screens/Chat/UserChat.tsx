@@ -1,17 +1,15 @@
 import React from 'react'
+import useStateRef from 'react-usestateref'
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView, } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { TextInput } from 'react-native-paper'
-import AudioRecord from 'react-native-audio-record';
-import { readFile } from "react-native-fs";
-import Sound from 'react-native-sound';
 
 import moment from "moment";
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStateOrAny, useSelector, useDispatch } from 'react-redux'
+import { RootStateOrAny, useSelector } from 'react-redux'
 
 import Container from '../../Components/Container'
-import { GlobalStyles, ImagePath, Colors } from '../../Config'
+import { GlobalStyles, ImagePath, Colors, handleSelection } from '../../Config'
 
 import Input from '../../Components/Input'
 import Spinner from '../../Components/Spinner';
@@ -23,37 +21,20 @@ interface Props {
 
 const GET_MESSAGES = "getMessages"
 const RECEIVE_MESSAGES = "receiveMessages"
+const RECEIVE_MESSAGE = "receiveMessage"
 const SEND_MESSAGE = "sendMessage"
-
-const options = {
-    sampleRate: 16000,  // default 44100
-    channels: 1,        // 1 or 2, default 1
-    bitsPerSample: 16,  // 8 or 16, default 16
-    audioSource: 6,     // android only (see below)
-    wavFile: 'test.wav' // default 'audio.wav'
-};
-
-AudioRecord.init(options);
 
 const UserChat: React.FC<Props> = ({ route, navigation }) => {
     const { conversationId, name, socketRef } = route.params
     const [text, setText] = React.useState('')
     const { _id } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const [messages, setMessages] = React.useState<any>([]);
-    const [startedRecording, setStartedRecording] = React.useState(false)
+    const [messages, setMessages, messagesRef] = useStateRef([]);
     const scrollRef = React.useRef<FlatList>()
     const [loaded, setLoaded] = React.useState(false)
-    //Playback
-    const [soundLoading, setSoundLoading] = React.useState(false)
-    const [sound, setSound] = React.useState<any>(null);
-    const [audtioState, setAudioState] = React.useState({
-        audioFile: '',
-        recording: false,
-        paused: false
-    })
 
     React.useEffect(() => {
-        ReceiveMessages()
+        //Send to the server to get all messages
+        socketRef.current.emit(GET_MESSAGES, conversationId)
         // @ts-ignore
         socketRef.current.on(RECEIVE_MESSAGES, (newMessages: any) => {
             if (newMessages.length) {
@@ -61,71 +42,36 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
             }
             setLoaded(true)
         })
+
+        socketRef.current.on(RECEIVE_MESSAGE, (newMessage: any) => {
+            if (newMessage.content.length && newMessage.conversationId == conversationId) {
+                // @ts-ignore
+                setMessages([...messagesRef.current, newMessage])
+            }
+        })
     }, [])
 
-    const ReceiveMessages = () => {
-        // @ts-ignore
-        socketRef.current.emit(GET_MESSAGES, conversationId)
-    }
 
     const onSend = (content: string, type: string) => {
         if (content.length) {
             // @ts-ignore
             socketRef.current.emit(SEND_MESSAGE, { content, conversationId, type })
+            // @ts-ignore
             setMessages([...messages, { content, from: _id, type, createdAt: new Date() }])
             setText('')
         }
     }
 
-    const stoptRecord = async () => {
-        const audioFile = await AudioRecord.stop();
-        const base64String = await readFile(audioFile, "base64");
-        onSend(base64String, "audio")
+    const sendImage = async () => {
+        const image: any = await handleSelection()
+        if (image && image.length) {
+            onSend(image, "image")
+        }
     }
-
-    function getDurationFormatted(millis: number) {
-        const minutes = millis / 1000 / 60;
-        const minutesDisplay = Math.floor(minutes);
-        const seconds = Math.round((minutes - minutesDisplay) * 60);
-        const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
-        return `${minutesDisplay}:${secondsDisplay}`;
-    }
-
-    const playSound = async (file: string) => {
-        Sound.setCategory('Playback');
-
-        // Load the sound file 'whoosh.mp3' from the app bundle
-        // See notes below about preloading sounds within initialization code below.
-        let whoosh = new Sound(file, Sound.MAIN_BUNDLE, (error) => {
-            if (error) {
-                console.log('failed to load the sound', error);
-                return;
-            }
-            // loaded successfully
-            console.log('duration in seconds: ' + whoosh.getDuration() + 'number of channels: ' + whoosh.getNumberOfChannels());
-
-            // Play the sound with an onEnd callback
-            whoosh.play((success) => {
-                if (success) {
-                    console.log('successfully finished playing');
-                } else {
-                    console.log('playback failed due to audio decoding errors');
-                }
-            });
-        });
-    }
-
-    const pause = () => {
-        setSound(sound.pause())
-        setAudioState({ ...audtioState, paused: true })
-    };
-
-    const resume = () => {
-        setAudioState({ ...audtioState, paused: false })
-    };
 
     const renderItem = (item: any, i: number) => {
-        const diff = i !== 0 ? moment(item.createdAt).diff(moment(messages[i - 1].createdAt), "minutes") : 16
+        // @ts-ignore
+        const diff = i !== 0 ? moment(item.createdAt).diff(moment(messages[i - 1].createdAt), "minutes") : 21
         const createdAt = moment(item.createdAt);
         return (
             <>
@@ -136,21 +82,18 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                             : createdAt.format("ddd LT")}
                     </Text>
                 }
-                <View key={item._id} style={[styles.chatContainer, _id === item.from ? styles.myChat : styles.otherChat]}>
-                    {item.type === "text" &&
-                        <>
-                            <Text style={[GlobalStyles.regularText, { color: Colors.primary }]}>
-                                {item.content}
-                            </Text>
-                            {showBubble(_id, item.from)}
-                        </>
-                    }
-                    {item.type === "audio" &&
-                        <TouchableOpacity style={[styles.chatContainer, _id === item.from ? styles.myChat : styles.otherChat]}>
+                {item.type === "text" &&
+                    <View key={item._id} style={[styles.chatContainer, _id === item.from ? styles.myChat : styles.otherChat]}>
 
-                        </TouchableOpacity>
-                    }
-                </View>
+                        <Text style={[GlobalStyles.regularText, { color: Colors.primary }]}>
+                            {item.content}
+                        </Text>
+                        {showBubble(_id, item.from)}
+                    </View>
+                }
+                {item.type === "image" &&
+                    <Image source={{ uri: item.content }} style={[styles.userImg, { alignSelf: _id === item.from ? "flex-end" : "flex-start" }]} />
+                }
             </>
         )
     }
@@ -195,15 +138,15 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                             onChangeText={(val: string) => setText(val)}
                             inputStyle={{ width: wp('80%') }}
                             onSubmitEditing={() => onSend(text, "text")}
-                            rightIcon={<TextInput.Icon name={"image"} color={Colors.gray} size={32} />}
+                            rightIcon={<TextInput.Icon name={"image"} color={Colors.gray} size={32} onPress={() => sendImage()} />}
                         />
-                        <TouchableOpacity onLongPress={() => AudioRecord.start()} onPressOut={() => stoptRecord()}>
-                            <Image source={startedRecording ? ImagePath.playAudio : ImagePath.voice} style={[styles.inputImage, { bottom: hp('1.5%'), marginRight: wp('1%') }]} />
+                        <TouchableOpacity onPress={() => onSend(text, "text")}>
+                            <Image source={ImagePath.rightArrow} style={[styles.inputImage, { bottom: hp('1.5%'), marginRight: wp('2.5%') }]} />
                         </TouchableOpacity>
                     </View>
                 </>
             )
-        } else return <Spinner size={true} />
+        } else return <Spinner size={false} />
     }
 
     return (
@@ -277,9 +220,14 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: wp('5%'),
         left: -wp('4.85%')
     }, inputImage: {
-        height: hp('5%'),
-        width: hp('5%'),
+        height: hp('3%'),
+        width: hp('3%'),
         resizeMode: 'contain'
+    }, userImg: {
+        width: wp('65%'),
+        height: hp('20%'),
+        resizeMode: 'cover',
+        borderRadius: hp('5%'),
     }
 })
 

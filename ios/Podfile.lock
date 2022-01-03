@@ -342,16 +342,12 @@ PODS:
     - React-Core
   - RNAppleAuthentication (2.1.5):
     - React-Core
-  - RNAudioRecord (0.2.2):
-    - React
   - RNCAsyncStorage (1.15.14):
     - React-Core
   - RNCMaskedView (0.1.11):
     - React
   - RNDateTimePicker (5.1.0):
     - React-Core
-  - RNFS (2.18.0):
-    - React
   - RNGestureHandler (2.1.0):
     - React-Core
   - RNGoogleSignin (7.0.4):
@@ -371,11 +367,6 @@ PODS:
   - RNScreens (3.10.1):
     - React-Core
     - React-RCTImage
-  - RNSound (0.11.1):
-    - React-Core
-    - RNSound/Core (= 0.11.1)
-  - RNSound/Core (0.11.1):
-    - React-Core
   - RNVectorIcons (9.0.0):
     - React-Core
   - TOCropViewController (2.6.0)
@@ -424,17 +415,14 @@ DEPENDENCIES:
   - ReactNativeGetLocation (from `../node_modules/react-native-get-location`)
   - ReactNativeLocalization (from `../node_modules/react-native-localization`)
   - "RNAppleAuthentication (from `../node_modules/@invertase/react-native-apple-authentication`)"
-  - RNAudioRecord (from `../node_modules/react-native-audio-record`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
-  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - "RNGoogleSignin (from `../node_modules/@react-native-google-signin/google-signin`)"
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNLocalize (from `../node_modules/react-native-localize`)
   - RNScreens (from `../node_modules/react-native-screens`)
-  - RNSound (from `../node_modules/react-native-sound`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -529,16 +517,12 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localization"
   RNAppleAuthentication:
     :path: "../node_modules/@invertase/react-native-apple-authentication"
-  RNAudioRecord:
-    :path: "../node_modules/react-native-audio-record"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNDateTimePicker:
     :path: "../node_modules/@react-native-community/datetimepicker"
-  RNFS:
-    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNGoogleSignin:
@@ -549,8 +533,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-localize"
   RNScreens:
     :path: "../node_modules/react-native-screens"
-  RNSound:
-    :path: "../node_modules/react-native-sound"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -606,21 +588,18 @@ SPEC CHECKSUMS:
   ReactNativeGetLocation: d6b15cb2a2023ab7703f756501bad86d3ecf6fea
   ReactNativeLocalization: 90a1181b7672309701dd7e5364fbf587319d41c6
   RNAppleAuthentication: 63c2127ace11985b94f852fc480eb84145653712
-  RNAudioRecord: 162fee3b8fb628773ec704bf0333823125be2ed7
   RNCAsyncStorage: ea6b5c280997b2b32a587793163b1f10e580c4f7
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNDateTimePicker: 1dd15d7ed1ab7d999056bc77879a42920d139c12
-  RNFS: 3ab21fa6c56d65566d1fb26c2228e2b6132e5e32
   RNGestureHandler: e5c7cab5f214503dcefd6b2b0cefb050e1f51c4a
   RNGoogleSignin: c4381751eefd73c552b923ba347a9bfc6f18771c
   RNImageCropPicker: 448d3c6e923fde3466b49caf3c2457c2a0ba02dd
   RNLocalize: f567ea0e35116a641cdffe6683b0d212d568f32a
   RNScreens: 522705f2e5c9d27efb17f24aceb2bf8335bc7b8e
-  RNSound: 27e8268bdb0a1f191f219a33267f7e0445e8d62f
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   TOCropViewController: 3105367e808b7d3d886a74ff59bf4804e7d3ab38
   Yoga: e7dc4e71caba6472ff48ad7d234389b91dadc280
 
-PODFILE CHECKSUM: b926e158974436c04dd86ae8eff73c1146f4783e
+PODFILE CHECKSUM: 94a4e0718efec788d04d0669582e9158110f00e2
 
 COCOAPODS: 1.11.2

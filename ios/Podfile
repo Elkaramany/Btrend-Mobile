@@ -7,7 +7,6 @@ target 'BTrend' do
   config = use_native_modules!
   pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
   pod 'GoogleSignIn', '~> 6.0.2'
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
 
   use_react_native!(
     :path => config[:reactNativePath],
