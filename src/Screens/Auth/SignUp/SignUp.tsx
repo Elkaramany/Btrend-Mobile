@@ -100,7 +100,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <HeaderArrow headerText={'Sign Up'} navigateMeBack={() => navigation.goBack()} />
+            <HeaderArrow headerText={'Create Account'} navigateMeBack={() => navigation.goBack()} />
 
             <LoginMethods label={'Email'} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
                 apple={() => Apple()}

@@ -6,6 +6,7 @@ import { Image, StyleSheet } from "react-native";
 
 import { Colors, ImagePath } from "../../Config";
 
+import Feed from "../../Screens/Feed"
 import Search from "../../Screens/Search";
 import Chat from "../../Screens/Chat";
 import Profile from "../../Screens/Profile";
@@ -15,7 +16,7 @@ const BottomTab = createBottomTabNavigator();
 export default () => {
     return (
         <BottomTab.Navigator
-            initialRouteName={'Search'}
+            initialRouteName={'Feed'}
             screenOptions={{
                 style: styles.customBottomtabsStyle,
                 activeTintColor: Colors.secondary,
@@ -24,6 +25,23 @@ export default () => {
                 unmountOnBlur: true
             }}
         >
+            <BottomTab.Screen
+                name={"Feed"}
+                component={Feed}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <Image
+                                style={{
+                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
+                                }}
+                                source={ImagePath.feed}
+                            />
+                        );
+                    },
+                }}
+            />
             <BottomTab.Screen
                 name={'Search'}
                 component={Search}

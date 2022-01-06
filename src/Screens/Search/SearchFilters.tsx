@@ -66,7 +66,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
     }
   }
 
-  const searchWithFilters = ()=>{
+  const searchWithFilters = () => {
     pressedSearch()
     hideModal()
   }
@@ -93,7 +93,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                   <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
                 </TouchableOpacity>
               </View>
-              
+
               <Input
                 label={'Categories'}
                 value={categoriesText}
@@ -123,16 +123,23 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
               <Suggestions text={locationsText} SuggestionsArr={googlePlacesPredictions} arr={filters.location} setArr={(arr) => changeFilter('location', arr)} />
 
               <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>
-              <Text style={[GlobalStyles.regularText, styles.priceRange, { color: Colors.darkGray }]}>{filters.range[0]} US$ - {filters.range[1]} US$</Text>
-              <View style={{ marginVertical: hp('1%') }}>
-                <MultiSlider
-                  values={[filters.range[0], filters.range[1]]}
-                  sliderLength={wp('80%')}
-                  onValuesChange={(data: number[]) => changeFilter('range', data)}
-                  min={10}
-                  max={50000}
-                  step={1000}
+              <View style={GlobalStyles.rowBetween}>
+                <Input
+                  type={'numeric'}
+                  label={'$'}
+                  value={filters.range[0]}
+                  onChangeText={(text) => changeFilter('range', [parseInt(text), filters.range[1]])}
+                  inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
+                <Text style={[GlobalStyles.regularText,{marginHorizontal: wp('1%')}]}>to</Text>
+                <Input
+                  type={'numeric'}
+                  label={'$'}
+                  value={filters.range[1]}
+                  onChangeText={(text) => changeFilter('range', [filters.range[0], parseInt(text)])}
+                  inputStyle={{ width: wp('40%'), marginBottom: 5 }}
+                />
+
               </View>
               <Text style={[GlobalStyles.regularText, styles.priceRange]}>Type of payment</Text>
               <View style={{ marginTop: hp('2%'), flexDirection: 'row', width: wp('80%'), justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('3%') }}>

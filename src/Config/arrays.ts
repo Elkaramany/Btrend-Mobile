@@ -82,30 +82,32 @@ export const filterOpts = [
 
 export const CategoriesArr = [
     "Beauty",
-    "Fashion",
     "Fashion Photography",
+    "Fashion",
+    "Makeup Artist",
     "Travel",
     "Liefestyle",
     "Sports",
-    "Makeup Artist",
     "Beauty Artist",
     "Manucures",
-    "Food",
-    "Foodies",
     "Fashion Modeling",
-    "Yoga",
+    "Food",
     "Travel & Tourism",
+    "Foodies",
+    "Health & Fitness",
+    "Yoga",
+    "Pets Animals",
     "Parenting",
-    "Babies", "Health & Fitness", "Luxury", "Pets Animals", "Garners", "Photographers"
-    , "Events", "Working Online", "Wedding", "Medical", "Restaurants", "Family", "Art", "Technology", "Gastronomy", "Personal",
-    "Film and television",
-    , "Models", "Internet", "Crypto", "Motivational speaker", "Entertainment", "Leisure", "Parties", "Hobbies",
-    "Design", "Home", "Society", "Humor and comedy", "Sciences", "Music", "Games",
-    "Culture", "Marketing", "Cars", "Gadgets",
-    "Companies and business", "Business", "Decoration", "Ecology", "Nature and environment",
-    "Shopping", "Animals", "Audiovisual", "Video games", "Videos", "Celebrity", "Bloggers & Vloggers",
+    "Photographers",
+    "Babies", "Luxury", "Plastic surgery", "Garners", "Film and television",
+    , "Events", "Working Online", "Wedding", "Medical", "Restaurants", "Family", "Companies and business", "Art", "Technology", "Gastronomy", "Personal",
+    , "Models", "Internet", "Crypto", "Entertainment", "Leisure", "Parties", "Hobbies",
+    "Design", "Home", "Society", "Games", "Humor and comedy", "Sciences", "Music",
+    "Culture", "Marketing", "Cars", "Gadgets", "Motivational speaker",
+    "Business", "Decoration", "Ecology", "Nature and environment",
+    "Shopping", "Animals", "Audiovisual", "Video games", "Videos", "Celebrity",
     "Aesthetic", "Wellness", "Artist", "Religion and philosophy", "Politics",
-    "Charity", "Books", "Education", "Sexuality", "Relationship", "Plastic surgery", "TV shows", "Others"
+    "Charity", "Books", "Bloggers & Vloggers", "Education", "Sexuality", "Relationship", "TV shows", "Others"
 ]
 
 export const ArabCountries = [

@@ -20,7 +20,7 @@ const RadioBtn: React.FC<Props> = ({ onPress = () => { }, selected, text }) => {
                 borderColor: '#000',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: selected ? Colors.blue : "#FFFFFF"
+                backgroundColor: selected ? Colors.secondary : Colors.primary
             }} />
             <Text style={[GlobalStyles.regularText, { marginLeft: wp('2%') }]}>{text}</Text>
         </TouchableOpacity>

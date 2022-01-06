@@ -45,21 +45,19 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
 
     const pressedContinue = () => {
-        if (verified) {
-            navigation.navigate("Categories")
-        }
+        if (verified) navigation.navigate("Categories")
     }
 
     React.useEffect(() => {
         if (userType === "Brand") {
-            if (validateEmail(companyEmail) && validateName(companyName) && validateName(brandInformation)) setVerified(true)
+            if (validateEmail(companyEmail) && validateName(companyName) && validateName(photo) && validateName(brandInformation)) setVerified(true)
             else setVerified(false)
         } else if (userType === "Influencer") {
-            if (validateName(firstName) && validateName(lastName) && validateName(dob) && validateName(gender)) {
+            if (validateName(firstName) && validateName(lastName) && validateName(photo) && validateName(dob) && validateName(gender)) {
                 setVerified(true)
             } else setVerified(false)
         }
-    }, [dob, gender, firstName, lastName, companyName, companyEmail, brandInformation])
+    }, [dob, gender, firstName, lastName, companyName, companyEmail, brandInformation, photo])
 
     const handleImage = async () => {
         const image: string | null = await handleSelection()
@@ -167,8 +165,8 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                                     style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
                                     onPress={() => navigation.navigate("Genders")}
                                 >
-                                    <Text style={[GlobalStyles.regularText, { color: Colors.blue }]}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
-                                    <Image source={ImagePath.rightArrow} style={{ width: wp('3%'), height: wp('3%'), left: wp('4.5%'), top: hp('0.3%') }} />
+                                    <Text style={GlobalStyles.regularText}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
+                                    <Image source={ImagePath.arrowRight} style={[GlobalStyles.arrowImage, { alignSelf: 'center', top: '1.5%' }]} />
                                 </TouchableOpacity>
                             }
                         </View>

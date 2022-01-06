@@ -1,7 +1,8 @@
 import { CAMPAIGNS_URL, INFLUENCERS_URL } from '@env'
 import { POST } from '../../Config/API'
 import Toast from 'react-native-toast-message'
-import { AddFilter, Filter } from '../../Screens/Search/Types'
+import {  Filter } from '../../Screens/Search/Types'
+import { AddFilter } from '../../Screens/Feed/Types'
 
 export const CreateCampaign = (filters: AddFilter) => async (dispatch: any) => {
     dispatch({ type: "Switch_Loading", payload: true })

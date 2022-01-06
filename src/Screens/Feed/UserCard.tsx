@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity } from 'react-native'
 import { Card } from 'react-native-paper'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
@@ -117,7 +117,6 @@ const styles = StyleSheet.create({
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
     }, userImg: {
-        ...GlobalStyles.arrowImage,
         height: hp('15%'),
         width: wp('90%'),
         resizeMode: 'cover',

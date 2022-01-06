@@ -23,7 +23,7 @@ import RadioBtn from '../../Components/RadioBtn'
 import GradientButton from '../../Components/GradientButton'
 import Header from '../../Components/Header'
 import Suggestions from '../../Components/Suggestions'
-import FollowersEngagement from './FollowersEngagement'
+import FollowersEngagement from '../Search/FollowersEngagement'
 
 interface Props {
     modalVisible: boolean
@@ -200,7 +200,7 @@ const AddCampaign: React.FC<Props> = ({ modalVisible, hideModal }) => {
                         />
                         <RadioBtn
                             text={"Other"}
-                            selected={filters.payment === "Other"}
+                            selected={otherPayment}
                             onPress={() => defaultPayment(false)}
                         />
                     </View>
