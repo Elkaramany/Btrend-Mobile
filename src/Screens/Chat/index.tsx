@@ -99,9 +99,6 @@ const Chat: React.FC<Props> = ({ navigation }) => {
                                     <Image source={ImagePath.unread} style={GlobalStyles.arrowImage} />
                                 </View>
                             }
-                            <TouchableOpacity style={{ padding: hp('2%') }} onPress={() => console.log('options')}>
-                                <Image source={ImagePath.options} style={GlobalStyles.arrowImage} />
-                            </TouchableOpacity>
                         </View>
 
                     </View>

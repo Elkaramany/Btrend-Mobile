@@ -5,7 +5,7 @@ import { Card } from 'react-native-paper'
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { FavoriteUser } from '../../Redux/Actions'
+import { FavoriteUser, MessageUser } from '../../Redux/Actions'
 import { GlobalStyles, Colors, ImagePath } from '../../Config';
 
 import SocialStats from '../../Components/SocialStats'
@@ -33,11 +33,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const [favorite, setFavorite] = React.useState(isFavorite)
 
     const pressedMessage = () => {
-        console.log("Message")
-    }
-
-    const pressedFollow = () => {
-        console.log("follow")
+        dispatch(MessageUser(token, item._id, navigation))
     }
 
     const onFavorite = () => {
@@ -118,9 +114,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 <Image source={ImagePath.ic_crosss} style={{ flex: 1 }} />
             </TouchableOpacity>
             <ScrollView style={styles.scroller} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
-                <View style={{ marginTop: hp('3%'), marginHorizontal: wp('5%') }}>
+                <View style={{ marginTop: hp('4%'), marginHorizontal: wp('5%') }}>
                     <View style={GlobalStyles.rowBetween}>
-                        <Text style={GlobalStyles.regularText}>{item.name}</Text>
+                        <Text style={GlobalStyles.regularText}>{name}</Text>
                         <TouchableOpacity onPress={() => onFavorite()}>
                             <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart} style={GlobalStyles.arrowImage} />
                         </TouchableOpacity>
@@ -143,15 +139,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         }
                     </View>
                     <SocialStats />
-                    <View style={[GlobalStyles.rowBetween, { marginBottom: hp('2%') }]}>
-                        <GradientButton text={'Follow'} colors={Colors.gradientButton}
-                            onPress={() => pressedFollow()} buttonContainerStyle={styles.bottomButton}
-                        />
-                        <GradientButton text={'Message'} colors={[Colors.primary, Colors.primary]}
-                            textStyle={{ color: Colors.secondary }}
-                            onPress={() => pressedMessage()} buttonContainerStyle={{ ...styles.bottomButton, borderColor: Colors.secondary }}
-                        />
-                    </View>
+                    <GradientButton text={'Message'} colors={Colors.gradientButton}
+                        onPress={() => pressedMessage()} buttonContainerStyle={styles.bottomButton}
+                    />
                     <View style={GlobalStyles.horizontalLine} />
                     {userView()}
                 </View>
@@ -199,7 +189,9 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     }, bottomButton: {
         paddingHorizontal: wp('6%'),
-        paddingVertical: hp('0.5%'),
+        paddingVertical: hp('1%'),
+        width: wp('60%'),
+        alignSelf: 'center'
     }
 })
 

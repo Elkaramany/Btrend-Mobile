@@ -1,6 +1,9 @@
 import React from 'react'
 import useStateRef from 'react-usestateref'
-import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList, ScrollView, } from 'react-native'
+import {
+    View, Text, StyleSheet, Image, TouchableOpacity,
+    FlatList, ScrollView, TouchableWithoutFeedback
+} from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { TextInput } from 'react-native-paper'
 
@@ -13,6 +16,8 @@ import { GlobalStyles, ImagePath, Colors, handleSelection } from '../../Config'
 
 import Input from '../../Components/Input'
 import Spinner from '../../Components/Spinner';
+import Options from './Options'
+
 
 interface Props {
     route: any,
@@ -31,6 +36,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
     const [messages, setMessages, messagesRef] = useStateRef([]);
     const scrollRef = React.useRef<FlatList>()
     const [loaded, setLoaded] = React.useState(false)
+    const [visible, setVisible] = React.useState(false)
 
     React.useEffect(() => {
         //Send to the server to get all messages
@@ -73,6 +79,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
         // @ts-ignore
         const diff = i !== 0 ? moment(item.createdAt).diff(moment(messages[i - 1].createdAt), "minutes") : 21
         const createdAt = moment(item.createdAt);
+        const msgFromMe = _id === item.from
         return (
             <>
                 {diff > 20 &&
@@ -83,16 +90,16 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                     </Text>
                 }
                 {item.type === "text" &&
-                    <View key={item._id} style={[styles.chatContainer, _id === item.from ? styles.myChat : styles.otherChat]}>
+                    <View key={item._id} style={[styles.chatContainer, msgFromMe ? styles.myChat : styles.otherChat]}>
 
-                        <Text style={[GlobalStyles.regularText, { color: Colors.primary }]}>
+                        <Text style={[GlobalStyles.regularText, { color: msgFromMe ? Colors.primary : Colors.secondary }]}>
                             {item.content}
                         </Text>
                         {showBubble(_id, item.from)}
                     </View>
                 }
                 {item.type === "image" &&
-                    <Image source={{ uri: item.content }} style={[styles.userImg, { alignSelf: _id === item.from ? "flex-end" : "flex-start" }]} />
+                    <Image source={{ uri: item.content }} style={[styles.userImg, { alignSelf: msgFromMe ? "flex-end" : "flex-start" }]} />
                 }
             </>
         )
@@ -127,7 +134,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                         onContentSizeChange={() => scrollRef.current.scrollToEnd({ animated: false })}
                     >
                         {messages.map((item: any, index: number) => {
-                            return <View key={index}>{renderItem(item, index)}</View>
+                            return <TouchableWithoutFeedback key={index}>{renderItem(item, index)}</TouchableWithoutFeedback>
                         })}
                     </ScrollView>
                     <View style={GlobalStyles.rowBetween}>
@@ -150,19 +157,18 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
     }
 
     return (
-        <Container mainStyle={{ flex: 1 }}>
-            <TouchableOpacity onPress={() => navigation.goBack()}
-                style={[GlobalStyles.rowBetween, { marginVertical: hp('1%') }]}>
+        <Container mainStyle={{ flex: 1}}>
+            <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
                 <View style={{ flexDirection: 'row' }}>
-                    <Image source={ImagePath.leftArrow} style={[GlobalStyles.arrowImage, { marginRight: wp('10%') }]} />
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Image source={ImagePath.leftArrow} style={[GlobalStyles.arrowImage, { marginRight: wp('10%') }]} />
+                    </TouchableOpacity>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>{name}</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={{ padding: hp('2%') }} onPress={() => console.log('options')}>
-                    <Image source={ImagePath.options} style={GlobalStyles.arrowImage} />
-                </TouchableOpacity>
-            </TouchableOpacity>
+                <Options visible={visible} setVisible={setVisible} converastionId={conversationId} navigation={navigation}/>
+            </View>
             {showLoaded()}
         </Container>
     )
@@ -198,13 +204,13 @@ const styles = StyleSheet.create({
         right: -wp('4.85%')
     },
     otherChat: {
-        backgroundColor: "#0B93F6",
+        backgroundColor: Colors.gray,
         marginRight: wp('20%'),
         marginLeft: '2%',
         alignSelf: 'flex-start',
     }, leftArrow: {
         position: "absolute",
-        backgroundColor: "#0B93F6",
+        backgroundColor: Colors.gray,
         width: wp('5%'),
         height: wp('5.25%'),
         bottom: 0,

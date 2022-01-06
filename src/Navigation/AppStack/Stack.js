@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import User from './BottomTab'
-import UserProfile from '../../Screens/Search/UserProfile'
+import UserProfile from '../../Screens/Feed/UserProfile'
 import UserChat from "../../Screens/Chat/UserChat";
 
 const Stack = createStackNavigator();
