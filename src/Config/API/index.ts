@@ -1,40 +1,27 @@
 import axios from 'axios'
 
-export const POST = async (url: string, data?: any) => {
+const AXIOS = async (method: string, url: string, data?: any) => {
     try {
+        //@ts-ignore
         const res = await axios({
-            method: 'post',
+            method: method,
             url,
             data,
         })
         return { success: true, data: res?.data || null }
     } catch (e: any) {
-        return { success: false, data: e?.response?.data || null }
+        return { success: false, data: e?.response?.data || "Please check your internet connection" }
     }
+}
+
+export const POST = async (url: string, data?: any) => {
+    return AXIOS("post", url, data)
 }
 
 export const GET = async (url: string, data?: any) => {
-    try {
-        const res = await axios({
-            method: 'get',
-            url,
-            data,
-        })
-        return { success: true, data: res?.data || null }
-    } catch (e: any) {
-        return { success: false, data: e?.response?.data || null }
-    }
+    return AXIOS("get", url, data)
 }
 
 export const PATCH = async (url: string, data?: any) => {
-    try {
-        const res = await axios({
-            method: 'patch',
-            url,
-            data,
-        })
-        return { success: true, data: res?.data || null }
-    } catch (e: any) {
-        return { success: false, data: e?.response?.data || null }
-    }
+    return AXIOS("patch", url, data)
 }

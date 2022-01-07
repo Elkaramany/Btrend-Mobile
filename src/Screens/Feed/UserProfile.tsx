@@ -13,6 +13,7 @@ import GradientButton from '../../Components/GradientButton'
 import InfluencerProfile from '../../Components/InfluencerProfile';
 import CollapsibleBody from '../../Components/CollapsibleBody'
 import GrayedContainer from '../../Components/GrayedContainer'
+import Spinner from '../../Components/Spinner'
 
 interface Props {
     route: any
@@ -28,12 +29,14 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const [typeValue, setTypeValue] = React.useState(false)
     const [needsValue, setNeedsValue] = React.useState(false)
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { loading } = useSelector((state: RootStateOrAny) => state.ChatReducer)
     const isBrand = userType === "Brand"
     const { item, isFavorite } = route.params
     const [favorite, setFavorite] = React.useState(isFavorite)
 
     const pressedMessage = () => {
-        dispatch(MessageUser(token, item._id, navigation))
+        const id = isBrand ? item._id : item.brand._id
+        dispatch(MessageUser(token, id, navigation))
     }
 
     const onFavorite = () => {
@@ -139,9 +142,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         }
                     </View>
                     <SocialStats />
-                    <GradientButton text={'Message'} colors={Colors.gradientButton}
+                    {loading ? <Spinner size={true} /> : <GradientButton text={'Message'} colors={Colors.gradientButton}
                         onPress={() => pressedMessage()} buttonContainerStyle={styles.bottomButton}
-                    />
+                    />}
                     <View style={GlobalStyles.horizontalLine} />
                     {userView()}
                 </View>

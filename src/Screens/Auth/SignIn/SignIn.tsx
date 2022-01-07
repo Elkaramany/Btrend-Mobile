@@ -1,9 +1,8 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Toast from 'react-native-toast-message'
 
-import { Colors, GlobalStyles, validateEmail } from '../../../Config';
+import { Colors, GlobalStyles, validateEmail, ShowToast } from '../../../Config';
 import { GET } from '../../../Config/API';
 import { USERS_URL } from '@env';
 
@@ -33,13 +32,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
             const { success, data }: any = await GET(`${USERS_URL}/verifyEmailSignIn/${email}`)
             dispatch(Credential({ prop: 'loading', value: false }))
             if (success) navigation.navigate('Password', { screenType: "signin" })
-            else {
-                Toast.show({
-                    type: 'error',
-                    text1: `Error signing in with ${authType || "email"}`,
-                    text2: data,
-                });
-            }
+            else ShowToast("error", `Error signing in with ${authType || "email"}`, data)
         }
     }
 

@@ -6,51 +6,80 @@ import { useDispatch, RootStateOrAny, useSelector } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { GlobalStyles, ImagePath, Colors } from '../../Config'
-import { Delete, MarkUnread, Mute, Report } from '../../Redux/Actions'
+import { Delete, MarkUnread, Mute, SendReport } from '../../Redux/Actions'
+import Spinner from '../../Components/Spinner';
 
 interface Props {
     visible: boolean
     setVisible: (val: boolean) => void
     converastionId: string
     navigation: StackNavigationProp<any, any>
+    isMuted: boolean
+    name: string
 }
 
-const Options: React.FC<Props> = ({ visible, setVisible, converastionId, navigation }) => {
+const Options: React.FC<Props> = ({ visible, setVisible, converastionId, navigation, isMuted, name }) => {
     const dispatch = useDispatch()
-    const { token, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const [muted, setMuted] = React.useState(isMuted)
+    const { token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { loading } = useSelector((state: RootStateOrAny) => state.ChatReducer)
+
+    const ReportUser = (reason: string) => {
+        dispatch(SendReport(token, converastionId, reason, setVisible))
+    }
+
+    const GoToReport = () => {
+        setVisible(false)
+        navigation.navigate("Report", { converastionId, name, onReport: (reason: string) => ReportUser(reason), navigation })
+    }
 
     const showOptions = () => {
         if (visible) {
             return (
                 <View style={styles.optionsContainer}>
-                    <TouchableOpacity onPress={() => dispatch(Delete(token, converastionId, navigation))} style={styles.optionContainer}>
-                        <Image source={ImagePath.delete} style={GlobalStyles.arrowImage} />
-                        <Text style={styles.optionText}>Delete</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionContainer}>
-                        <Image source={ImagePath.unread} style={GlobalStyles.arrowImage} />
-                        <Text style={styles.optionText}>Mark as unread</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionContainer}>
-                        <Image source={ImagePath.mute} style={GlobalStyles.arrowImage} />
-                        <Text style={styles.optionText}>Mute</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.optionContainer}>
-                        <Image source={ImagePath.report} style={GlobalStyles.arrowImage} />
-                        <Text style={styles.optionText}>Report</Text>
-                    </TouchableOpacity>
+                    {loading ? <Spinner size={true} /> :
+                        <>
+                            <TouchableOpacity onPress={() => dispatch(Delete(token, converastionId, navigation))}
+                                style={styles.optionContainer}>
+                                <Image source={ImagePath.delete} style={GlobalStyles.arrowImage} />
+                                <Text style={styles.optionText}>Delete</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => dispatch(MarkUnread(token, converastionId, setVisible))}
+                                style={styles.optionContainer}>
+                                <Image source={ImagePath.unread} style={GlobalStyles.arrowImage} />
+                                <Text style={styles.optionText}>Mark as unread</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => dispatch(Mute(token, converastionId, setVisible, muted, setMuted))}
+                                style={styles.optionContainer}>
+                                <Image source={muted ? ImagePath.notification : ImagePath.mute} style={GlobalStyles.arrowImage} />
+                                <Text style={styles.optionText}>{muted ? "Unmute" : "Mute"}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => GoToReport()}
+                                style={styles.optionContainer}>
+                                <Image source={ImagePath.report} style={GlobalStyles.arrowImage} />
+                                <Text style={styles.optionText}>Report</Text>
+                            </TouchableOpacity>
+                        </>
+                    }
                 </View>
+            )
+        }
+    }
+
+    const ShowOptions = () => {
+        if (loading) return <Spinner size={true} />
+        else {
+            return (
+                <TouchableOpacity onPress={() => setVisible(true)}>
+                    <Image source={ImagePath.options} style={GlobalStyles.arrowImage} />
+                </TouchableOpacity>
             )
         }
     }
 
     return (
         <View>
-            {!visible &&
-                <TouchableOpacity style={{ paddingHorizontal: hp('2%') }} onPress={() => setVisible(true)}>
-                    <Image source={ImagePath.options} style={GlobalStyles.arrowImage} />
-                </TouchableOpacity>
-            }
+            {!visible && <View style={{ paddingHorizontal: hp('2%') }}>{ShowOptions()}</View>}
             <Modal
                 visible={visible}
                 transparent={true}
@@ -84,7 +113,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.43,
         shadowRadius: 9.51,
-
         elevation: 15,
     }, optionContainer: {
         flexDirection: 'row',

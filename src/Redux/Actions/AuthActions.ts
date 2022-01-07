@@ -1,7 +1,7 @@
 import { USERS_URL } from '@env'
 import { Props } from '../Types'
 import { POST } from '../../Config/API'
-import Toast from 'react-native-toast-message'
+import { ShowToast } from '../../Config'
 
 interface Cred {
     prop: string
@@ -31,11 +31,7 @@ export const SignIn = (user: SignInType) => async (dispatch: any) => {
 
     if (success) SignInSuccess(dispatch, data)
     else {
-        Toast.show({
-            type: 'error',
-            text1: `Error signing in with ${user.authType || "email"}`,
-            text2: data,
-        });
+        ShowToast("error", `Error signing in with ${user.authType || "email"}`, data)
     }
     changeLoader(dispatch, false)
 }
@@ -45,11 +41,7 @@ export const SignUp = (user: Props) => async (dispatch: any) => {
     const { success, data } = await POST(`${USERS_URL}/signup`, user)
     if (success) SignInSuccess(dispatch, data)
     else {
-        Toast.show({
-            type: 'error',
-            text1: `Error signing up with ${user.authType || "email"}`,
-            text2: data,
-        });
+        ShowToast("error", `Error signing up with ${user.authType || "email"}`, data)
     }
     changeLoader(dispatch, false)
 }
@@ -69,11 +61,7 @@ export const SendCode = (countryCode: string, phone: string, type: string, userT
     if (success) {
         setOTPSent()
     } else {
-        Toast.show({
-            type: 'error',
-            text1: data || "Please try again.",
-            text2: `Error sending code to +${countryCode}${phone}`,
-        });
+        ShowToast("error", data || "Please try again.", `Error sending code to +${countryCode}${phone}`)
     }
     changeLoader(dispatch, false)
 }
@@ -92,11 +80,7 @@ export const SendOTP = (countryCode: string, phone: string, code: string, type: 
         //User is signing up
         else navigation.navigate("PersonalInfo")
     } else {
-        Toast.show({
-            type: 'error',
-            text1: data || "Please try again.",
-            text2: `Error verifying otp to +${countryCode}${phone}`,
-        });
+        ShowToast("error", data || "Please try again.", `Error verifying otp to +${countryCode}${phone}`)
     }
     changeLoader(dispatch, false)
 }

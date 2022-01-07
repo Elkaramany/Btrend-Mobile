@@ -1,7 +1,6 @@
 import React from 'react';
-import Toast from 'react-native-toast-message'
 
-import { validateEmail } from '../../../Config';
+import { validateEmail, ShowToast } from '../../../Config';
 import { GET } from '../../../Config/API';
 import { USERS_URL } from '@env';
 
@@ -43,11 +42,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
                 errors[1] = data[1]
             } else errors[1] = data
 
-            Toast.show({
-                type: 'error',
-                text1: errors[0],
-                text2: errors[1]
-            });
+            ShowToast("error", errors[0], errors[1])
         }
         dispatch(Credential({ prop: 'loading', value: false }))
         return success

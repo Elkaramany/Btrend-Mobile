@@ -6,4 +6,5 @@ declare module '@env' {
     export const USERS_URL: string;
     export const CAMPAIGNS_URL: string;
     export const INFLUENCERS_URL: string;
+    export const CONVERSATIONS_URL: string;
 }  

@@ -37,6 +37,10 @@ const Chat: React.FC<Props> = ({ navigation }) => {
     const socketRef = React.useRef();
 
     React.useEffect(() => {
+        callEmit()
+    }, [])
+
+    const callEmit = () => {
         // @ts-ignore
         socketRef.current = io(BASE_URL, { query: { token } })
         // @ts-ignore
@@ -44,14 +48,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
             setFetchedChats(chats)
             setLoaded(true)
         })
-        // @ts-ignore
-        socketRef.current.on(GET_CHANGES, (newList: any) => {
-            if (newList && newList.length) {
-                // @ts-ignore
-                setFetchedChats(newList)
-            }
-        })
-    }, [])
+    }
 
     React.useEffect(() => {
         setChats(fetchedChats)
@@ -67,21 +64,22 @@ const Chat: React.FC<Props> = ({ navigation }) => {
         }
     }, [search])
 
-    const GoToChat = (conversationId: number, name: string) => {
+    const GoToChat = (conversationId: number, name: string, isMuted: boolean) => {
         // @ts-ignore
-        navigation.navigate("UserChat", { conversationId, name, socketRef })
+        navigation.navigate("UserChat", { conversationId, name, socketRef, isMuted, onCall: () => callEmit() })
     }
 
     const renderItem = (item: any) => {
         const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.companyName
         const photo = isBrand ? item?.influencer?.photo : item?.brand?.photo
         const seen = isBrand ? item?.influencer?.lastSeen : item?.brand?.lastSeen
+        //Calculate last seen
         const hours = moment(new Date).diff(moment(seen), "hours")
         const minutes = moment(new Date).diff(moment(seen), "minutes")
         const days = moment(new Date).diff(moment(seen), "days")
         const lastSeen = minutes < 60 ? minutes === 0 ? `Active now` : `Seen ${minutes} minute(s) ago` : hours < 24 ? `Seen ${hours} hour(s) ago` : `Seen ${days} day(s) ago`
         return (
-            <TouchableOpacity onPress={() => GoToChat(item._id, name)}>
+            <TouchableOpacity onPress={() => GoToChat(item._id, name, item.isMuted)}>
                 <Card style={{ marginVertical: hp('2%') }} >
                     <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%') }]}>
                         <View style={{ flexDirection: 'row' }}>
@@ -92,7 +90,10 @@ const Chat: React.FC<Props> = ({ navigation }) => {
                             </View>
 
                         </View>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={GlobalStyles.rowBetween}>
+                            {item.isMuted &&
+                                <Image source={ImagePath.mute} style={GlobalStyles.arrowImage} />
+                            }
                             {item.unread > 0 &&
                                 <View style={[GlobalStyles.rowBetween, { padding: hp('2%') }]}>
                                     <Text style={GlobalStyles.regularText}>{item.unread}</Text>
@@ -109,6 +110,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
 
     const showChats = () => {
         if (loaded) {
+            if (!chats.length) return <Text style={[GlobalStyles.regularText, { marginTop: hp('5%'), alignSelf: 'center' }]}>Looks like you don't have any chats</Text>
             return (
                 <FlatList
                     data={chats}

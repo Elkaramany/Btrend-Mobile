@@ -1,7 +1,6 @@
 import React from 'react'
 import { Alert, StyleSheet, Text } from 'react-native'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import Toast from 'react-native-toast-message';
 import {
     CodeField,
     Cursor,
@@ -13,7 +12,7 @@ import { TextInput } from 'react-native-paper';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Credential } from '../../../Redux/Actions';
-import { Colors, GlobalStyles, validateEmail, validatePassword } from '../../../Config';
+import { Colors, GlobalStyles, validateEmail, validatePassword, ShowToast } from '../../../Config';
 import { POST, PATCH } from '../../../Config/API';
 import { USERS_URL } from '@env';
 
@@ -56,25 +55,13 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
                         ]
                     );
                 }
-                else {
-                    Toast.show({
-                        type: 'error',
-                        text1: `Something went wrong`,
-                        text2: data,
-                    });
-                }
+                else ShowToast("error", `Something went wrong`, data)
             }
         } else {
             if (validateEmail(email)) {
                 const { success }: any = await POST(`${USERS_URL}/sendEmailVerification/${email}`)
                 if (success) setCodeSent(true)
-                else {
-                    Toast.show({
-                        type: 'info',
-                        text1: `If ${email} is registered with us`,
-                        text2: "You'll find a verification code in your inbox",
-                    });
-                }
+                else ShowToast("info", `If ${email} is registered with us`, "You'll find a verification code in your inbox")
             }
         }
         setLoading(false)

@@ -5,6 +5,8 @@ import {
     FlatList, ScrollView, TouchableWithoutFeedback
 } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { Svg, Path } from 'react-native-svg'
+import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { TextInput } from 'react-native-paper'
 
 import moment from "moment";
@@ -30,7 +32,7 @@ const RECEIVE_MESSAGE = "receiveMessage"
 const SEND_MESSAGE = "sendMessage"
 
 const UserChat: React.FC<Props> = ({ route, navigation }) => {
-    const { conversationId, name, socketRef } = route.params
+    const { conversationId, name, socketRef, isMuted, onCall } = route.params
     const [text, setText] = React.useState('')
     const { _id } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const [messages, setMessages, messagesRef] = useStateRef([]);
@@ -91,11 +93,45 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                 }
                 {item.type === "text" &&
                     <View key={item._id} style={[styles.chatContainer, msgFromMe ? styles.myChat : styles.otherChat]}>
-
-                        <Text style={[GlobalStyles.regularText, { color: msgFromMe ? Colors.primary : Colors.secondary }]}>
-                            {item.content}
-                        </Text>
-                        {showBubble(_id, item.from)}
+                        {msgFromMe ?
+                            <View style={[styles.balloon, { backgroundColor: Colors.darkRed }]}>
+                                <Text style={{ paddingTop: 5, color: 'white' }}>{item.content}</Text>
+                                <View
+                                    style={[
+                                        styles.arrowContainer,
+                                        styles.arrowRightContainer,
+                                    ]}
+                                >
+                                    <Svg style={styles.arrowRight} width={moderateScale(15.5, 0.6)} height={moderateScale(17.5, 0.6)} viewBox="32.485 17.5 15.515 17.5" enable-background="new 32.485 17.5 15.515 17.5">
+                                        <Path
+                                            d="M48,35c-7-4-6-8.75-6-17.5C28,17.5,29,35,48,35z"
+                                            fill={Colors.darkRed}
+                                            x="0"
+                                            y="0"
+                                        />
+                                    </Svg>
+                                </View>
+                            </View>
+                            :
+                            <View style={[styles.balloon, { backgroundColor: Colors.gray }]}>
+                                <Text style={{ paddingTop: 5, color: Colors.secondary }}>{item.content}</Text>
+                                <View
+                                    style={[
+                                        styles.arrowContainer,
+                                        styles.arrowLeftContainer,
+                                    ]}
+                                >
+                                    <Svg style={styles.arrowLeft} width={moderateScale(15.5, 0.6)} height={moderateScale(17.5, 0.6)} viewBox="32.484 17.5 15.515 17.5" enable-background="new 32.485 17.5 15.515 17.5">
+                                        <Path
+                                            d="M38.484,17.5c0,8.75,1,13.5-6,17.5C51.484,35,52.484,17.5,38.484,17.5z"
+                                            fill={Colors.gray}
+                                            x="0"
+                                            y="0"
+                                        />
+                                    </Svg>
+                                </View>
+                            </View>
+                        }
                     </View>
                 }
                 {item.type === "image" &&
@@ -103,24 +139,6 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                 }
             </>
         )
-    }
-
-    const showBubble = (id: number, from: number) => {
-        if (id === from) {
-            return (
-                <>
-                    <View style={styles.rightArrow} />
-                    <View style={styles.rightArrowOverlap} />
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <View style={styles.leftArrow} />
-                    <View style={styles.leftArrowOverlap} />
-                </>
-            )
-        }
     }
 
     const showLoaded = () => {
@@ -156,18 +174,24 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
         } else return <Spinner size={false} />
     }
 
+    const GoBack = () => {
+        onCall()
+        navigation.goBack()
+    }
+
     return (
-        <Container mainStyle={{ flex: 1}}>
+        <Container mainStyle={{ flex: 1 }}>
             <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <TouchableOpacity onPress={() => GoBack()}>
                         <Image source={ImagePath.leftArrow} style={[GlobalStyles.arrowImage, { marginRight: wp('10%') }]} />
                     </TouchableOpacity>
                     <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                         <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>{name}</Text>
                     </View>
                 </View>
-                <Options visible={visible} setVisible={setVisible} converastionId={conversationId} navigation={navigation}/>
+                <Options visible={visible} setVisible={setVisible} converastionId={conversationId}
+                    navigation={navigation} isMuted={isMuted} name={name} />
             </View>
             {showLoaded()}
         </Container>
@@ -176,56 +200,55 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
     chatContainer: {
-        marginVertical: hp('0.75%'),
-        borderRadius: hp('2%'),
-        padding: hp('1%'),
-        minWidth: wp('10%')
+        marginVertical: moderateScale(7, 2),
+        borderRadius: moderateScale(15),
+        minWidth: moderateScale(50)
     }, myChat: {
         backgroundColor: Colors.darkRed,
         marginLeft: '20%',
         marginRight: "2%",
         alignSelf: 'flex-end',
-    }, rightArrow: {
-        position: "absolute",
-        backgroundColor: Colors.darkRed,
-        width: wp('5%'),
-        height: wp('5.25%'),
-        bottom: 0,
-        borderBottomLeftRadius: wp('10%'),
-        right: -wp('2.45%')
-    },
-    rightArrowOverlap: {
-        position: "absolute",
-        backgroundColor: Colors.primary,
-        width: wp('4.85%'),
-        height: wp('10%'),
-        bottom: -wp('1%'),
-        borderBottomLeftRadius: wp('5%'),
-        right: -wp('4.85%')
     },
     otherChat: {
         backgroundColor: Colors.gray,
-        marginRight: wp('20%'),
+        marginRight: "20%",
         marginLeft: '2%',
         alignSelf: 'flex-start',
-    }, leftArrow: {
-        position: "absolute",
-        backgroundColor: Colors.gray,
-        width: wp('5%'),
-        height: wp('5.25%'),
+    }, arrowContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
         bottom: 0,
-        borderBottomRightRadius: wp('10%'),
-        left: -wp('2.45%')
+        zIndex: -1,
+        flex: 1
     },
-    leftArrowOverlap: {
-        position: "absolute",
-        backgroundColor: Colors.primary,
-        width: wp('4.85%'),
-        height: wp('10%'),
-        bottom: -wp('1%'),
-        borderBottomRightRadius: wp('5%'),
-        left: -wp('4.85%')
-    }, inputImage: {
+    arrowLeftContainer: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start'
+    },
+
+    arrowRightContainer: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+    },
+
+    arrowLeft: {
+        left: moderateScale(-6, 0.5),
+    },
+
+    arrowRight: {
+        right: moderateScale(-6, 0.5),
+    }
+    , balloon: {
+        maxWidth: moderateScale(250, 2),
+        paddingHorizontal: moderateScale(10, 2),
+        paddingTop: moderateScale(5, 2),
+        paddingBottom: moderateScale(7, 2),
+        borderRadius: 20,
+    },
+
+    inputImage: {
         height: hp('3%'),
         width: hp('3%'),
         resizeMode: 'contain'
@@ -234,7 +257,7 @@ const styles = StyleSheet.create({
         height: hp('20%'),
         resizeMode: 'cover',
         borderRadius: hp('5%'),
-    }
+    },
 })
 
 export default UserChat

@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import ImagePicker from 'react-native-image-crop-picker';
+import Toast from 'react-native-toast-message'
 
 export const validateName = (name: string): boolean => {
     if (!name || name.length < 2) return false;
@@ -98,4 +99,19 @@ export const getSuggesions = (text: string, arr: any[]): any[] => {
     return arr.filter(
         (val) => val.toLowerCase().indexOf(text.toLowerCase()) > -1
     );
+}
+
+export const ShowToast = (type: string, text1: string, text2?: string) => {
+    if (text2?.length) {
+        Toast.show({
+            type,
+            text1,
+            text2,
+        });
+    } else {
+        Toast.show({
+            type,
+            text1,
+        });
+    }
 }

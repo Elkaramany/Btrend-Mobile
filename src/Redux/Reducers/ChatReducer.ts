@@ -6,7 +6,7 @@ const INITIAL_STATE: ChatArr = {
 
 export default (state = INITIAL_STATE, action: Action) => {
     switch (action.type) {
-        case 'Switch_Loading':
+        case 'Loading_Message':
             return { ...state, loading: action.payload }
         default:
             return state

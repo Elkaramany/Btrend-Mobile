@@ -2,8 +2,7 @@ import React from 'react'
 import {
     View, StyleSheet, Image, Text,
     TouchableOpacity,
-}
-    from 'react-native'
+} from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -21,7 +20,6 @@ import Feed from './Feed';
 interface Props {
     navigation: StackNavigationProp<any, any>,
 }
-
 
 const Search: React.FC<Props> = ({ navigation }) => {
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
