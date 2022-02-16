@@ -1,58 +1,71 @@
 import React from 'react'
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import { ImagePath } from '../Config'
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native'
+import { Colors, GlobalStyles, ImagePath } from '../Config'
 
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 const Name: React.FC = () => {
-    const [selected, setSelected] = React.useState('Instagram')
+    const [connected, setConnected] = React.useState<string[]>([])
+
+    const addConnectedSocial = (social: string) => {
+        let arr = []
+        if (connected.includes(social)) {
+            for (let i = 0; i < connected.length; i++) {
+                if (connected[i] != social) {
+                    arr.push(connected[i])
+                }
+            }
+        } else {
+            arr = [...connected]
+            arr.push(social)
+        }
+        setConnected(arr)
+    }
+
+    const socialIcon = (title: string, firstImg: any, secondImg: any) => {
+        return (
+            <TouchableOpacity
+                style={{ flexDirection: 'row', justifyContent: 'space-between', width: '90%' }}
+                onPress={() => addConnectedSocial(title)}
+            >
+                <View style={GlobalStyles.rowAround}>
+                    <Image source={connected.includes(title) ? firstImg : secondImg}
+                        style={styles.socialMediaIcon} />
+                    <Text style={GlobalStyles.regularText}>{title}</Text>
+                </View>
+
+                <View style={GlobalStyles.rowAround}>
+                    {connected.includes(title) ?
+                        <>
+                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Connected</Text>
+                            <Image source={ImagePath.rightMarker}
+                                style={styles.markerIcon} />
+                        </>
+                        :
+                        <>
+                            <Text style={GlobalStyles.regularText}>Connect</Text>
+                            <Image source={ImagePath.orangeArrow}
+                                style={styles.markerIcon} />
+                        </>
+
+                    }
+                </View>
+            </TouchableOpacity>
+        )
+    }
 
     return (
         <View
             style={{
-                flexDirection: "row",
                 justifyContent: 'center',
                 alignItems: 'center',
             }}
         >
-            <TouchableOpacity
-                style={{ marginEnd: 25 }}
-                onPress={() => setSelected("Instagram")}
-            >
-
-                <Image source={selected === "Instagram" ? ImagePath.insta_select : ImagePath.ic_insta}
-                    style={styles.socialMediaIcon} />
-
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={{ marginEnd: 25 }}
-                onPress={() => setSelected("Tiktok")}
-            >
-
-
-                <Image source={selected === "Tiktok" ? ImagePath.tiktok_select : ImagePath.ic_tiktok}
-                    style={styles.socialMediaIcon} />
-
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                style={{ marginEnd: 25 }}
-                onPress={() => setSelected("Snapchat")}
-            >
-
-                <Image source={selected === "Snapchat" ? ImagePath.snapchat_select : ImagePath.ic_snapchat}
-                    style={styles.socialMediaIcon} />
-
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => setSelected("Youtube")}>
-
-                <Image source={selected === "Youtube" ? ImagePath.youtube_select : ImagePath.ic_youtube}
-                    style={styles.socialMediaIcon} />
-
-            </TouchableOpacity>
-        </View>
+            {socialIcon("Instagram", ImagePath.insta_select, ImagePath.ic_insta)}
+            {socialIcon("Tiktok", ImagePath.tiktok_select, ImagePath.ic_tiktok)}
+            {socialIcon("Snapchat", ImagePath.snapchat_select, ImagePath.ic_snapchat)}
+            {socialIcon("Youtube", ImagePath.youtube_select, ImagePath.ic_youtube)}
+        </View >
     )
 }
 
@@ -61,6 +74,18 @@ const styles = StyleSheet.create({
         width: wp('12%'),
         height: wp('12%'),
         marginVertical: hp('2%'),
+        marginRight: wp('5%')
+    },
+    markerIcon: {
+        width: wp('9%'),
+        height: wp('9%'),
+        resizeMode: 'contain',
+        marginLeft: wp('5%')
+    },
+    socialButton: {
+        width: '90%',
+        alignItems: 'center',
+        flexDirection: 'row'
     }
 })
 

@@ -17,10 +17,6 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
-interface ArrItem {
-    item: string
-}
-
 const Categories: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [arr, setArr] = React.useState<string[]>([])
@@ -28,10 +24,6 @@ const Categories: React.FC<Props> = ({ navigation }) => {
     const pressedContinue = () => {
         dispatch(Credential({ prop: 'categories', value: arr }))
         navigation.navigate("PhotosVideos")
-    }
-
-    const renderItem = (item: ArrItem) => {
-
     }
 
     return (

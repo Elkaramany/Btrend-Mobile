@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { Colors, GlobalStyles, validateEmail, ShowToast } from '../../../Config';
@@ -12,6 +12,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../../Components/Container';
 import HeaderArrow from '../../../Components/HeaderArrow';
+import Footer from '../Footer'
 
 import { GoogleLogin } from '../../../Config/Utils/Google'
 import FacebookLogin from '../../../Config/Utils/Facebook'
@@ -74,30 +75,15 @@ const Home: React.FC<Props> = ({ navigation }) => {
                 {!loading &&
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Trouble")}
-                        style={{ marginTop: hp('2%') }}
+                        style={{ marginTop: hp('5%') }}
                     >
                         <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Trouble signing in?</Text>
                     </TouchableOpacity>}
 
             </Container>
-            <TouchableOpacity style={styles.signUpButton}
-                onPress={() => loading ? {} : navigation.navigate("EmailSignUp")}
-            >
-                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>Need an accout?</Text>
-                <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%'), fontWeight: '500', color: Colors.brightRed }]}>Create Account</Text>
-            </TouchableOpacity>
+            <Footer title={'Need an account?'} text={'Create Account'} routing={() => navigation.navigate("EmailSignUp")} />
         </>
     )
 }
-
-const styles = StyleSheet.create({
-    signUpButton: {
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: Colors.lightGray,
-        marginBottom: hp('3%'),
-        paddingTop: hp('2%')
-    },
-})
 
 export default Home

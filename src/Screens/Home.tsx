@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { GlobalStyles, Colors, ImagePath } from '../Config'
@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../Components/Container'
-import Header from '../Components/Header'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -24,27 +23,19 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <View style={styles.headerStyle}>
-                <Header headerText={"Let's get \nstarted"} />
-            </View>
-            <Text style={[GlobalStyles.regularText, { color: Colors.tertiary }]}>Select your account type</Text>
+            <Text style={[GlobalStyles.regularText, { fontSize: hp('4%'), fontWeight: 'bold' }, styles.headerStyle]}>Let's get started</Text>
+            <Text style={[GlobalStyles.regularText, { color: Colors.tertiary, marginTop: hp('1.5%'), marginBottom: hp('6%') }]}>Select your account type</Text>
 
             <TouchableOpacity
                 onPress={() => navigateToSignIn("Influencer")}
                 style={styles.cardStyle}>
                 <Image source={ImagePath.profilePicture} style={styles.cardImg} />
-                <Header headerText={"I am an \nInfluencer"} textStyle={{ fontSize: hp('3.5%') }}
-                    headerStyle={{ justifyContent: 'center' }} />
-                <Image source={ImagePath.rightArrow} style={[GlobalStyles.arrowImage, styles.arrowStyle]} />
             </TouchableOpacity>
 
             <TouchableOpacity
                 onPress={() => navigateToSignIn("Brand")}
                 style={styles.cardStyle}>
                 <Image source={ImagePath.brand} style={styles.cardImg} />
-                <Header headerText={"I am a \nBrand"} headerStyle={{ justifyContent: 'center' }}
-                    textStyle={{ fontSize: hp('3.5%') }} />
-                <Image source={ImagePath.rightArrow} style={[GlobalStyles.arrowImage, styles.arrowStyle]} />
             </TouchableOpacity>
         </Container>
     )
@@ -55,22 +46,13 @@ const styles = StyleSheet.create({
         marginTop: hp('10%'),
         alignItems: 'flex-start',
     }, cardStyle: {
-        justifyContent: 'space-around',
-        borderWidth: wp('0.3%'),
-        borderColor: Colors.gray,
-        borderRadius: wp('10%'),
-        marginVertical: hp('1.5%'),
-        flexDirection: 'row',
-        alignItems: 'center'
+        marginVertical: hp('2%'),
+        alignSelf: 'center'
     }, cardImg: {
-        width: wp('35%'),
-        height: wp('35%'),
-        resizeMode: 'contain'
-    }, arrowStyle: {
-        alignSelf: 'flex-end',
-        marginBottom: hp('2.5%'),
-        marginRight: wp('2%')
-    }
+        width: wp('90%'),
+        height: hp('25%'),
+        borderRadius: hp('4%'),
+    },
 })
 
 export default Home

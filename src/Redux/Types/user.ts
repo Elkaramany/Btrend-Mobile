@@ -27,5 +27,6 @@ export interface Props {
     loading: boolean
     companyName: string
     companyEmail: string
+    companyPhotos: any[]
     brandInformation: string
 }

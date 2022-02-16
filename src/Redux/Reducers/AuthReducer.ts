@@ -19,6 +19,7 @@ const INITIAL_STATE: Props = {
   loading: false,
   companyName: '',
   companyEmail: '',
+  companyPhotos: [null, null, null, null],
   brandInformation: '',
 }
 

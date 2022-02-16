@@ -35,7 +35,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
         if (passwordVerified) {
             if (isSignUp) {
                 dispatch(Credential({ prop: 'authType', value: "email" }))
-                navigation.navigate("PersonalInfo")
+                navigation.navigate("PhotosVideos")
             } else dispatch(SignIn({ authType: "email", email, password, userType }))
         }
     }

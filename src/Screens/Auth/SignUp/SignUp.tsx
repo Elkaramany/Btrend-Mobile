@@ -10,6 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import Container from '../../../Components/Container';
 import HeaderArrow from '../../../Components/HeaderArrow';
+import Footer from '../Footer';
 import { GoogleLogin } from '../../../Config/Utils/Google'
 import FacebookLogin from '../../../Config/Utils/Facebook';
 import AppleLogin from '../../../Config/Utils/Apple';
@@ -94,15 +95,20 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
     }
 
     return (
-        <Container>
-            <HeaderArrow headerText={'Create Account'} navigateMeBack={() => navigation.goBack()} />
+        <>
+            <Container>
+                <HeaderArrow headerText={'Create Account'} navigateMeBack={() => navigation.goBack()} />
 
-            <LoginMethods label={'Email'} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
-                apple={() => Apple()}
-                google={() => Google()}
-                facebook={() => Facebook()}
-                phone={() => Phone()} />
-        </Container>
+                <LoginMethods label={'Email'} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
+                    apple={() => Apple()}
+                    google={() => Google()}
+                    facebook={() => Facebook()}
+                    phone={() => Phone()} />
+
+
+            </Container>
+            <Footer title={'Already have an account?'} text={'Sign in'} routing={() => navigation.goBack()} />
+        </>
     )
 }
 

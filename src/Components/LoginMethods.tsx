@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Credential } from '../Redux/Actions';
@@ -42,10 +42,12 @@ const LoginMethods: React.FC<Props> = ({ pressedContinue = () => { }, phone = ()
 
                 <View style={{ backgroundColor: Colors.gray, height: hp('0.2%'), marginVertical: hp('4%') }} />
 
-                <SocialButton text={'Continue with Phone'} imageName={ImagePath.phone} onPress={() => phone()} />
-                <SocialButton text={'Continue with Google'} imageName={ImagePath.google} onPress={() => google()} />
-                <SocialButton text={'Continue with Facebook'} imageName={ImagePath.fb} onPress={() => facebook()} />
-                {IOS && <SocialButton text={'Continue with Apple'} imageName={ImagePath.apple} onPress={() => apple()} />}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+                    <SocialButton imageName={ImagePath.phone} onPress={() => phone()} />
+                    {IOS && <SocialButton imageName={ImagePath.apple} onPress={() => apple()} />}
+                    <SocialButton imageName={ImagePath.google} onPress={() => google()} />
+                    <SocialButton imageName={ImagePath.fb} onPress={() => facebook()} />
+                </View>
             </>
         )
     }

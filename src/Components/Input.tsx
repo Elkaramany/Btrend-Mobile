@@ -6,9 +6,9 @@ import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const textInputTheme = {
     colors: {
-        placeholder: Colors.secondary, text: Colors.tertiary, primary: Colors.secondary,
+        placeholder: Colors.secondary, text: Colors.secondary, primary: Colors.secondary,
         underlineColor: Colors.secondary, background: Colors.primary
-    }, roundness: hp('1.75%')
+    }, roundness: hp('3%')
 }
 
 interface Props {

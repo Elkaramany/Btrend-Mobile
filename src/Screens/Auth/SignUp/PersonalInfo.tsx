@@ -8,8 +8,11 @@ import { ProgressBar } from 'react-native-paper';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ClearAll, Credential } from '../../../Redux/Actions';
-import { Colors, ImagePath, GlobalStyles, validateName, validateEmail, ArabCountries } from '../../../Config';
-import { handleSelection } from '../../../Config';
+import {
+    Colors, ImagePath, GlobalStyles, validateName,
+    validateEmail, ArabCountries, handleSelection
+}
+    from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'

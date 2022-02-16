@@ -10,9 +10,9 @@ const Colors = {
     primary: '#FFFFFF',
     secondary: '#000000',
     tertiary: "#666666",
-    darkRed: "#D9453F",
-    brightRed: '#EA7757',
-    gradientButton: ["#EA7757", '#D9453F'],
+    darkRed: "#EE0979",
+    brightRed: '#FF6A00',
+    gradientButton: ['#EE0979', '#FF6A00'],
     disabledButton: ["#E0E0E0", "#E0E0E0"],
     lightGray: "#F2F2F2",
     mediumGray: "#C4C4C4",
@@ -31,11 +31,21 @@ const GlobalStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center'
     },
+    rowAround: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center'
+    },
+    rowCenter: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
     buttonContainer: {
         backgroundColor: Colors.primary,
         padding: wp('2.4%'),
         paddingVertical: hp('1.5%'),
-        borderRadius: hp('1.75%'),
+        borderRadius: wp('7%'),
         borderWidth: wp('0.3%'),
         borderColor: Colors.gray,
         width: '100%'
