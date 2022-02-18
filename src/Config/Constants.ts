@@ -74,7 +74,7 @@ const GlobalStyles = StyleSheet.create({
     }, horizontalLine: {
         alignSelf: 'center',
         backgroundColor: Colors.mediumGray,
-        height: hp('0.25%'),
+        height: hp('0.15%'),
         width: wp('85%'),
         marginVertical: hp('1%')
     }, roundedImg: {

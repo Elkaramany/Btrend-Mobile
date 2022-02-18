@@ -51,19 +51,21 @@ const Search: React.FC<Props> = ({ navigation }) => {
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
             <Container mainStyle={{ flex: 1 }}>
-                <View style={GlobalStyles.rowBetween}>
+                <View style={GlobalStyles.rowAround}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Image source={ImagePath.backArrow} style={[GlobalStyles.arrowImage, { marginRight: wp('5%') }]} />
+                    </TouchableOpacity>
                     <Input
-                        label={'Search'}
+                        label={'What do you want to search?'}
                         value={filters.search}
                         onChangeText={(text) => changeFilter("search", text)}
-                        inputStyle={{ width: wp('80%'), marginBottom: 0 }}
-                        rightIcon={<TextInput.Icon name={"close"} color={Colors.darkGray} onPress={() => setFilters({ ...INITIAL_FILTERS, token })} />}
+                        inputStyle={{ width: wp('75%'), marginBottom: 0 }}
+                        rightIcon={filters.search.length ? <TextInput.Icon name={"close"} color={Colors.darkGray} onPress={() => setFilters({ ...INITIAL_FILTERS, token })} /> : null}
                     />
-
                     <TouchableOpacity onPress={() => setVisible(true)}>
-                        <Image source={ImagePath.filter} style={[GlobalStyles.arrowImage, { paddingHorizontal: wp('3%'), marginHorizontal: wp('5%') }]} />
+                        <Image source={ImagePath.filter} style={[GlobalStyles.arrowImage, { marginLeft: wp('4%') }]} />
                     </TouchableOpacity>
-                    
+
                     <BottomSheet modalVisible={visible} hideModal={() => setVisible(false)}
                         clearFilters={() => setFilters({ ...INITIAL_FILTERS, token })}
                         filters={filters}

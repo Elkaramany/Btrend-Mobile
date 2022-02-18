@@ -1,6 +1,7 @@
 import { CategoriesArr } from "../../Config";
 
 export interface Filter {
+    name: string
     categories: string[]
     language: string
     location: string[]
@@ -13,6 +14,7 @@ export interface Filter {
 }
 
 export const INITIAL_FILTERS = {
+    name: '',
     categories: [], language: '',
     location: [], range: [1000, 50000],
     payment: '', search: '',

@@ -5,7 +5,8 @@ import {
   ScrollView, Image
 } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import MaskedView from "@react-native-community/masked-view";
+import GradientText from '../../Components/GradientText';
 
 import { useSelector, RootStateOrAny } from 'react-redux'
 
@@ -31,6 +32,7 @@ interface Props {
 
 const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, changeFilter, clearFilters, pressedSearch }) => {
   const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+  const isBrand = userType === "Brand"
   const [categoriesText, setCategoriesText] = React.useState('')
   const [locationsText, setLocationsText] = React.useState('')
   const [googlePlacesPredictions, setGooglePlacesPredictions] = React.useState<string[]>([])
@@ -59,7 +61,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
   }
 
   const showBrandFilters = () => {
-    if (userType === "Brand") {
+    if (isBrand) {
       return (
         <FollowersEngagement nof={filters.nof} engagementRate={filters.engagementRate} changeFilter={changeFilter} />
       )
@@ -93,6 +95,13 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                   <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
                 </TouchableOpacity>
               </View>
+
+              <Input
+                label={`${isBrand ? 'Influencer' : 'Brand'} Name`}
+                value={filters.name}
+                onChangeText={(text) => changeFilter('name', text)}
+                inputStyle={{ width: wp('90%'), marginBottom: 5 }}
+              />
 
               <Input
                 label={'Categories'}
@@ -131,7 +140,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                   onChangeText={(text) => changeFilter('range', [parseInt(text), filters.range[1]])}
                   inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
-                <Text style={[GlobalStyles.regularText,{marginHorizontal: wp('1%')}]}>to</Text>
+                <Text style={[GlobalStyles.regularText, { marginHorizontal: wp('1%') }]}>to</Text>
                 <Input
                   type={'numeric'}
                   label={'$'}
@@ -154,14 +163,16 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                   onPress={() => changeFilter('payment', "Other")}
                 />
               </View>
-              <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%') }]}>
+
+              <View style={{ marginBottom: hp('5%'), alignItems: 'center', justifyContent: 'center' }}>
                 <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                  onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
+                  onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('80%'), marginHorizontal: wp('5%'), marginBottom: hp('1%') }}
                 />
-                <GradientButton text={'Clear all'} colors={Colors.disabledButton}
-                  onPress={() => clearFilters()} buttonContainerStyle={{ width: wp('40%'), marginHorizontal: wp('5%') }}
-                />
+                <TouchableOpacity onPress={() => clearFilters()} style={{ flex: 1, padding: wp('5%'), width: '50%' }}>
+                  <Text style={[GlobalStyles.regularText, { fontWeight: 'bold' }]}> Clear All</Text>
+                </TouchableOpacity>
               </View>
+
             </View>
           </ScrollView>
         </View>
@@ -178,7 +189,7 @@ const styles = StyleSheet.create({
     width: wp('80%'),
     marginBottom: hp('1%'),
   }, modalView: {
-    marginTop: hp('30%'),
+    marginTop: hp('15%'),
     height: '100%',
     width: wp('100%'),
     backgroundColor: "white",

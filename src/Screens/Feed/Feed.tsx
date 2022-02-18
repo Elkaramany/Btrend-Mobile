@@ -1,11 +1,11 @@
 import React from 'react'
-import { Text, FlatList } from 'react-native'
+import { Text, FlatList, Image, View } from 'react-native'
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { UserSwipe } from '../../Redux/Actions'
 
-import { GlobalStyles } from '../../Config';
+import { GlobalStyles, ImagePath } from '../../Config';
 
 import Spinner from '../../Components/Spinner'
 import UserCard from './UserCard'
@@ -31,21 +31,25 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
     if (loading) return <Spinner size={false} />
     else {
         if (!arr.length) {
-            return <Text style={[GlobalStyles.regularText, { marginTop: hp('5%') }]}>Nothing to show for now, come back later!</Text>
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', bottom: hp('10%') }}>
+                    <Image
+                        source={ImagePath.emptySearch}
+                        style={{ width: wp('25%'), height: wp('25%'), alignSelf: 'center' }}
+                    />
+                </View>
+            )
         }
         return (
-            <>
-                <Text style={[GlobalStyles.regularText, { fontWeight: '600', marginVertical: hp('2%'), marginLeft: wp('2%') }]}>Most Popular</Text>
-
-                <FlatList
-                    data={arr}
-                    keyExtractor={(item, index) => `${item.id}-${index}`}
-                    renderItem={({ item }) => <UserCard
-                        item={item} onSwipe={onSwipe} navigation={navigation}
-                    />
-                    }
+            <FlatList
+                contentContainerStyle={{marginBottom: hp('10%'), marginTop: hp('2%')}}
+                data={arr}
+                keyExtractor={(item, index) => `${item.id}-${index}`}
+                renderItem={({ item }) => <UserCard
+                    item={item} onSwipe={onSwipe} navigation={navigation}
                 />
-            </>
+                }
+            />
         )
     }
 }

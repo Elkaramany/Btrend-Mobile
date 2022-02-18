@@ -13,6 +13,7 @@ import { SearchFeed } from '../../Redux/Actions'
 
 import Container from '../../Components/Container'
 import AddCampaign from './AddCampaign'
+import Match from './Match'
 
 import { INITIAL_FILTERS } from '../Search/Types';
 import Feed from './Feed';
@@ -26,39 +27,46 @@ const Search: React.FC<Props> = ({ navigation }) => {
     const { fetchedArray } = useSelector((state: RootStateOrAny) => state.SearchReducer)
     const [arr, setArr] = React.useState<any[]>([])
     const [campaignVisible, setCampaignVisible] = React.useState(false)
+    const [hasMatch, setHasMatch] = React.useState(true)
     const dispatch = useDispatch()
 
     React.useEffect(() => {
         dispatch(SearchFeed({ ...INITIAL_FILTERS, token }, userType))
     }, [])
-    
+
     React.useEffect(() => {
         setArr(fetchedArray)
     }, [fetchedArray])
 
-    return (
-        <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-            <Container mainStyle={{ flex: 1 }}>
-                <View style={GlobalStyles.rowBetween}>
-                    <Image source={ImagePath.btrend} style={styles.logo} />
+    if (hasMatch) {
+        return <Match hasMatch={() => setHasMatch(false)} navigation={navigation} />
+    } else {
+        return (
+            <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
+                <Container mainStyle={{ flex: 1 }}>
                     <View style={GlobalStyles.rowBetween}>
-                        <Text style={GlobalStyles.regularText}></Text>
-                        <Image source={ImagePath.notification} style={GlobalStyles.arrowImage} />
+                        <Image source={ImagePath.btrendBlack} style={styles.logo} />
+                        <View style={GlobalStyles.rowBetween}>
+                            <Text style={GlobalStyles.regularText}></Text>
+                            <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+                                <Image source={ImagePath.search} style={[GlobalStyles.arrowImage, { right: wp('3%') }]} />
+                            </TouchableOpacity>
+                        </View>
                     </View>
-                </View>
-                <Feed arr={arr} navigation={navigation} setArr={setArr} />
+                    <Feed arr={arr} navigation={navigation} setArr={setArr} />
 
-                {userType === "Brand" &&
-                    <View style={styles.addButton}>
-                        <TouchableOpacity onPress={() => setCampaignVisible(true)}>
-                            <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
-                        </TouchableOpacity>
-                        <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
-                    </View>
-                }
-            </Container>
-        </View>
-    )
+                    {userType === "Brand" &&
+                        <View style={styles.addButton}>
+                            <TouchableOpacity onPress={() => setCampaignVisible(true)}>
+                                <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
+                            </TouchableOpacity>
+                            <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
+                        </View>
+                    }
+                </Container>
+            </View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -71,8 +79,8 @@ const styles = StyleSheet.create({
         marginBottom: hp('2%'),
         marginRight: wp('3%')
     }, logo: {
-        width: wp('35%'),
-        height: hp('10%'),
+        width: wp('30%'),
+        height: hp('8%'),
         resizeMode: 'contain'
     }
 })

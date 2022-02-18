@@ -39,6 +39,7 @@ export const ImagePath = {
 
   notification: require('./assets/images/notification.png'),
   btrend: require('./assets/images/btrend_logo.png'),
+  btrendBlack: require('./assets/images/btrendBlack.png'),
 
   product1: require('./assets/images/product1.png'),
   product2: require('./assets/images/product2.png'),
@@ -52,6 +53,7 @@ export const ImagePath = {
   options: require('./assets/images/options.png'),
   brandImg2: require('./assets/images/brandImg2.png'),
   horizontalLine2: require('./assets/images/horizontalLine2.png'),
+  emptySearch: require('./assets/images/emptySearch.png'),
 
   //Profile Screen
   coverPhoto: require('./assets/images/coverPhoto.png'),
@@ -88,6 +90,7 @@ export const ImagePath = {
   rightSlide: require('./assets/images/Group216.png'),
   leftSlide: require('./assets/images/Group214.png'),
   ic_upward: require('./assets/images/ic_upward.png'),
+  backArrow: require('./assets/images/backArrow.png'),
   ic_crosss: require('./assets/images/ic_crosss.png'),
   remove: require('./assets/images/remove.png'),
   tiktok: require('./assets/images/tiktok_logo.png'),
@@ -131,6 +134,8 @@ export const ImagePath = {
   playAudio: require('./assets/images/playAudio.png'),
 
   matched: require('./assets/images/match.png'),
+  matchedColored: require('./assets/images/matchColored.png'),
+  matchIcon: require('./assets/images/matchIcon.png'),
   imgPlace: require('./assets/images/imgPlace.png'),
   work: require('./assets/images/work.png'),
   workFocus: require('./assets/images/workFocus.png'),

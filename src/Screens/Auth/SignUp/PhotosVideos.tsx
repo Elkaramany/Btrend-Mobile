@@ -51,10 +51,7 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
             {userType == "Influencer" ? (
                 <>
                     <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, marginBottom: hp('2%') }]}>
-                        Show us the fabulous you to get the Brands to know you better!
-                    </Text>
-                    <Text style={GlobalStyles.regularText}>
-                        Please  connect at least one of your social media accounts to start using Btrend.
+                        Connect your Social Media Account to see the Brand offers!
                     </Text>
                     <AllSocials />
                 </>

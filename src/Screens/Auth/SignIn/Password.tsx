@@ -35,7 +35,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
         if (passwordVerified) {
             if (isSignUp) {
                 dispatch(Credential({ prop: 'authType', value: "email" }))
-                navigation.navigate("PhotosVideos")
+                navigation.navigate("PersonalInfo")
             } else dispatch(SignIn({ authType: "email", email, password, userType }))
         }
     }
@@ -62,11 +62,5 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
         </Container>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-})
 
 export default Password

@@ -36,7 +36,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
                         const isSelected = itemSelected(item, arr)
                         return (
                             <TouchableOpacity key={item}
-                                style={[styles.mainButton, { backgroundColor: isSelected ? Colors.darkRed : Colors.primary }]}
+                                style={[styles.mainButton, { backgroundColor: isSelected ? Colors.brightRed : Colors.primary }]}
                                 onPress={() => setArr(selectItem(item, arr))}
                             >
                                 <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: isSelected ? Colors.primary : Colors.darkGray }]}>{item}</Text>

@@ -8,7 +8,7 @@ import { FavoriteUser } from '../../Redux/Actions'
 
 import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
-const CARD_HEIGHT = hp('32%')
+const CARD_HEIGHT = hp('39%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
 const ACTION_OFFSET = 100
@@ -86,24 +86,39 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
         >
             <TouchableOpacity onPress={() => navigation.navigate("UserProfile", { item, isFavorite: favorite })}>
                 <Card style={styles.userContainer}>
+
                     <Image source={{ uri: item.photo }} style={styles.userImg} />
 
-                    <Text style={styles.userTitle}>{item.name}</Text>
-                    <View style={GlobalStyles.horizontalLine} />
-                    <View style={GlobalStyles.rowBetween}>
-                        <View style={GlobalStyles.rowBetween} >
-                            <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
-                            <View>
-                                <Text style={GlobalStyles.regularText}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}</Text>
-                                <View style={{ width: wp('55%') }}>
-                                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.categories.join(" - ")}</Text>
-                                </View>
-                            </View>
-                        </View>
+                    <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('5%'), marginTop: hp('1%') }]}>
+                        <Text style={styles.userTitle}>{item.name}</Text>
                         <TouchableOpacity onPress={() => onFavorite()}>
                             <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart} style={styles.heartImg} />
                         </TouchableOpacity>
                     </View>
+
+                    <View style={[GlobalStyles.rowBetween, { marginLeft: wp('2%'), marginVertical: hp('1%'), marginRight: wp('20%') }]}>
+                        {true && <Image source={ImagePath.instaUrl} style={styles.heartImg} />}
+                        {true && <Image source={ImagePath.ic_snapchat} style={styles.heartImg} />}
+                        {true && <Image source={ImagePath.ic_tiktok} style={styles.heartImg} />}
+                        {true && <Image source={ImagePath.youtube} style={styles.heartImg} />}
+
+                        <View style={{ height: hp('3%'), width: wp('0.35%'), backgroundColor: Colors.mediumGray }} />
+
+                        <Text style={GlobalStyles.regularText}>${item.price}</Text>
+                    </View>
+
+                    <View style={GlobalStyles.horizontalLine} />
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: wp('2%') }} >
+                        <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={styles.userIcon} />
+                        <View style={{ marginLeft: wp('10%') }}>
+                            <Text style={GlobalStyles.regularText}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}name of company here</Text>
+                            <View style={{ width: wp('55%') }}>
+                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.categories.join(" - ")}</Text>
+                            </View>
+                        </View>
+                    </View>
+
                 </Card >
             </TouchableOpacity>
         </Animated.View>
@@ -117,24 +132,26 @@ const styles = StyleSheet.create({
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
     }, userImg: {
-        height: hp('15%'),
+        height: hp('17%'),
         width: wp('90%'),
         resizeMode: 'cover',
-        borderTopRightRadius: hp('4%'),
-        borderTopLeftRadius: hp('4%'),
+        borderRadius: hp('3%'),
         overflow: 'hidden'
     }, userTitle: {
         fontWeight: '600',
         marginVertical: hp('1%'),
         fontSize: hp('3%'),
-        marginLeft: wp('10%'),
         alignSelf: 'flex-start',
     },
     heartImg: {
-        height: hp('4%'),
-        width: hp('4%'),
+        height: hp('3%'),
+        width: hp('3%'),
         resizeMode: 'contain',
 
+    }, userIcon: {
+        width: wp('12%'),
+        height: wp('12%'),
+        borderRadius: hp('1%')
     }
 })
 

@@ -7,7 +7,6 @@ import { Image, StyleSheet } from "react-native";
 import { Colors, ImagePath } from "../../Config";
 
 import Feed from "../../Screens/Feed"
-import Search from "../../Screens/Search";
 import Chat from "../../Screens/Chat";
 import Profile from "../../Screens/Profile";
 
@@ -22,7 +21,6 @@ export default () => {
                 activeTintColor: Colors.secondary,
                 inactiveTintColor: "gray",
                 headerShown: false,
-                unmountOnBlur: true
             }}
         >
             <BottomTab.Screen
@@ -37,23 +35,6 @@ export default () => {
                                     tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
                                 }}
                                 source={ImagePath.feed}
-                            />
-                        );
-                    },
-                }}
-            />
-            <BottomTab.Screen
-                name={'Search'}
-                component={Search}
-                options={{
-                    tabBarShowLabel: false,
-                    tabBarIcon: ({ focused }) => {
-                        return (
-                            <Image
-                                style={{
-                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
-                                }}
-                                source={ImagePath.search}
                             />
                         );
                     },
