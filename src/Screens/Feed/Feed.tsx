@@ -32,7 +32,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
     else {
         if (!arr.length) {
             return (
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', bottom: hp('10%') }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', top: hp('15%') }}>
                     <Image
                         source={ImagePath.emptySearch}
                         style={{ width: wp('25%'), height: wp('25%'), alignSelf: 'center' }}
@@ -42,7 +42,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
         }
         return (
             <FlatList
-                contentContainerStyle={{marginBottom: hp('10%'), marginTop: hp('2%')}}
+                contentContainerStyle={{ marginBottom: hp('10%'), marginTop: hp('2%') }}
                 data={arr}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 renderItem={({ item }) => <UserCard

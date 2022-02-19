@@ -25,6 +25,7 @@ export const ImagePath = {
   location: require('./assets/images/Location.png'),
 
   crossIcon: require('./assets/images/crossIcon.png'),
+  calendar: require('./assets/images/calendar.png'),
   messageIcon: require('./assets/images/messageIcon.png'),
   ready: require('./assets/images/Ready.png'),
   rightArrowGray: require('./assets/images/rightArrowgray.png'),
@@ -36,6 +37,10 @@ export const ImagePath = {
   profile: require('./assets/images/Profile.png'),
   upload: require('./assets/images/upload_focus.png'),
   uploadFocus: require('./assets/images/uploadFocuss.png'),
+  dashboard: require('./assets/images/Dashboard.png'),
+  dashboardFocus: require('./assets/images/dashboardFocus.png'),
+  collaborations: require('./assets/images/Collaborations.png'),
+  collaborationsFocus: require('./assets/images/collaborationsFocus.png'),
 
   notification: require('./assets/images/notification.png'),
   btrend: require('./assets/images/btrend_logo.png'),

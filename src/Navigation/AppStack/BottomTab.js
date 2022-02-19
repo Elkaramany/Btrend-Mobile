@@ -7,6 +7,8 @@ import { Image, StyleSheet } from "react-native";
 import { Colors, ImagePath } from "../../Config";
 
 import Feed from "../../Screens/Feed"
+import Dashboard from "../../Screens/Dashboard"
+import Collaborations from "../../Screens/Collaborations"
 import Chat from "../../Screens/Chat";
 import Profile from "../../Screens/Profile";
 
@@ -35,6 +37,40 @@ export default () => {
                                     tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
                                 }}
                                 source={ImagePath.feed}
+                            />
+                        );
+                    },
+                }}
+            />
+            <BottomTab.Screen
+                name={"Dashboard"}
+                component={Dashboard}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <Image
+                                style={{
+                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
+                                }}
+                                source={ImagePath.dashboardFocus}
+                            />
+                        );
+                    },
+                }}
+            />
+            <BottomTab.Screen
+                name={"Collaborations"}
+                component={Collaborations}
+                options={{
+                    tabBarShowLabel: false,
+                    tabBarIcon: ({ focused }) => {
+                        return (
+                            <Image
+                                style={{
+                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
+                                }}
+                                source={ImagePath.collaborationsFocus}
                             />
                         );
                     },

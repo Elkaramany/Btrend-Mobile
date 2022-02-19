@@ -32,6 +32,14 @@ export const formatDate = (date: Date | string) => {
     return date.toString().substring(0, date.toString().length - 18)
 }
 
+function padTo2Digits(num: any) {
+    return num.toString().padStart(2, '0');
+}
+
+export const validDate = (date: any) => {
+    return date.toLocaleDateString('en-us', { month: 'short' });
+}
+
 export const selectItem = (item: string, arr: string[]) => {
     //Item already selected so remove it
     if (itemSelected(item, arr)) {
@@ -95,7 +103,7 @@ export const handleSelection = async (): Promise<string | null> => new Promise((
 });
 
 export const getSuggesions = (text: string, arr: any[]): any[] => {
-    if(!text.length || !arr.length) return []
+    if (!text.length || !arr.length) return []
     return arr.filter(
         (val) => val.toLowerCase().indexOf(text.toLowerCase()) > -1
     );

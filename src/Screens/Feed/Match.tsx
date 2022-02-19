@@ -73,8 +73,8 @@ const styles = StyleSheet.create({
         borderRadius: hp('2%')
     },
     iconImg: {
-        width: wp('7%'),
-        height: hp('3%')
+        width: wp('10%'),
+        height: hp('4%')
     }
 })
 

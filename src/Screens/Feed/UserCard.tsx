@@ -111,7 +111,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
 
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: wp('2%') }} >
                         <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={styles.userIcon} />
-                        <View style={{ marginLeft: wp('10%') }}>
+                        <View style={{ marginLeft: wp('5%') }}>
                             <Text style={GlobalStyles.regularText}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}name of company here</Text>
                             <View style={{ width: wp('55%') }}>
                                 <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.categories.join(" - ")}</Text>
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
 
     }, userIcon: {
-        width: wp('12%'),
-        height: wp('12%'),
+        width: wp('10%'),
+        height: wp('10%'),
         borderRadius: hp('1%')
     }
 })

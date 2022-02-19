@@ -2,13 +2,14 @@ import React from 'react'
 import {
     View, StyleSheet, Image, Text,
     TouchableOpacity,
+    FlatList,
 } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux'
 
-import { GlobalStyles, ImagePath, Colors } from '../../Config'
+import { GlobalStyles, ImagePath, Colors, CategoriesArr } from '../../Config'
 import { SearchFeed } from '../../Redux/Actions'
 
 import Container from '../../Components/Container'
@@ -22,21 +23,35 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
+
 const Search: React.FC<Props> = ({ navigation }) => {
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const { fetchedArray } = useSelector((state: RootStateOrAny) => state.SearchReducer)
     const [arr, setArr] = React.useState<any[]>([])
+    const [selectedCategory, setSelectedCategory] = React.useState<string[]>([])
     const [campaignVisible, setCampaignVisible] = React.useState(false)
-    const [hasMatch, setHasMatch] = React.useState(true)
+    const [hasMatch, setHasMatch] = React.useState(false)
     const dispatch = useDispatch()
-
-    React.useEffect(() => {
-        dispatch(SearchFeed({ ...INITIAL_FILTERS, token }, userType))
-    }, [])
 
     React.useEffect(() => {
         setArr(fetchedArray)
     }, [fetchedArray])
+
+    React.useEffect(() => {
+        dispatch(SearchFeed({ ...INITIAL_FILTERS, categories: selectedCategory, token }, userType))
+    }, [selectedCategory])
+
+    const AddOrRemoveCategory = (item: string | undefined) => {
+        if (!item || !item.length) return;
+
+        let newArr = [...selectedCategory]
+        if (selectedCategory.includes(item)) {
+            if (selectedCategory.length === 1) newArr = []
+            else newArr = newArr.filter(cat => cat !== item)
+        }
+        else newArr.push(item)
+        setSelectedCategory(newArr)
+    }
 
     if (hasMatch) {
         return <Match hasMatch={() => setHasMatch(false)} navigation={navigation} />
@@ -53,9 +68,32 @@ const Search: React.FC<Props> = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <View style={{ height: hp('3.5%') }}>
+                        <FlatList
+                            horizontal
+                            data={CategoriesArr}
+                            keyExtractor={(item, index) => `${item}${index}`}
+                            renderItem={({ item }) => {
+                                const sameCategory = item && item.length && selectedCategory.includes(item)
+                                return (
+                                    <TouchableOpacity
+                                        onPress={() => AddOrRemoveCategory(item)}
+                                        style={[styles.categoryContainer, {
+                                            borderBottomColor: sameCategory ? Colors.brightRed : 'transparent'
+                                        }]}>
+                                        <Text style={[GlobalStyles.regularText, {
+                                            fontWeight: sameCategory ? 'bold' : 'normal',
+                                            color: sameCategory ? Colors.secondary : Colors.darkGray,
+                                        }]}>{item}</Text>
+                                    </TouchableOpacity>
+                                )
+                            }}
+                        />
+                    </View>
                     <Feed arr={arr} navigation={navigation} setArr={setArr} />
 
-                    {userType === "Brand" &&
+                    {
+                        userType === "Brand" &&
                         <View style={styles.addButton}>
                             <TouchableOpacity onPress={() => setCampaignVisible(true)}>
                                 <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
@@ -63,8 +101,8 @@ const Search: React.FC<Props> = ({ navigation }) => {
                             <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
                         </View>
                     }
-                </Container>
-            </View>
+                </Container >
+            </View >
         )
     }
 }
@@ -82,6 +120,9 @@ const styles = StyleSheet.create({
         width: wp('30%'),
         height: hp('8%'),
         resizeMode: 'contain'
+    }, categoryContainer: {
+        marginHorizontal: wp('3%'),
+        borderBottomWidth: hp('0.2%'),
     }
 })
 
