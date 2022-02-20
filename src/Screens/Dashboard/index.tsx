@@ -2,8 +2,9 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { useSelector, useDispatch } from 'react-redux'
+import { StackNavigationProp } from '@react-navigation/stack';
 
-import { GlobalStyles, Colors, validDate } from '../../Config'
+import { GlobalStyles, Colors } from '../../Config'
 
 import Container from '../../Components/Container'
 import Eearnings from './Earnings'
@@ -12,15 +13,16 @@ import Payments from './Payments'
 import Transactions from './Transactions'
 
 interface Props {
-
+    navigation: StackNavigationProp<any, any>,
 }
 
-const Dashboard: React.FC<Props> = props => {
+const Dashboard: React.FC<Props> = ({ navigation }) => {
 
     const [selectedStat, setSelectedStat] = React.useState("Earnings")
     let d = new Date();
     d.setMonth(d.getMonth() - 1);
-    const [dates, setDates] = React.useState({ start: validDate(d), end: validDate(new Date()) })
+    const [transactionDates, setTransactionDates] = React.useState("All")
+    const [dates, setDates] = React.useState({ start: d, end: new Date() })
 
     const Stat = (stat: string) => {
         const sameStat = selectedStat === stat
@@ -41,13 +43,13 @@ const Dashboard: React.FC<Props> = props => {
     const SelectedStatScreen = () => {
         if (selectedStat === "Earnings") return <Eearnings dates={dates} setDates={setDates} />
         else if (selectedStat === "Insights") return <Insights />
-        else if (selectedStat === "Payments") return <Payments />
+        else if (selectedStat === "Payments") return <Payments navigation={navigation} />
         else if (selectedStat === "Transactions") return <Transactions dates={dates} setDates={setDates} />
         else return <View />
     }
     return (
         <Container mainStyle={{ marginTop: hp('1%'), marginHorizontal: wp('4'), flex: 1, }}>
-            <Text style={[GlobalStyles.regularText, { fontWeight: 'bold' }]}>My Dashboard</Text>
+            <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('3.5%') }]}>My Dashboard</Text>
             <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
             <View style={[GlobalStyles.rowAround, { width: '100%' }]}>
                 {Stat("Earnings")}
@@ -55,6 +57,9 @@ const Dashboard: React.FC<Props> = props => {
                 {Stat("Payments")}
                 {Stat("Transactions")}
             </View>
+
+            <View style={{ marginBottom: hp('2%') }} />
+
             {SelectedStatScreen()}
         </Container>
     )

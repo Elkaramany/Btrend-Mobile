@@ -16,6 +16,8 @@ export const ImagePath = {
   brand: require('./assets/images/brand.png'),
   leftArrow: require('./assets/images/leftArrow.png'),
   eyeIcon: require('./assets/images/eyeIcon.png'),
+  likes: require('./assets/images/likes.png'),
+  matches: require('./assets/images/matches.png'),
   hidePassword: require('./assets/images/hidePasword.png'),
   radioEmpty: require('./assets/images/radioEmpty.png'),
   radioFilled: require('./assets/images/radioCheckd.png'),

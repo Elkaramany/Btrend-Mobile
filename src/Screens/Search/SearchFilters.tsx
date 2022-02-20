@@ -5,7 +5,6 @@ import {
   ScrollView, Image
 } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import MaskedView from "@react-native-community/masked-view";
 import GradientText from '../../Components/GradientText';
 
 import { useSelector, RootStateOrAny } from 'react-redux'
@@ -168,8 +167,8 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
                   onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('80%'), marginHorizontal: wp('5%'), marginBottom: hp('1%') }}
                 />
-                <TouchableOpacity onPress={() => clearFilters()} style={{ flex: 1, padding: wp('5%'), width: '50%' }}>
-                  <Text style={[GlobalStyles.regularText, { fontWeight: 'bold' }]}> Clear All</Text>
+                <TouchableOpacity onPress={() => clearFilters()} style={{ flex: 1, padding: wp('3%'), width: '50%' }}>
+                  <GradientText style={[GlobalStyles.regularText, { fontWeight: 'bold' }]} end={{ x: 1, y: 1 }}>Clear All</GradientText>
                 </TouchableOpacity>
               </View>
 
