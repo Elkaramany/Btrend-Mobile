@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, FlatList } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { StackNavigationProp } from '@react-navigation/stack';
 

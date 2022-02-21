@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
@@ -8,7 +7,6 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { GlobalStyles, Colors, ImagePath, formatDate } from '../../Config'
 import { DatesType } from './types'
 
-import GradientButton from '../../Components/GradientButton'
 import StartEndDate from '../../Components/StartEndDate'
 
 

@@ -1,18 +1,36 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, Modal, TouchableWithoutFeedback } from 'react-native'
+import {
+    View, Text,
+    StyleSheet, Image, FlatList,
+    TouchableOpacity, Modal, TouchableWithoutFeedback
+} from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
-import { useSelector, useDispatch } from 'react-redux'
 
 import { DatesType } from './types'
 
 import StartEndDate from '../../Components/StartEndDate'
 import { Colors, GlobalStyles, ImagePath } from '../../Config'
-
+import GradientText from '../../Components/GradientText'
 
 interface Props {
     dates: DatesType
     setDates: (newDates: DatesType) => void
 }
+
+const DUMMY_DATA = [
+    {
+        campaignName: "Awesome campaign",
+        brandName: "Very cool name",
+        id: 5642314512,
+        amount: 3000
+    },
+    {
+        campaignName: "Awesome campaign2",
+        brandName: "Very cool name2",
+        id: 23131582,
+        amount: 12000
+    }
+]
 
 
 const Transactions: React.FC<Props> = ({ dates, setDates }) => {
@@ -88,6 +106,23 @@ const Transactions: React.FC<Props> = ({ dates, setDates }) => {
                     </View>
                 </View>
             </Modal>
+            <FlatList
+                contentContainerStyle={{ marginTop: hp('2%') }}
+                data={DUMMY_DATA}
+                keyExtractor={(item) => `${item.id}`}
+                renderItem={({ item }) => {
+                    return (
+                        <>
+                            <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1%') }]}>
+                                <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2%') }]}>{item.campaignName}</Text>
+                                <GradientText style={{ fontWeight: 'bold', fontSize: hp('2.5%') }} end={{ x: 0.5, y: 0.5 }}>${item.amount}</GradientText>
+                            </View>
+                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray,  }]}>{item.brandName}</Text>
+                            <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
+                        </>
+                    )
+                }}
+            />
         </>
     )
 }
