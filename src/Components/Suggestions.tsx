@@ -33,7 +33,7 @@ const Suggestions: React.FC<Props> = ({ text, SuggestionsArr, arr, setArr }) => 
                     {arr.map((item) => {
                         return (
                             <TouchableOpacity key={item}
-                                style={[styles.container, { backgroundColor: Colors.darkRed, borderWidth: 0 }]}
+                                style={[styles.container, { backgroundColor: Colors.brightRed, borderWidth: 0 }]}
                                 onPress={() => setArr(selectItem(item, arr))}
                             >
                                 <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>

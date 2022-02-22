@@ -9,15 +9,33 @@ import { GlobalStyles, Colors } from '../../Config'
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import Invited from './Invited'
-import OnGoing from './OnGoing'
-import Finished from './Finished'
+import Campaigns from './Campaigns'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
-const Collaborations: React.FC<Props> = ({navigation}) => {
+const DUMMY_DATA = [
+    {
+        campaignName: "Awesome campaign",
+        brandName: "Very cool name",
+        id: 5642314512,
+        amount: 3000,
+        instagram: true,
+    },
+    {
+        campaignName: "Awesome campaign2",
+        brandName: "Very cool name2",
+        id: 23131582,
+        amount: 12000,
+        instagram: true,
+        snapchat: true,
+        tiktok: true,
+        youtube: true,
+    }
+]
+
+const Collaborations: React.FC<Props> = ({ navigation }) => {
     const [search, setSearch] = React.useState('')
     const [selectedTransaction, setSelectedTransaction] = React.useState("On-going")
 
@@ -48,13 +66,6 @@ const Collaborations: React.FC<Props> = ({navigation}) => {
         )
     }
 
-    const SelectedTransactionScreen = () => {
-        if (selectedTransaction === "On-going") return <OnGoing navigation={navigation}/>
-        else if (selectedTransaction === "Invited") return <Invited />
-        else if (selectedTransaction === "Finished") return <Finished />
-        else return <View />
-    }
-
     return (
         <Container>
             <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('3.5%') }]}>Collaborations</Text>
@@ -73,7 +84,7 @@ const Collaborations: React.FC<Props> = ({navigation}) => {
                 {Stat("Invited")}
                 {Stat("Finished")}
             </View>
-            {SelectedTransactionScreen()}
+            <Campaigns data={DUMMY_DATA} navigation={navigation} screen={selectedTransaction} />
         </Container>
     )
 }

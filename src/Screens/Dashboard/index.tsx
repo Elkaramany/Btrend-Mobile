@@ -10,7 +10,6 @@ import Container from '../../Components/Container'
 import Eearnings from './Earnings'
 import Insights from './Insights'
 import Payments from './Payments'
-import Transactions from './Transactions'
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -44,9 +43,9 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
         if (selectedStat === "Earnings") return <Eearnings dates={dates} setDates={setDates} />
         else if (selectedStat === "Insights") return <Insights />
         else if (selectedStat === "Payments") return <Payments navigation={navigation} />
-        else if (selectedStat === "Transactions") return <Transactions dates={dates} setDates={setDates} />
         else return <View />
     }
+    
     return (
         <Container mainStyle={{ marginTop: hp('1%'), marginHorizontal: wp('4'), flex: 1, }}>
             <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('3.5%') }]}>My Dashboard</Text>
@@ -55,7 +54,6 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
                 {Stat("Earnings")}
                 {Stat("Insights")}
                 {Stat("Payments")}
-                {Stat("Transactions")}
             </View>
 
             <View style={{ marginBottom: hp('2%') }} />

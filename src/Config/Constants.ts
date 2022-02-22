@@ -83,7 +83,15 @@ const GlobalStyles = StyleSheet.create({
         width: hp('7%'),
         resizeMode: 'cover',
         borderRadius: wp('50%'),
-    },
+    }, graySeperator: {
+        width: WIDTH * 1.5,
+        height: hp('2%'),
+        right: wp('10%'),
+        backgroundColor: Colors.lightGray,
+        borderColor: Colors.gray,
+        borderWidth: hp('0.1%'),
+        marginVertical: hp('1%')
+    }
 })
 
 export { Colors, GlobalStyles, IOS, ANDROID, WIDTH, HEIGHT };

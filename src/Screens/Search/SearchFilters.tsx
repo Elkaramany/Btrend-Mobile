@@ -72,6 +72,16 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
     hideModal()
   }
 
+  const AddOrRemovePlatform = (platform: string) => {
+    let newArr = []
+    if (filters.platforms.includes(platform)) {
+      newArr = filters.platforms.filter(plat => plat !== platform)
+    } else {
+      newArr = [...filters.platforms, platform]
+    }
+    changeFilter('platforms', newArr)
+  }
+
   return (
     <View style={[GlobalStyles.centeredContainer, { flex: 1 }]}>
       <Modal
@@ -88,12 +98,13 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
             <View style={styles.modalView}>
 
               <View style={styles.header}>
-                <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>Filter</Text>
-                <View style={[GlobalStyles.horizontalLine, { width: wp('15%'), backgroundColor: Colors.darkGray }]} />
                 <TouchableOpacity onPress={() => hideModal()}>
-                  <Image source={ImagePath.ic_crosss} style={[GlobalStyles.arrowImage, { height: wp('8%'), width: wp('8%') }]} />
+                  <Image source={ImagePath.blackCross} style={[GlobalStyles.arrowImage, { marginTop: hp('1%'), marginBottom: hp('3%') }]} />
                 </TouchableOpacity>
+                <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%') }]}>Advanced Search</Text>
+                <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
               </View>
+              <View style={[GlobalStyles.horizontalLine, { width: '90%', marginTop: 0, marginBottom: hp('2%') }]} />
 
               <Input
                 label={`${isBrand ? 'Influencer' : 'Brand'} Name`}
@@ -128,7 +139,37 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
 
-              <Suggestions text={locationsText} SuggestionsArr={googlePlacesPredictions} arr={filters.location} setArr={(arr) => changeFilter('location', arr)} />
+              <Suggestions text={locationsText}
+                SuggestionsArr={googlePlacesPredictions} arr={filters.location}
+                setArr={(arr) => changeFilter('location', arr)} />
+
+              <Text style={[GlobalStyles.regularText, styles.priceRange, { marginBottom: hp('1%') }]}>Platforms</Text>
+              <View style={[GlobalStyles.rowBetween, { width: '65%' }]}>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("Instagram")}>
+                  <Image
+                    source={filters.platforms.includes("Instagram") ? ImagePath.insta_select : ImagePath.ic_insta}
+                    style={{ width: wp('10%'), height: wp('10%') }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("Snapchat")}>
+                  <Image
+                    source={filters.platforms.includes("Snapchat") ? ImagePath.snapchat_select : ImagePath.ic_snapchat}
+                    style={{ width: wp('10%'), height: wp('10%') }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("Tiktok")}>
+                  <Image
+                    source={filters.platforms.includes("Tiktok") ? ImagePath.tiktok_select : ImagePath.ic_tiktok}
+                    style={{ width: wp('10%'), height: wp('10%') }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("Youtube")}>
+                  <Image
+                    source={filters.platforms.includes("Youtube") ? ImagePath.youtube_select : ImagePath.ic_youtube}
+                    style={{ width: wp('10%'), height: wp('10%') }}
+                  />
+                </TouchableOpacity>
+              </View>
 
               <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>
               <View style={GlobalStyles.rowBetween}>
@@ -182,11 +223,8 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
 const styles = StyleSheet.create({
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: wp('80%'),
-    marginBottom: hp('1%'),
+    alignSelf: 'flex-start',
+    marginLeft: wp('5%')
   }, modalView: {
     marginTop: hp('15%'),
     height: '100%',
@@ -214,7 +252,8 @@ const styles = StyleSheet.create({
   }, priceRange: {
     alignSelf: 'flex-start',
     marginTop: hp('1%'),
-    marginLeft: wp('5%')
+    marginLeft: wp('5%'),
+    fontWeight: '600'
   },
 });
 

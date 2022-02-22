@@ -11,6 +11,7 @@ export interface Filter {
     token: string
     nof: number[]
     engagementRate: number[]
+    platforms: string[]
 }
 
 export const INITIAL_FILTERS = {
@@ -19,7 +20,8 @@ export const INITIAL_FILTERS = {
     location: [], range: [1000, 50000],
     payment: '', search: '',
     token: '', nof: [1000, 100000],
-    engagementRate: [0.5, 4.5]
+    engagementRate: [0.5, 4.5],
+    platforms: []
 }
 
 export const getSuggesions = (text: string, arr: string[]) => {

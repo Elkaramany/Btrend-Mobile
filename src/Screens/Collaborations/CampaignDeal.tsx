@@ -6,18 +6,18 @@ interface Props{
  
 }
  
-const Invited: React.FC<Props> = props =>{
+const CampaignDeal: React.FC<Props> = props =>{
     return(
         <View style={styles.container}>
-            <Text>Invited</Text>
+            <Text></Text>
         </View>
     )
 }
  
 const styles = StyleSheet.create({
     container:{
-        
+        flex: 1,
     },
 })
  
-export default Invited
+export default CampaignDeal

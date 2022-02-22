@@ -42,9 +42,9 @@ const Insights: React.FC<Props> = props => {
 
     return (
         <View style={{ justifyContent: 'space-around', flex: 1, }}>
-            {DoubleStat("Matches", "Campaigns", ImagePath.matches, ImagePath.matches, "35", "30")}
+            {DoubleStat("Matches", "Campaigns", ImagePath.matches, ImagePath.campaigns, "35", "30")}
             {DoubleStat("Profile Likes", "Profile Views", ImagePath.likes, ImagePath.eyeIcon, "25k", "24k")}
-            {DoubleStat("Swipe Right", "Swipe Left", ImagePath.matches, ImagePath.matches, "25k", "24k")}
+            {DoubleStat("Swipe Right", "Swipe Left", ImagePath.swipeRight, ImagePath.swipeLeft, "25k", "24k")}
         </View>
     )
 }

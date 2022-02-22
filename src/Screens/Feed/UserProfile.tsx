@@ -1,43 +1,34 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native'
+import {
+    View, Text, StyleSheet,
+    Image, TouchableOpacity, ScrollView, FlatList
+} from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { Card } from 'react-native-paper'
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { FavoriteUser, MessageUser } from '../../Redux/Actions'
-import { GlobalStyles, Colors, ImagePath } from '../../Config';
+import { FavoriteUser } from '../../Redux/Actions'
+import { GlobalStyles, Colors, ImagePath, Languages, WIDTH } from '../../Config';
 
-import SocialStats from '../../Components/SocialStats'
-import GradientButton from '../../Components/GradientButton'
 import InfluencerProfile from '../../Components/InfluencerProfile';
-import CollapsibleBody from '../../Components/CollapsibleBody'
-import GrayedContainer from '../../Components/GrayedContainer'
-import Spinner from '../../Components/Spinner'
+
 
 interface Props {
     route: any
     navigation: StackNavigationProp<any, any>,
 }
 
-
-
 const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const dispatch = useDispatch()
-    const [basicInfoValue, setBasicInfoValue] = React.useState(false)
-    const [aimValue, setAimValue] = React.useState(false)
-    const [typeValue, setTypeValue] = React.useState(false)
-    const [needsValue, setNeedsValue] = React.useState(false)
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const { loading } = useSelector((state: RootStateOrAny) => state.ChatReducer)
     const isBrand = userType === "Brand"
     const { item, isFavorite } = route.params
     const [favorite, setFavorite] = React.useState(isFavorite)
 
-    const pressedMessage = () => {
-        const id = isBrand ? item._id : item.brand._id
-        dispatch(MessageUser(token, id, navigation))
-    }
+
+    const name = isBrand ? `${item.firstName} ${item.lastName}` : item.brand.companyName
+    const photo = isBrand ? item.photo : item.brand.photo
+    const categories = isBrand ? item.categories : item.brand.categories
 
     const onFavorite = () => {
         dispatch(FavoriteUser(item._id, token, changeFavorite, userType))
@@ -47,105 +38,123 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
         setFavorite(!favorite)
     }
 
+    const HeaderArray = (header: string, arr: string[], icon: any) => {
+        return (
+            <View style={styles.innerContainer}>
+                <Text style={styles.sectionHeader}>{header}</Text>
+                {arr.map((cat: any) => {
+                    return (
+                        <View style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
+                            {icon &&
+                                <Image
+                                    source={icon}
+                                    style={[GlobalStyles.arrowImage, { marginRight: wp('3%') }]}
+                                />
+                            }
+                            <Text key={cat} style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{cat}</Text>
+                        </View>
+                    )
+                })}
+            </View>
+        )
+    }
+
     const userView = () => {
         if (!isBrand) {
             return (
                 <View>
-                    <CollapsibleBody header={"Brand Information"} title={item.brand.brandInformation}
-                        collapsibleValue={basicInfoValue} setCollapsibleValue={setBasicInfoValue}
-                    />
-                    <Card style={styles.collapsibleHeader}>
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.sectionHeader}>Dates</Text>
-                            <View style={{ backgroundColor: Colors.lightGray, marginVertical: hp('1%'), width: wp('75%'), paddingVertical: hp('1%'), borderRadius: wp('10%'), justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={GlobalStyles.regularText}>{item.startingDate} - {item.endingDate}</Text>
+                    <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1%') }]}>
+                        <View style={styles.campaignView}>
+                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Campaign</Text>
+                        </View>
+                        <TouchableOpacity onPress={() => onFavorite()}>
+                            <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
+                                style={[GlobalStyles.arrowImage, { width: wp('7%'), height: wp('7%') }]} />
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%') }]}>{item.name}</Text>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.5%') }]}>Posted 7h ago</Text>
+                    <Text style={GlobalStyles.regularText}>
+                        {item.aim}
+                    </Text>
+
+                    <View style={styles.innerContainer}>
+                        <Text style={styles.sectionHeader}>Dates</Text>
+                        <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.startingDate} - {item.endingDate}</Text>
+                    </View>
+
+                    <View style={styles.innerContainer}>
+                        <Text style={styles.sectionHeader}>Gender & Age</Text>
+                        <View style={GlobalStyles.rowBetween}>
+                            <View>
+                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), marginVertical: hp('0.75%') }]}>{item.gender}</Text>
+                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.age || '18-30 Years old'}</Text>
                             </View>
-                        </View>
-                    </Card>
-                    <Card style={styles.collapsibleHeader}>
-                        <View style={styles.innerContainer}>
-                            <Text style={styles.sectionHeader}>Categories</Text>
-                            <View style={{ backgroundColor: Colors.lightGray, width: wp('80%'), marginVertical: hp('1%'), paddingVertical: hp('1%'), borderRadius: wp('10%'), justifyContent: 'center', alignItems: 'center' }}>
-                                <Text style={GlobalStyles.regularText}>{item.categories.join("    |    ")}</Text>
-                            </View>
-                        </View>
-                    </Card>
-                    <CollapsibleBody header={"Aim of the campaign"} title={item.aim}
-                        collapsibleValue={aimValue} setCollapsibleValue={setAimValue}
-                    />
-                    <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), width: wp('85%'), alignSelf: 'center' }]}>
-                        <GrayedContainer header='Price' title={`${item.price} $`} />
-                        <GrayedContainer header='Payment type' title={item.payment} />
-                    </View>
-                    <CollapsibleBody header={"Type of influencers we\n are looking for"} title={item.type}
-                        collapsibleValue={typeValue} setCollapsibleValue={setTypeValue}
-                    />
-                    <CollapsibleBody header={"What does the influencer\n need to do?"} title={item.need}
-                        collapsibleValue={needsValue} setCollapsibleValue={setNeedsValue}
-                    />
-                    <View style={[GlobalStyles.rowBetween, { marginTop: hp('0.5%'), width: wp('85%'), alignSelf: 'center' }]}>
-                        <GrayedContainer header='Gender' title={item.gender} />
-                        <View >
-                            <Image source={ImagePath.heartFilled} style={{ height: hp('8%'), width: wp('30%'), resizeMode: 'contain' }} />
+                            <Image source={item.gender === "Male" ? ImagePath.female : ImagePath.ic_gender} style={[GlobalStyles.arrowImage, { width: wp('9%'), height: wp('9%') }]} />
                         </View>
                     </View>
-                    <Text style={[GlobalStyles.regularText, { fontWeight: '700', marginLeft: wp('8.5%') }]}>In order to apply you need to</Text>
-                    <View style={{ flexDirection: 'row', marginVertical: hp('1%') }}>
-                        <Image source={ImagePath.ic_check} style={GlobalStyles.arrowImage} />
-                        <Text style={[GlobalStyles.regularText, { marginLeft: wp('8.5%') }]}>{item.nof.join(" - ")} followers</Text>
+
+                    {HeaderArray("Languages", Languages, null)}
+                    {HeaderArray("Categories", item.categories, ImagePath.category)}
+                    {HeaderArray("HashTage", ["@larose", "#larosetheworld", "#larosetheworldasdsa"], null)}
+                    {HeaderArray("In order to apply you need to", [`${item.nof.join(" - ")} followers`,
+                    `Engagement score of ${item.engagementRate.join("% - ")}%`,
+                    `Based in ${item.location.join(" - ")}`], ImagePath.ic_check)}
+
+                    <View style={GlobalStyles.graySeperator} />
+                    <View style={styles.innerContainer}>
+                        <Text style={styles.sectionHeader}>References</Text>
+                        <FlatList
+                            contentContainerStyle={{ marginVertical: hp('1%') }}
+                            horizontal
+                            data={[ImagePath.serum, ImagePath.editProfile]}
+                            keyExtractor={item => `${item}`}
+                            renderItem={({ item }) => {
+                                return (
+                                    <Image
+                                        source={item}
+                                        style={{ width: wp('50%'), height: wp('60%'), marginRight: wp('3%') }}
+                                    />
+                                )
+                            }}
+                        />
                     </View>
-                    <View style={{ flexDirection: 'row', marginVertical: hp('1%') }}>
-                        <Image source={ImagePath.ic_check} style={GlobalStyles.arrowImage} />
-                        <Text style={[GlobalStyles.regularText, { marginLeft: wp('8.5%') }]}>Engagement score of {item.engagementRate.join("% - ")}%</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', marginVertical: hp('1%') }}>
-                        <Image source={ImagePath.ic_check} style={GlobalStyles.arrowImage} />
-                        <Text style={[GlobalStyles.regularText, { marginLeft: wp('8.5%') }]}>Based in {item.location.join(" - ")}</Text>
-                    </View>
+                    <View style={GlobalStyles.graySeperator} />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Price", { item })}
+                        style={GlobalStyles.rowBetween}>
+                        {HeaderArray("What price Includes", ["All info"], null)}
+                        <Image
+                            source={ImagePath.arrowRight}
+                            style={GlobalStyles.arrowImage}
+                        />
+                    </TouchableOpacity>
                 </View>
             )
         } else return <InfluencerProfile user={item} />
     }
 
-    const name = isBrand ? `${item.firstName} ${item.lastName}` : item.companyName
-    const photo = isBrand ? item.photo : item.brand.photo
-    const categories = isBrand ? item.categories : item.brand.categories
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary }}>
+
             <Image source={{ uri: photo }} style={styles.image} />
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.xImage}>
-                <Image source={ImagePath.ic_crosss} style={{ flex: 1 }} />
+                <Image source={ImagePath.ic_cross} />
             </TouchableOpacity>
-            <ScrollView style={styles.scroller} contentContainerStyle={{ alignItems: 'center', justifyContent: 'center' }}>
-                <View style={{ marginTop: hp('4%'), marginHorizontal: wp('5%') }}>
-                    <View style={GlobalStyles.rowBetween}>
-                        <Text style={GlobalStyles.regularText}>{name}</Text>
-                        <TouchableOpacity onPress={() => onFavorite()}>
-                            <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart} style={GlobalStyles.arrowImage} />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={GlobalStyles.horizontalLine} />
-                    <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
-                        <View style={GlobalStyles.rowBetween} >
-                            <Image source={{ uri: item.photo }} style={[GlobalStyles.roundedImg, { marginRight: wp('2%') }]} />
+
+            <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('15%') }]}>
+                <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('2%') }}>
+                    <View style={[GlobalStyles.rowBetween, { width: '85%' }]} >
+                        <Image source={{ uri: item.photo }} style={styles.campaignImg} />
+                        <View>
+                            <Text style={GlobalStyles.regularText}>{name}</Text>
                             <View>
-                                <Text style={GlobalStyles.regularText}>{name}</Text>
-                                <View style={{ width: wp('55%') }}>
-                                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{categories.join(" - ")}</Text>
-                                </View>
+                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{categories.join(" - ")}</Text>
                             </View>
                         </View>
-                        {item.state &&
-                            <View style={styles.activeContainer} >
-                                <Text style={[GlobalStyles.regularText, { color: Colors.primary, padding: hp('0.25%') }]}>{item.state}</Text>
-                            </View>
-                        }
                     </View>
-                    <SocialStats />
-                    {loading ? <Spinner size={true} /> : <GradientButton text={'Message'} colors={Colors.gradientButton}
-                        onPress={() => pressedMessage()} buttonContainerStyle={styles.bottomButton}
-                    />}
-                    <View style={GlobalStyles.horizontalLine} />
+
+                    <View style={[GlobalStyles.horizontalLine, { width: '100%', marginBottom: 0 }]} />
                     {userView()}
                 </View>
             </ScrollView>
@@ -155,28 +164,29 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
     image: {
-        width: '100%',
-        height: hp('25%'),
-        resizeMode: 'cover',
-        zIndex: 1
+        width: wp('100%'),
+        height: wp('100%'),
+        resizeMode: 'contain',
     }, xImage: {
-        flex: 1,
         height: hp('5%'),
         width: hp('5%'),
-        resizeMode: 'contain',
+        resizeMode: 'cover',
         alignSelf: 'flex-end',
-        right: wp('3%'),
+        left: wp('3%'),
         marginTop: hp('2%'),
         position: 'absolute',
-        zIndex: 2
     }, scroller: {
         flexGrow: 1,
-        borderTopRightRadius: wp('15%'),
-        borderTopLeftRadius: wp('15%'),
+        borderTopRightRadius: wp('8%'),
+        borderTopLeftRadius: wp('8%'),
         width: '100%',
-        zIndex: 3,
         backgroundColor: Colors.primary,
         bottom: hp('6%')
+    }, campaignImg: {
+        marginRight: wp('2%'),
+        width: wp('15%'),
+        height: wp('15%'),
+        borderRadius: wp('3%')
     }, activeContainer: {
         backgroundColor: "#6FCF97",
         padding: hp('0.5%'),
@@ -186,7 +196,7 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: wp('85%'),
     }, innerContainer: {
-        marginHorizontal: wp('4%'),
+        marginVertical: hp('0.5%'),
     }, sectionHeader: {
         ...GlobalStyles.regularText,
         fontWeight: '600',
@@ -195,6 +205,15 @@ const styles = StyleSheet.create({
         paddingVertical: hp('1%'),
         width: wp('60%'),
         alignSelf: 'center'
+    }, campaignView: {
+        paddingVertical: hp('0.75%'),
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: Colors.gray,
+        borderWidth: wp('0.25%'),
+        borderRadius: wp('2%'),
+        width: wp('30%'),
+        marginTop: hp('2%'),
     }
 })
 
