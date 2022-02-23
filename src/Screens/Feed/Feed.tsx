@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { StackNavigationProp } from '@react-navigation/stack';
 import { UserSwipe } from '../../Redux/Actions'
 
-import { GlobalStyles, ImagePath } from '../../Config';
+import { GlobalStyles, ImagePath, Colors } from '../../Config';
 
 import Spinner from '../../Components/Spinner'
 import UserCard from './UserCard'
@@ -42,7 +42,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
         }
         return (
             <FlatList
-                contentContainerStyle={{ marginBottom: hp('10%'), marginTop: hp('2%') }}
+                contentContainerStyle={{marginTop: hp('1.5%')}}
                 data={arr}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 renderItem={({ item }) => <UserCard

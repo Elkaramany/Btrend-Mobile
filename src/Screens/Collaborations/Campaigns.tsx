@@ -47,6 +47,7 @@ const Campaigns: React.FC<Props> = ({ data, screen }) => {
                                         {screen === "Invited" &&
                                             <View style={GlobalStyles.rowBetween}>
                                                 <GradientButton text={'Confirm'} colors={Colors.gradientButton}
+                                                    //@ts-ignore
                                                     buttonContainerStyle={[styles.declinceButton, { borderWidth: 0 }]}
                                                     onPress={() => console.log("Confirm")} textStyle={{ fontSize: hp('2%') }}
                                                 />

@@ -137,5 +137,6 @@ export const ArabCountries = [
 
 export const Languages = [
     "English",
-    "French"
+    "French",
+    "Arabic"
 ]

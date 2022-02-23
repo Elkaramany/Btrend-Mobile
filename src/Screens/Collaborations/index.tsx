@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useSelector, useDispatch } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { GlobalStyles, Colors } from '../../Config'
+import { GlobalStyles, Colors, grayTextInputTheme } from '../../Config'
 
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
@@ -76,6 +76,7 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
                     value={search}
                     onChangeText={(text) => setSearch(text)}
                     inputStyle={{ width: wp('95%'), marginBottom: 0, height: hp('5%') }}
+                    theme={grayTextInputTheme}
                 />
                 {showIcon()}
             </View>

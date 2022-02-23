@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
-import { GlobalStyles, Colors, ImagePath, validDate } from '../Config'
+import { GlobalStyles, Colors, ImagePath, formatDate } from '../Config'
 
 interface DatesType {
     start: Date
@@ -16,13 +16,18 @@ interface Props {
 }
 
 const Name: React.FC<Props> = ({ dates, setDates }) => {
-    const [startDateModal, setStartDateModal] = React.useState(false)
-    const [endDateModal, setEndDateModal] = React.useState(false)
+    const [visibleModal, setVisibleModal] = React.useState("none")
 
     const ConfirmDate = (start: Date, end: Date) => {
-        setDates({ start, end })
-        setStartDateModal(false)
-        setEndDateModal(false)
+        console.log(start, end)
+        if (start >= end) {
+            let newEndDate = new Date(start)
+            newEndDate.setDate(newEndDate.getDate() + 1);
+            setDates({ start, end: newEndDate })
+        } else {
+            setDates({ start, end })
+        }
+        setVisibleModal("none")
     }
 
     return (
@@ -30,11 +35,11 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
             <View style={styles.dateContainer}>
                 <TouchableOpacity
                     style={GlobalStyles.rowBetween}
-                    onPress={() => setStartDateModal(true)}
+                    onPress={() => setVisibleModal("start")}
                 >
                     <Text
                         style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%'), color: Colors.darkGray }]}>
-                        {validDate(dates.start)}
+                        {formatDate(dates.start)}
                     </Text>
                     <Image
                         source={ImagePath.calendar}
@@ -45,10 +50,10 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
                 <DateTimePickerModal
                     date={dates.start}
                     maximumDate={new Date()}
-                    isVisible={startDateModal}
+                    isVisible={visibleModal === "start"}
                     mode="date"
                     onConfirm={(date) => ConfirmDate(date, dates.end)}
-                    onCancel={() => setStartDateModal(false)}
+                    onCancel={() => setVisibleModal("none")}
                 />
             </View>
 
@@ -57,11 +62,11 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
             <View style={styles.dateContainer}>
                 <TouchableOpacity
                     style={GlobalStyles.rowBetween}
-                    onPress={() => setEndDateModal(true)}
+                    onPress={() => setVisibleModal("end")}
                 >
                     <Text
                         style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%'), color: Colors.darkGray }]}>
-                        {validDate(dates.end)}
+                        {formatDate(dates.end)}
                     </Text>
 
                     <Image
@@ -74,10 +79,10 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
                     date={dates.end}
                     minimumDate={dates.start}
                     maximumDate={new Date()}
-                    isVisible={endDateModal}
+                    isVisible={visibleModal === "end"}
                     mode="date"
                     onConfirm={(date) => ConfirmDate(dates.start, date)}
-                    onCancel={() => setEndDateModal(false)}
+                    onCancel={() => setVisibleModal("none")}
                 />
             </View>
 
@@ -94,7 +99,7 @@ const styles = StyleSheet.create({
         borderRadius: wp('10%'),
         paddingVertical: hp('1.25%'),
         paddingHorizontal: wp('3%'),
-        width: '45%'
+        width: '47%'
     }
 })
 

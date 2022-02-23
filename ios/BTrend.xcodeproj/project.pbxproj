@@ -510,7 +510,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bentayeb.btrend;
+				PRODUCT_BUNDLE_IDENTIFIER = com.btrend;
 				PRODUCT_NAME = BTrend;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BTrend-Bridging-Header.h";
@@ -542,7 +542,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.bentayeb.btrend;
+				PRODUCT_BUNDLE_IDENTIFIER = com.btrend;
 				PRODUCT_NAME = BTrend;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "BTrend-Bridging-Header.h";

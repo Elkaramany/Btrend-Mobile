@@ -143,8 +143,8 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 SuggestionsArr={googlePlacesPredictions} arr={filters.location}
                 setArr={(arr) => changeFilter('location', arr)} />
 
-              <Text style={[GlobalStyles.regularText, styles.priceRange, { marginBottom: hp('1%') }]}>Platforms</Text>
-              <View style={[GlobalStyles.rowBetween, { width: '65%' }]}>
+              <Text style={[GlobalStyles.regularText, styles.priceRange, { marginBottom: hp('2%') }]}>Platforms</Text>
+              <View style={[GlobalStyles.rowBetween, { width: '70%', alignSelf: 'flex-start', marginLeft: wp('5%') }]}>
                 <TouchableOpacity onPress={() => AddOrRemovePlatform("Instagram")}>
                   <Image
                     source={filters.platforms.includes("Instagram") ? ImagePath.insta_select : ImagePath.ic_insta}
@@ -171,7 +171,9 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 </TouchableOpacity>
               </View>
 
-              <Text style={[GlobalStyles.regularText, styles.priceRange]}>Price range</Text>
+              <View style={[GlobalStyles.horizontalLine, { width: '90%', marginVertical: hp('2.5%') }]} />
+
+              <Text style={[GlobalStyles.regularText, styles.priceRange, { marginBottom: hp('2%') }]}>Price range</Text>
               <View style={GlobalStyles.rowBetween}>
                 <Input
                   type={'numeric'}
@@ -180,7 +182,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                   onChangeText={(text) => changeFilter('range', [parseInt(text), filters.range[1]])}
                   inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
-                <Text style={[GlobalStyles.regularText, { marginHorizontal: wp('1%') }]}>to</Text>
+                <Text style={[GlobalStyles.regularText, { marginHorizontal: wp('1%') }]}>—</Text>
                 <Input
                   type={'numeric'}
                   label={'$'}
@@ -190,7 +192,10 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 />
 
               </View>
-              <Text style={[GlobalStyles.regularText, styles.priceRange]}>Type of payment</Text>
+
+              <View style={[GlobalStyles.horizontalLine, { width: '90%', marginVertical: hp('2.5%') }]} />
+
+              <Text style={[GlobalStyles.regularText, styles.priceRange, { marginBottom: hp('1%') }]}>Type of payment</Text>
               <View style={{ marginTop: hp('2%'), flexDirection: 'row', width: wp('80%'), justifyContent: 'space-around', alignItems: 'center', marginBottom: hp('3%') }}>
                 <RadioBtn
                   text={"In-Kind"}
@@ -206,7 +211,9 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
               <View style={{ marginBottom: hp('5%'), alignItems: 'center', justifyContent: 'center' }}>
                 <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                  onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('80%'), marginHorizontal: wp('5%'), marginBottom: hp('1%') }}
+                  onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('90%'), 
+                  marginHorizontal: wp('5%'), marginBottom: hp('1%'), paddingVertical: hp('1%') }}
+                  textStyle={{fontSize: hp('2.5%')}}
                 />
                 <TouchableOpacity onPress={() => clearFilters()} style={{ flex: 1, padding: wp('3%'), width: '50%' }}>
                   <GradientText style={[GlobalStyles.regularText, { fontWeight: 'bold' }]} end={{ x: 1, y: 1 }}>Clear All</GradientText>

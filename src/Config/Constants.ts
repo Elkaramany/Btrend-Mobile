@@ -23,6 +23,13 @@ const Colors = {
     blackOpacity30: 'rgba(0,0,0,0.30)',
 }
 
+const grayTextInputTheme = {
+    colors: {
+        placeholder: Colors.darkGray, text: Colors.darkGray, primary: Colors.darkGray,
+        underlineColor: Colors.darkGray, background: Colors.primary
+    }, roundness: hp('3%')
+}
+
 const GlobalStyles = StyleSheet.create({
     centeredContainer: {
         justifyContent: 'center',
@@ -94,4 +101,4 @@ const GlobalStyles = StyleSheet.create({
     }
 })
 
-export { Colors, GlobalStyles, IOS, ANDROID, WIDTH, HEIGHT };
+export { Colors, GlobalStyles, IOS, ANDROID, WIDTH, HEIGHT, grayTextInputTheme };

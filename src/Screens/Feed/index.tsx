@@ -57,17 +57,18 @@ const Search: React.FC<Props> = ({ navigation }) => {
         return <Match hasMatch={() => setHasMatch(false)} navigation={navigation} />
     } else {
         return (
-            <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-                <Container mainStyle={{ flex: 1 }}>
+            <View style={{ flex: 1 }}>
+                <Container containerStyle={{flex: 0}}>
                     <View style={GlobalStyles.rowBetween}>
                         <Image source={ImagePath.btrendBlack} style={styles.logo} />
                         <View style={GlobalStyles.rowBetween}>
                             <Text style={GlobalStyles.regularText}></Text>
                             <TouchableOpacity onPress={() => navigation.navigate("Search")}>
-                                <Image source={ImagePath.search} style={[GlobalStyles.arrowImage, { right: wp('3%') }]} />
+                                <Image source={ImagePath.search} style={GlobalStyles.arrowImage} />
                             </TouchableOpacity>
                         </View>
                     </View>
+                    
                     <View style={{ height: hp('3.5%') }}>
                         <FlatList
                             horizontal
@@ -90,19 +91,21 @@ const Search: React.FC<Props> = ({ navigation }) => {
                             }}
                         />
                     </View>
-                    <Feed arr={arr} navigation={navigation} setArr={setArr} />
+                </Container>
 
-                    {
-                        userType === "Brand" &&
-                        <View style={styles.addButton}>
-                            <TouchableOpacity onPress={() => setCampaignVisible(true)}>
-                                <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
-                            </TouchableOpacity>
-                            <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
-                        </View>
-                    }
-                </Container >
-            </View >
+                <Feed arr={arr} navigation={navigation} setArr={setArr} />
+
+                {
+                    userType === "Brand" &&
+                    <View style={styles.addButton}>
+                        <TouchableOpacity onPress={() => setCampaignVisible(true)}>
+                            <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
+                        </TouchableOpacity>
+                        <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
+                    </View>
+
+                }
+            </View>
         )
     }
 }
@@ -121,7 +124,7 @@ const styles = StyleSheet.create({
         height: hp('8%'),
         resizeMode: 'contain'
     }, categoryContainer: {
-        marginHorizontal: wp('3%'),
+        marginRight: wp('3%'),
         borderBottomWidth: hp('0.2%'),
     }
 })

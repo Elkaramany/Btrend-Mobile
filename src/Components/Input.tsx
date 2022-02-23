@@ -24,10 +24,11 @@ interface Props {
     numLines?: number
     dense?: boolean
     onSubmitEditing?: () => void
+    theme?: any
 }
 
 const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { },
-    secureTextEntry, rightIcon, leftIcon, type, numLines, dense, onSubmitEditing }) => {
+    secureTextEntry, rightIcon, leftIcon, type, numLines, dense, onSubmitEditing, theme }) => {
     return (
         <TextInput
             dense={dense || false}
@@ -41,7 +42,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             label={label}
             value={value.toString()}
             onChangeText={text => onChangeText(text)}
-            theme={textInputTheme}
+            theme={theme || textInputTheme}
             keyboardType={type ? type : "default"}
             onSubmitEditing={onSubmitEditing}
         />

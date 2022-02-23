@@ -157,7 +157,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                     </ScrollView>
                     <View style={GlobalStyles.rowBetween}>
                         <Input
-                            label='iMessage'
+                            label='Message...'
                             multiline
                             value={text}
                             onChangeText={(val: string) => setText(val)}

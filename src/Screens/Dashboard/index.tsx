@@ -20,7 +20,6 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
     const [selectedStat, setSelectedStat] = React.useState("Earnings")
     let d = new Date();
     d.setMonth(d.getMonth() - 1);
-    const [transactionDates, setTransactionDates] = React.useState("All")
     const [dates, setDates] = React.useState({ start: d, end: new Date() })
 
     const Stat = (stat: string) => {
@@ -42,21 +41,22 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
     const SelectedStatScreen = () => {
         if (selectedStat === "Earnings") return <Eearnings dates={dates} setDates={setDates} />
         else if (selectedStat === "Insights") return <Insights />
-        else if (selectedStat === "Payments") return <Payments navigation={navigation} />
+        else if (selectedStat === "Payments") return <Payments navigation={navigation} dates={dates} setDates={setDates} />
         else return <View />
     }
-    
+
     return (
         <Container mainStyle={{ marginTop: hp('1%'), marginHorizontal: wp('4'), flex: 1, }}>
             <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('3.5%') }]}>My Dashboard</Text>
             <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
-            <View style={[GlobalStyles.rowAround, { width: '100%' }]}>
+            <View style={{ flexDirection: 'row' }}>
                 {Stat("Earnings")}
                 {Stat("Insights")}
                 {Stat("Payments")}
             </View>
+            <View style={[GlobalStyles.horizontalLine, { width: '150%', bottom: hp('1%') }]} />
 
-            <View style={{ marginBottom: hp('2%') }} />
+
 
             {SelectedStatScreen()}
         </Container>
@@ -65,7 +65,7 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     categoryContainer: {
-        marginHorizontal: wp('3%'),
+        marginRight: wp('12%'),
         borderBottomWidth: hp('0.2%'),
         paddingBottom: hp('1%'),
     }

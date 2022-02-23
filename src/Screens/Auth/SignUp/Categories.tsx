@@ -33,6 +33,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
             <ScrollView style={{ flexGrow: 1, height: hp('63%') }}>
                 <View style={GlobalStyles.rowWrap}>
                     {CategoriesArr.map((item) => {
+                        //@ts-ignore
                         const isSelected = itemSelected(item, arr)
                         return (
                             <TouchableOpacity key={item}

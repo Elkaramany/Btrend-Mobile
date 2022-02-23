@@ -8,7 +8,7 @@ import { FavoriteUser } from '../../Redux/Actions'
 
 import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
-const CARD_HEIGHT = hp('39%')
+const CARD_HEIGHT = hp('41%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
 const ACTION_OFFSET = 100
@@ -128,9 +128,11 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
 const styles = StyleSheet.create({
     userContainer: {
         ...GlobalStyles.centeredContainer,
-        zIndex: -1,
+        alignSelf: 'center',
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
+        paddingVertical: hp('1%'),
+        borderRadius: wp('6%')
     }, userImg: {
         height: hp('17%'),
         width: wp('90%'),
