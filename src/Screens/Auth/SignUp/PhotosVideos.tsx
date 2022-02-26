@@ -45,33 +45,19 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <ProgressBar progress={0.75} color={'red'} />
-            <HeaderArrow headerText={"Add Photos & Videos"} navigateMeBack={() => navigation.goBack()} onSkip={() => pressedContinue()} />
+            <View style={GlobalStyles.rowBetween}>
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
+            </View>
+            <HeaderArrow headerText={"Connect\nSocial Accounts"} navigateMeBack={() => navigation.goBack()} onSkip={() => pressedContinue()} />
 
-            {userType == "Influencer" ? (
-                <>
-                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, marginBottom: hp('2%') }]}>
-                        Connect your Social Media Account to see the Brand offers!
-                    </Text>
-                    <AllSocials />
-                </>
-            ) : (
-                <>
-                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, marginBottom: hp('2%') }]}>
-                        Share your Brand products and services, increase your visibility
-                        and find the perfect partnership!
-                    </Text>
-                    <View style={GlobalStyles.rowAround}>
-                        {addPhoto(companyPhotos[0], 0)}
-                        {addPhoto(companyPhotos[1], 1)}
-                    </View>
-                    <View style={GlobalStyles.rowAround}>
-                        {addPhoto(companyPhotos[2], 2)}
-                        {addPhoto(companyPhotos[3], 3)}
-                    </View>
-                </>
-            )}
-
+            <>
+                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, marginBottom: hp('2%') }]}>
+                    Connect your Social Media Account to see the Brand offers!
+                </Text>
+                <AllSocials />
+            </>
 
             <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
                 <GradientButton text={'Continue'} colors={Colors.gradientButton}

@@ -11,28 +11,22 @@ interface Props {
 
 const RadioBtn: React.FC<Props> = ({ onPress = () => { }, selected, text }) => {
     return (
-        <TouchableOpacity style={styles.container} onPress={() => onPress()}>
+        <TouchableOpacity style={GlobalStyles.rowCenter} onPress={() => onPress()}>
             <View style={{
-                height: 24,
-                width: 24,
-                borderRadius: 12,
+                height: 20,
+                width: 20,
+                borderRadius: 10,
                 borderWidth: 2,
-                borderColor: '#000',
+                borderColor: Colors.secondary,
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: selected ? Colors.secondary : Colors.primary
-            }} />
+
+            }}>
+                <View style={{ padding: wp('1%'), width: 12, height: 12, borderRadius: 10, backgroundColor: selected ? Colors.secondary : Colors.primary, }} />
+            </View>
             <Text style={[GlobalStyles.regularText, { marginLeft: wp('2%') }]}>{text}</Text>
         </TouchableOpacity>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
 
 export default RadioBtn

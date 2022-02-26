@@ -54,7 +54,8 @@ const styles = StyleSheet.create({
         fontSize: hp('4%'),
         fontWeight: 'bold',
         color: Colors.secondary,
-        marginVertical: hp('5%')
+        marginVertical: hp('5%'),
+        fontFamily: "Outfit-Regular"
     }
 })
 

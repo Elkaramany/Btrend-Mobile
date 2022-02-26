@@ -11,6 +11,7 @@ export const ImagePath = {
 
   profilePicture: require('./assets/images/profilepicture.png'),
   rightArrow: require('./assets/images/Vector.png'),
+  gradientRightArrow: require('./assets/images/gradientRightArrow.png'),
   rightMarker: require('./assets/images/rightMarker.png'),
   orangeArrow: require('./assets/images/orangeArrow.png'),
   brand: require('./assets/images/brand.png'),
@@ -174,6 +175,7 @@ export const ImagePath = {
   ic_play: require('./assets/images/ic_play.png'),
   unarchive: require('./assets/images/unarchive.png'),
   profileAdd: require('./assets/images/profileAdd.jpg'),
+  profileAddSquare: require('./assets/images/profileAddSquare.png'),
   iconPlus: require('./assets/images/iconPlus.png'),
   unarchive_ic: require('./assets/images/unarchive_ic.png'),
 };

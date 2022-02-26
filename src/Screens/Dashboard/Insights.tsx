@@ -51,6 +51,7 @@ const Insights: React.FC<Props> = props => {
 
 const styles = StyleSheet.create({
     textStyle: {
+        ...GlobalStyles.regularText,
         color: Colors.secondary,
         fontSize: hp('2.5%')
     },

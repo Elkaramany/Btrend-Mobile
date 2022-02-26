@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, Alert, Scroll
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import * as RNLocalize from "react-native-localize";
-import { ProgressBar } from 'react-native-paper';
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -122,14 +121,22 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <ProgressBar progress={0.25} color={'red'} />
+            
+            <View style={GlobalStyles.rowBetween}>
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+            </View>
+
             <ScrollView style={{ flexGrow: 1 }}>
                 <HeaderArrow headerText={isBrand ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
                 <TouchableOpacity style={styles.addProfile}
                     onPress={() => handleImage()}
                 >
-                    <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAdd} style={styles.imageStyle} />
-                    <Text style={[GlobalStyles.regularText, { marginLeft: wp('10%') }]}>Add a {isBrand ? "company" : "profile"} photo</Text>
+                    <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAddSquare} style={styles.imageStyle} />
+                    <Text style={[GlobalStyles.regularText,
+                    { marginLeft: wp('5%'), textDecorationLine: 'underline', fontWeight: 'bold' }]}
+                    >Add a {isBrand ? "company" : "profile"} photo</Text>
                 </TouchableOpacity>
                 {showInput()}
                 {!isBrand &&
@@ -165,11 +172,10 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
                             {!ArabCountries.includes(RNLocalize.getCountry()) &&
                                 <TouchableOpacity
-                                    style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
+                                    style={GlobalStyles.centeredContainer}
                                     onPress={() => navigation.navigate("Genders")}
                                 >
-                                    <Text style={GlobalStyles.regularText}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "More"}</Text>
-                                    <Image source={ImagePath.arrowRight} style={[GlobalStyles.arrowImage, { alignSelf: 'center', top: '1.5%' }]} />
+                                    <Text style={GlobalStyles.regularText}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "Other"}</Text>
                                 </TouchableOpacity>
                             }
                         </View>
@@ -182,7 +188,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         <Text
                             style={[
                                 GlobalStyles.regularText,
-                                { textDecorationLine: "underline", color: Colors.brightRed }
+                                { textDecorationLine: "underline", color: Colors.blue }
                             ]}
                             onPress={() => handleUrlPress("https://google.com")}
                         >
@@ -192,7 +198,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         <Text
                             style={[
                                 GlobalStyles.regularText,
-                                { textDecorationLine: "underline", color: Colors.brightRed }
+                                { textDecorationLine: "underline", color: Colors.blue }
                             ]}
                             onPress={() => handleUrlPress("https://google.com")}
                         >
@@ -222,9 +228,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: hp('3%')
     }, dateButton: {
-        paddingVertical: hp('2%'),
+        paddingVertical: hp('1.6%'),
         justifyContent: 'flex-start',
         borderColor: Colors.secondary,
+        borderWidth: wp('0.25%'),
         marginBottom: hp('3.5%')
     },
 })

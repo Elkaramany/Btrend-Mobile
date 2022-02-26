@@ -95,7 +95,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                     <View key={item._id} style={[styles.chatContainer, msgFromMe ? styles.myChat : styles.otherChat]}>
                         {msgFromMe ?
                             <View style={[styles.balloon, { backgroundColor: Colors.darkRed }]}>
-                                <Text style={{ paddingTop: 5, color: 'white' }}>{item.content}</Text>
+                                <Text style={[GlobalStyles.regularText, { paddingTop: 5, color: 'white' }]}>{item.content}</Text>
                                 <View
                                     style={[
                                         styles.arrowContainer,
@@ -114,7 +114,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                             </View>
                             :
                             <View style={[styles.balloon, { backgroundColor: Colors.gray }]}>
-                                <Text style={{ paddingTop: 5, color: Colors.secondary }}>{item.content}</Text>
+                                <Text style={[GlobalStyles.regularText, { paddingTop: 5, color: Colors.secondary }]}>{item.content}</Text>
                                 <View
                                     style={[
                                         styles.arrowContainer,

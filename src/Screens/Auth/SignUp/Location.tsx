@@ -1,7 +1,6 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, Image, Touchable } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { ProgressBar } from 'react-native-paper';
 
 import { useSelector, RootStateOrAny, useDispatch } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -34,7 +33,6 @@ const Location: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <ProgressBar progress={1} color={'red'} />
             <HeaderArrow headerText={"Enable location"} navigateMeBack={() => navigation.goBack()} onSkip={() => navigation.navigate("Ready")} />
             <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>
                 You'll need to enable your location in order to use BTrend

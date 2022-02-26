@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: Colors.lightGray,
-        marginBottom: hp('3%'),
-        paddingTop: hp('2%')
+        marginBottom: hp('2%'),
+        paddingTop: hp('1%')
     },
 })
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import { ProgressBar } from 'react-native-paper';
 
 import { useDispatch } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -28,7 +27,11 @@ const Categories: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <ProgressBar progress={0.5} color={'red'} />
+            <View style={GlobalStyles.rowBetween}>
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+            </View>
             <HeaderArrow headerText={"Categories"} navigateMeBack={() => navigation.goBack()} onSkip={() => pressedContinue()} />
             <ScrollView style={{ flexGrow: 1, height: hp('63%') }}>
                 <View style={GlobalStyles.rowWrap}>

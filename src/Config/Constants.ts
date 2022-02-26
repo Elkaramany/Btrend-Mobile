@@ -73,7 +73,8 @@ const GlobalStyles = StyleSheet.create({
     },
     regularText: {
         fontSize: hp('2%'),
-        color: Colors.secondary
+        color: Colors.secondary,
+        fontFamily: "Outfit-Regular"
     }, rowWrap: {
         flexDirection: 'row',
         flexWrap: 'wrap',

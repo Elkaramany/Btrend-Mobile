@@ -23,11 +23,11 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <View style={{ width: wp('90%'), alignSelf: 'center' }}>
-                <Text style={[GlobalStyles.regularText, { fontSize: hp('4%'), fontWeight: 'bold' }, styles.headerStyle]}>Let's get started</Text>
+  
+                <Text style={[GlobalStyles.regularText, { fontSize: hp('4%'), fontFamily: 'Outfit-Bold' }, styles.headerStyle]}>Let's get started</Text>
                 <Text style={[GlobalStyles.regularText, { color: Colors.tertiary, marginTop: hp('1.5%'), marginBottom: hp('4%') }]}>Select your account type</Text>
 
-            </View>
+
             <TouchableOpacity
                 onPress={() => navigateToSignIn("Influencer")}
                 style={styles.cardStyle}>
