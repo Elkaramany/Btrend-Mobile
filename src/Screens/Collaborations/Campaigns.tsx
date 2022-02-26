@@ -6,6 +6,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { GlobalStyles, ImagePath, Colors } from '../../Config';
 
 import GradientButton from '../../Components/GradientButton'
+import DUMMY_ITEM from './DUMMY_ITEM'
 
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
     screen: string
 }
 
-const Campaigns: React.FC<Props> = ({ data, screen }) => {
+const Campaigns: React.FC<Props> = ({ data, screen, navigation }) => {
     return (
         <>
             <FlatList
@@ -23,7 +24,9 @@ const Campaigns: React.FC<Props> = ({ data, screen }) => {
                 renderItem={({ item }) => {
                     return (
                         <>
-                            <TouchableOpacity style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                onPress={() => navigation.navigate("CampaignDeal", { item: DUMMY_ITEM })}
+                                style={{ flexDirection: 'row' }}>
                                 <Image
                                     source={ImagePath.profilePhoto}
                                     style={{ width: wp('21%'), height: wp('21%'), resizeMode: 'contain', borderRadius: wp('5%') }}
@@ -81,6 +84,7 @@ const styles = StyleSheet.create({
         marginHorizontal: wp('2%')
     }, declinceButton: {
         paddingVertical: hp('0.75%'),
+        height: hp('4%'),
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: Colors.secondary,

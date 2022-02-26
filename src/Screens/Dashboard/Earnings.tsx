@@ -22,12 +22,14 @@ const Eearnings: React.FC<Props> = ({ dates, setDates }) => {
             <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={Colors.gradientButton}
                 style={styles.mainContainer}
             >
-                <Text style={[GlobalStyles.regularText, { color: Colors.primary, left: wp('10%') }]}>
-                    How much I've earned
-                </Text>
-                <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontWeight: 'bold', fontSize: hp('5%'), left: wp('10%'), top: hp('1%') }]}>
-                    $100
-                </Text>
+                <View style={{ marginTop: hp('5%') }}>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.primary, left: wp('7%') }]}>
+                        How much I've earned
+                    </Text>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontWeight: 'bold', fontSize: hp('5%'), left: wp('7%'), top: hp('1%') }]}>
+                        $100
+                    </Text>
+                </View>
             </LinearGradient>
 
             <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
@@ -47,7 +49,7 @@ const styles = StyleSheet.create({
     mainContainer: {
         height: hp('20%'),
         borderRadius: hp('3%'),
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 })
 

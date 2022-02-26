@@ -1,14 +1,13 @@
 import React from 'react'
 import {
-    View, Text, StyleSheet, ScrollView,
-    TouchableOpacity, Image, FlatList
+    View, Text, StyleSheet, ScrollView, Image,
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { Colors, GlobalStyles, ImagePath } from '../../Config'
 
-import Container from '../../Components/Container'
+import HeaderBack from '../../Components/HeaderBack'
 
 
 interface Props {
@@ -48,16 +47,10 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-            <View style={GlobalStyles.rowBetween}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Image
-                        source={ImagePath.leftArrow}
-                        style={[GlobalStyles.arrowImage, { marginLeft: wp('2.5%') }]}
-                    />
-                </TouchableOpacity>
-                <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2.65%') }]}>What price includes</Text>
-                <View />
+            <View style={{ alignSelf: 'center', width: '95%' }}>
+                <HeaderBack headerText='What price includes' navigateMeBack={() => navigation.goBack()} />
             </View>
+
             <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
 
             <View style={styles.paymentTypeContainer}>

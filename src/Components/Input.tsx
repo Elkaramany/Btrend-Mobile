@@ -1,14 +1,16 @@
 import React from 'react'
 import { ViewStyle } from 'react-native'
 import { TextInput } from 'react-native-paper';
-import { Colors, ImagePath } from '../Config'
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+import { Colors } from '../Config'
+
 
 const textInputTheme = {
     colors: {
         placeholder: Colors.secondary, text: Colors.secondary, primary: Colors.secondary,
         underlineColor: Colors.secondary, background: Colors.primary
-    }, roundness: hp('3%')
+    }, roundness: hp('5%')
 }
 
 interface Props {
@@ -38,7 +40,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             secureTextEntry={secureTextEntry || false}
             mode="outlined"
             multiline={false}
-            style={[{ marginBottom: hp('3.5%') }, inputStyle]}
+            style={[{ marginBottom: hp('3.5%'), height: hp('6%') }, inputStyle]}
             label={label}
             value={value.toString()}
             onChangeText={text => onChangeText(text)}

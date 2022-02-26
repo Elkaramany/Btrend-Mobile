@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     TextStyle: {
-        fontSize: hp('5%'),
+        fontSize: hp('4%'),
         fontWeight: 'bold',
         color: Colors.secondary,
         marginVertical: hp('5%')

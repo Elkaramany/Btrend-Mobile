@@ -25,10 +25,13 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const { item, isFavorite } = route.params
     const [favorite, setFavorite] = React.useState(isFavorite)
 
-
     const name = isBrand ? `${item.firstName} ${item.lastName}` : item.brand.companyName
     const photo = isBrand ? item.photo : item.brand.photo
     const categories = isBrand ? item.categories : item.brand.categories
+
+    React.useEffect(() => {
+        console.log(item, isFavorite)
+    }, [item])
 
     const onFavorite = () => {
         dispatch(FavoriteUser(item._id, token, changeFavorite, userType))

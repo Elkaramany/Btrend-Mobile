@@ -15,7 +15,7 @@ const Colors = {
     gradientButton: ['#EE0979', '#FF6A00'],
     disabledButton: ["#E0E0E0", "#E0E0E0"],
     lightGray: "#F2F2F2",
-    veryLightGrat: "#f6f6f6",
+    veryLightGray: "#f6f6f6",
     mediumGray: "#C4C4C4",
     darkGray: "#666666",
     gray: "#CCCCCC",
@@ -52,13 +52,13 @@ const GlobalStyles = StyleSheet.create({
     buttonContainer: {
         backgroundColor: Colors.primary,
         padding: wp('2.4%'),
-        paddingVertical: hp('1.5%'),
+        paddingVertical: hp('0.75%'),
         borderRadius: wp('7%'),
         borderWidth: wp('0.3%'),
         borderColor: Colors.gray,
         width: '100%'
     }, buttonText: {
-        fontSize: hp('3%'),
+        fontSize: hp('2%'),
         fontWeight: 'bold',
         color: Colors.primary
     }, textMissMatch: {

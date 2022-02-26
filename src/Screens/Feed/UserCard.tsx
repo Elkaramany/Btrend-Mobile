@@ -8,6 +8,8 @@ import { FavoriteUser } from '../../Redux/Actions'
 
 import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
+import SocialPrice from '../../Components/SocialPrice'
+
 const CARD_HEIGHT = hp('41%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
@@ -92,20 +94,16 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                     <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('5%'), marginTop: hp('1%') }]}>
                         <Text style={styles.userTitle}>{item.name}</Text>
                         <TouchableOpacity onPress={() => onFavorite()}>
-                            <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart} style={styles.heartImg} />
+                            <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart}
+                                style={{
+                                    height: hp('3%'),
+                                    width: hp('3%'),
+                                    resizeMode: 'contain',
+                                }} />
                         </TouchableOpacity>
                     </View>
 
-                    <View style={[GlobalStyles.rowBetween, { marginLeft: wp('2%'), marginVertical: hp('1%'), marginRight: wp('20%') }]}>
-                        {true && <Image source={ImagePath.instaUrl} style={styles.heartImg} />}
-                        {true && <Image source={ImagePath.ic_snapchat} style={styles.heartImg} />}
-                        {true && <Image source={ImagePath.ic_tiktok} style={styles.heartImg} />}
-                        {true && <Image source={ImagePath.youtube} style={styles.heartImg} />}
-
-                        <View style={{ height: hp('3%'), width: wp('0.35%'), backgroundColor: Colors.mediumGray }} />
-
-                        <Text style={GlobalStyles.regularText}>${item.price}</Text>
-                    </View>
+                    <SocialPrice instagram={true} tiktok={true} youtube={true} snapchat={true} price={item.price} />
 
                     <View style={GlobalStyles.horizontalLine} />
 
@@ -144,12 +142,6 @@ const styles = StyleSheet.create({
         marginVertical: hp('1%'),
         fontSize: hp('3%'),
         alignSelf: 'flex-start',
-    },
-    heartImg: {
-        height: hp('3%'),
-        width: hp('3%'),
-        resizeMode: 'contain',
-
     }, userIcon: {
         width: wp('10%'),
         height: wp('10%'),

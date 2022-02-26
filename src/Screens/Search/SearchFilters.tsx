@@ -147,25 +147,25 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
               <View style={[GlobalStyles.rowBetween, { width: '70%', alignSelf: 'flex-start', marginLeft: wp('5%') }]}>
                 <TouchableOpacity onPress={() => AddOrRemovePlatform("Instagram")}>
                   <Image
-                    source={filters.platforms.includes("Instagram") ? ImagePath.insta_select : ImagePath.ic_insta}
+                    source={filters.platforms.includes("Instagram") ? ImagePath.instagramCircleSelect : ImagePath.instagramCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => AddOrRemovePlatform("Snapchat")}>
                   <Image
-                    source={filters.platforms.includes("Snapchat") ? ImagePath.snapchat_select : ImagePath.ic_snapchat}
+                    source={filters.platforms.includes("Snapchat") ? ImagePath.snapchatCircleSelect : ImagePath.snapchatCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => AddOrRemovePlatform("Tiktok")}>
                   <Image
-                    source={filters.platforms.includes("Tiktok") ? ImagePath.tiktok_select : ImagePath.ic_tiktok}
+                    source={filters.platforms.includes("Tiktok") ? ImagePath.tiktokCircleSelect : ImagePath.tiktokCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => AddOrRemovePlatform("Youtube")}>
                   <Image
-                    source={filters.platforms.includes("Youtube") ? ImagePath.youtube_select : ImagePath.ic_youtube}
+                    source={filters.platforms.includes("Youtube") ? ImagePath.youtubeCircleSelect : ImagePath.youtubeCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
@@ -211,9 +211,11 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
               <View style={{ marginBottom: hp('5%'), alignItems: 'center', justifyContent: 'center' }}>
                 <GradientButton text={'Search'} colors={validateFilters() ? Colors.gradientButton : Colors.disabledButton}
-                  onPress={() => searchWithFilters()} buttonContainerStyle={{ width: wp('90%'), 
-                  marginHorizontal: wp('5%'), marginBottom: hp('1%'), paddingVertical: hp('1%') }}
-                  textStyle={{fontSize: hp('2.5%')}}
+                  onPress={() => searchWithFilters()} buttonContainerStyle={{
+                    width: wp('90%'),
+                    marginHorizontal: wp('5%'), marginBottom: hp('1%'), paddingVertical: hp('1%')
+                  }}
+                  textStyle={{ fontSize: hp('2.5%') }}
                 />
                 <TouchableOpacity onPress={() => clearFilters()} style={{ flex: 1, padding: wp('3%'), width: '50%' }}>
                   <GradientText style={[GlobalStyles.regularText, { fontWeight: 'bold' }]} end={{ x: 1, y: 1 }}>Clear All</GradientText>

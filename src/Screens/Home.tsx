@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, Image, TouchableOpacity, View } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { GlobalStyles, Colors, ImagePath } from '../Config'
@@ -23,9 +23,11 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <Text style={[GlobalStyles.regularText, { fontSize: hp('4%'), fontWeight: 'bold' }, styles.headerStyle]}>Let's get started</Text>
-            <Text style={[GlobalStyles.regularText, { color: Colors.tertiary, marginTop: hp('1.5%'), marginBottom: hp('6%') }]}>Select your account type</Text>
+            <View style={{ width: wp('90%'), alignSelf: 'center' }}>
+                <Text style={[GlobalStyles.regularText, { fontSize: hp('4%'), fontWeight: 'bold' }, styles.headerStyle]}>Let's get started</Text>
+                <Text style={[GlobalStyles.regularText, { color: Colors.tertiary, marginTop: hp('1.5%'), marginBottom: hp('4%') }]}>Select your account type</Text>
 
+            </View>
             <TouchableOpacity
                 onPress={() => navigateToSignIn("Influencer")}
                 style={styles.cardStyle}>
@@ -46,11 +48,12 @@ const styles = StyleSheet.create({
         marginTop: hp('10%'),
         alignItems: 'flex-start',
     }, cardStyle: {
-        marginVertical: hp('2%'),
-        alignSelf: 'center'
+        marginVertical: hp('1.5%'),
+        alignSelf: 'center',
     }, cardImg: {
         width: wp('90%'),
         height: hp('25%'),
+        resizeMode: 'contain',
         borderRadius: hp('4%'),
     },
 })
