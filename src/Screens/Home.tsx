@@ -23,9 +23,13 @@ const Home: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-  
-                <Text style={[GlobalStyles.regularText, { fontSize: hp('4%'), fontFamily: 'Outfit-Bold' }, styles.headerStyle]}>Let's get started</Text>
-                <Text style={[GlobalStyles.regularText, { color: Colors.tertiary, marginTop: hp('1.5%'), marginBottom: hp('4%') }]}>Select your account type</Text>
+
+            <Text style={[GlobalStyles.regularText, { fontSize: hp('4.5%'), fontFamily: 'Outfit-Bold' }, styles.headerStyle]}>Let's get started</Text>
+            <Text style={[GlobalStyles.regularText, {
+                color:
+                    Colors.tertiary, marginTop: hp('1.5%'),
+                marginBottom: hp('4%'), fontSize: hp('2.5%')
+            }]}>Select your account type</Text>
 
 
             <TouchableOpacity

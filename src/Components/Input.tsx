@@ -8,8 +8,8 @@ import { Colors } from '../Config'
 
 const textInputTheme = {
     colors: {
-        placeholder: Colors.secondary, text: Colors.secondary, primary: Colors.secondary,
-        underlineColor: Colors.secondary, background: Colors.primary
+        placeholder: Colors.inputGray, text: Colors.inputGray, primary: Colors.inputGray,
+        underlineColor: Colors.inputGray, background: Colors.primary
     }, roundness: hp('5%')
 }
 

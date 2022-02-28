@@ -36,11 +36,14 @@ const LoginMethods: React.FC<Props> = ({ pressedContinue = () => { }, phone = ()
                     value={email}
                     onChangeText={text => dispatch(Credential({ prop: 'email', value: text }))}
                 />
+
+                <View style={{height: hp('1%')}} />
+
                 <GradientButton text={buttonText || 'Continue'} colors={validateEmail(email) ? Colors.gradientButton : Colors.disabledButton}
                     onPress={() => pressedContinue()}
                 />
 
-                <View style={{ backgroundColor: Colors.gray, height: hp('0.2%'), marginVertical: hp('4%') }} />
+                <View style={{ backgroundColor: Colors.gray, height: hp('0.2%'), marginVertical: hp('5%') }} />
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
                     <SocialButton imageName={ImagePath.phone} onPress={() => phone()} />

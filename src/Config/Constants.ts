@@ -14,6 +14,7 @@ const Colors = {
     brightRed: '#FF6A00',
     gradientButton: ['#EE0979', '#FF6A00'],
     disabledButton: ["#E0E0E0", "#E0E0E0"],
+    inputGray: "#afafaf",
     lightGray: "#F2F2F2",
     veryLightGray: "#f6f6f6",
     mediumGray: "#C4C4C4",

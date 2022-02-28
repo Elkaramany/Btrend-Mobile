@@ -13,7 +13,7 @@ const SocialButton: React.FC<Props> = ({ imageName, onPress }) => {
         <TouchableOpacity
             onPress={() => onPress()}
             style={styles.container}>
-            <Image source={imageName} style={GlobalStyles.arrowImage} />
+            <Image source={imageName} style={[GlobalStyles.arrowImage, { height: wp('6%'), width: wp('6%') }]} />
         </TouchableOpacity>
     )
 }

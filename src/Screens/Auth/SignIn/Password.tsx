@@ -1,17 +1,16 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
-
-
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Credential, SignIn } from '../../../Redux/Actions';
+
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
 import { validatePassword, Colors } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
 import Input from '../../../Components/Input'
 import GradientButton from '../../../Components/GradientButton'
-import { TextInput } from 'react-native-paper'
 import Spinner from '../../../Components/Spinner';
 
 interface Props {
@@ -55,9 +54,11 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
                 label="Password"
                 value={password}
                 onChangeText={text => dispatch(Credential({ prop: 'password', value: text }))}
-                rightIcon={<TextInput.Icon name={secured ? "eye-off" : "eye"} color={Colors.gray} onPress={() => setSecured(!secured)} />}
+                rightIcon={<MaterialCommunityIcons name={secured ? "eye-off" : "eye"}
+                    color={Colors.inputGray} size={20} onPress={() => setSecured(!secured)} />}
             />
-
+            <MaterialCommunityIcons name={secured ? "eye-off" : "eye"}
+                color={Colors.inputGray} size={20} onPress={() => setSecured(!secured)} />
             {showButton()}
         </Container>
     )
