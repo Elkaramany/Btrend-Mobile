@@ -50,11 +50,10 @@ const Payments: React.FC<Props> = ({ navigation, dates, setDates }) => {
         <>
             <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
                 <Input
-                    label={'Brand  / Campaign name'}
+                    label={'Search'}
                     value={search}
                     onChangeText={(text) => setSearch(text)}
-                    inputStyle={{ width: wp('95%'), marginBottom: 0, height: hp('5%') }}
-                    theme={grayTextInputTheme}
+                    inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
                 />
                 {showIcon()}
             </View>
@@ -69,10 +68,10 @@ const Payments: React.FC<Props> = ({ navigation, dates, setDates }) => {
                                 onPress={() => navigation.navigate("SinglePayment", { payment: item })}
                                 style={{ marginVertical: hp('2%') }}>
                                 <View style={GlobalStyles.rowBetween}>
-                                    <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2.5%'), marginBottom: hp('0.5%') }]}>{item.campaignName}</Text>
-                                    <GradientText style={{ fontWeight: 'bold', fontSize: hp('2.5%') }} end={{ x: 0.35, y: 0.35 }}>${item.amount}</GradientText>
+                                    <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2%'), marginBottom: hp('0.5%') }]}>{item.campaignName}</Text>
+                                    <GradientText style={{ fontWeight: 'bold', fontSize: hp('2%') }} end={{ x: 0.35, y: 0.35 }}>${item.amount}</GradientText>
                                 </View>
-                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.brandName}</Text>
+                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{item.brandName}</Text>
                             </TouchableOpacity>
                             <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('0.5%') }]} />
                         </>

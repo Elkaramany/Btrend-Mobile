@@ -15,7 +15,7 @@ interface Props {
 
 const Name: React.FC<Props> = ({ youtube, instagram, snapchat, tiktok, price, containerStyle }) => {
     return (
-        <View style={[GlobalStyles.rowBetween, { marginLeft: wp('2%'), marginVertical: hp('1%'), marginRight: wp('20%') }, containerStyle]}>
+        <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), marginRight: wp('20%') }, containerStyle]}>
             {instagram && <Image source={ImagePath.instaUrl} style={styles.imgStyle} />}
             {snapchat && <Image source={ImagePath.ic_snapchat} style={styles.imgStyle} />}
             {tiktok && <Image source={ImagePath.ic_tiktok} style={styles.imgStyle} />}
@@ -23,15 +23,15 @@ const Name: React.FC<Props> = ({ youtube, instagram, snapchat, tiktok, price, co
 
             <View style={{ height: hp('3%'), width: wp('0.35%'), backgroundColor: Colors.mediumGray }} />
 
-            <Text style={GlobalStyles.regularText}>${price}</Text>
+            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>${price}</Text>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     imgStyle: {
-        height: hp('3%'),
-        width: hp('3%'),
+        height: hp('2.5%'),
+        width: hp('2.5%'),
         resizeMode: 'contain',
     }
 })

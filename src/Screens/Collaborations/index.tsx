@@ -72,15 +72,14 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
             <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
             <View style={GlobalStyles.rowBetween}>
                 <Input
-                    label={'Brand  / Campaign name'}
+                    label={'Search'}
                     value={search}
                     onChangeText={(text) => setSearch(text)}
-                    inputStyle={{ width: wp('95%'), marginBottom: 0, height: hp('5%') }}
-                    theme={grayTextInputTheme}
+                    inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
                 />
                 {showIcon()}
             </View>
-            <View style={[GlobalStyles.rowAround, { width: '100%', marginVertical: hp('2%') }]}>
+            <View style={{ marginVertical: hp('2%'), flexDirection: 'row' }}>
                 {Stat("On-going")}
                 {Stat("Invited")}
                 {Stat("Finished")}
@@ -92,7 +91,7 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     categoryContainer: {
-        marginHorizontal: wp('3%'),
+        marginRight: wp('12%'),
         borderBottomWidth: hp('0.2%'),
         paddingBottom: hp('1%'),
     }

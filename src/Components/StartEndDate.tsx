@@ -38,7 +38,7 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
                     onPress={() => setVisibleModal("start")}
                 >
                     <Text
-                        style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%'), color: Colors.darkGray }]}>
+                        style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.75%'), color: Colors.inputGray }]}>
                         {formatDate(dates.start)}
                     </Text>
                     <Image
@@ -57,7 +57,7 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
                 />
             </View>
 
-            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>-</Text>
+            <Text style={[GlobalStyles.regularText, { color: Colors.inputGray, marginHorizontal: wp('1%') }]}>-</Text>
 
             <View style={styles.dateContainer}>
                 <TouchableOpacity
@@ -65,7 +65,7 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
                     onPress={() => setVisibleModal("end")}
                 >
                     <Text
-                        style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%'), color: Colors.darkGray }]}>
+                        style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.75%'), color: Colors.inputGray }]}>
                         {formatDate(dates.end)}
                     </Text>
 
@@ -95,11 +95,11 @@ const styles = StyleSheet.create({
     }, dateContainer: {
         alignSelf: 'center',
         borderWidth: hp('0.2%'),
-        borderColor: Colors.gray,
+        borderColor: Colors.inputGray,
         borderRadius: wp('10%'),
         paddingVertical: hp('1.25%'),
         paddingHorizontal: wp('3%'),
-        width: '47%'
+        width: '48%'
     }
 })
 

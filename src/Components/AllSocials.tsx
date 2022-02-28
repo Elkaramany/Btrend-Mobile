@@ -37,7 +37,7 @@ const Name: React.FC = () => {
                 <View style={GlobalStyles.rowAround}>
                     {connected.includes(title) ?
                         <>
-                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Connected</Text>
+                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontWeight: '500' }]}>Connected</Text>
                             <Image source={ImagePath.rightMarker}
                                 style={styles.markerIcon} />
                         </>
@@ -71,14 +71,14 @@ const Name: React.FC = () => {
 
 const styles = StyleSheet.create({
     socialMediaIcon: {
-        width: wp('12%'),
-        height: wp('12%'),
+        width: wp('10%'),
+        height: wp('10%'),
         marginVertical: hp('2%'),
         marginRight: wp('5%')
     },
     markerIcon: {
-        width: wp('9%'),
-        height: wp('9%'),
+        width: wp('10%'),
+        height: wp('10%'),
         resizeMode: 'contain',
         marginLeft: wp('5%')
     },

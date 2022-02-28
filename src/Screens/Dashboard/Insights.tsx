@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.lightGray,
         borderRadius: hp('3%'),
         width: '48%',
-        height: hp('22%'),
+        height: hp('20%'),
     }, innerContainer: {
         marginLeft: wp('5%'),
         justifyContent: 'space-around',

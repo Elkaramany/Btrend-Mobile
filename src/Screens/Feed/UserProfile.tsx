@@ -41,24 +41,28 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
         setFavorite(!favorite)
     }
 
-    const HeaderArray = (header: string, arr: string[], icon: any) => {
+    const HeaderArray = (header: string, arr: string[], icon: any, bottomLine: boolean) => {
         return (
-            <View style={styles.innerContainer}>
-                <Text style={styles.sectionHeader}>{header}</Text>
-                {arr.map((cat: any) => {
-                    return (
-                        <View style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
-                            {icon &&
-                                <Image
-                                    source={icon}
-                                    style={[GlobalStyles.arrowImage, { marginRight: wp('3%') }]}
-                                />
-                            }
-                            <Text key={cat} style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{cat}</Text>
-                        </View>
-                    )
-                })}
-            </View>
+            <>
+                <View style={styles.innerContainer}>
+                    <Text style={styles.sectionHeader}>{header}</Text>
+                    {arr.map((cat: any) => {
+                        return (
+                            <View style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
+                                {icon &&
+                                    <Image
+                                        source={icon}
+                                        style={[GlobalStyles.arrowImage, { marginRight: wp('3%') }]}
+                                    />
+                                }
+                                <Text key={cat} style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{cat}</Text>
+                            </View>
+                        )
+                    })}
+                </View>
+                {bottomLine && <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />}
+            </>
+
         )
     }
 
@@ -68,23 +72,30 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 <View>
                     <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1%') }]}>
                         <View style={styles.campaignView}>
-                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Campaign</Text>
+                            <Text style={[GlobalStyles.regularText,
+                            { color: Colors.darkGray, fontSize: hp('1.75%'), fontWeight: '500' }]}>Campaign</Text>
                         </View>
-                        <TouchableOpacity onPress={() => onFavorite()}>
+                        <TouchableOpacity onPress={() => onFavorite()} style={GlobalStyles.centeredContainer}>
                             <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
-                                style={[GlobalStyles.arrowImage, { width: wp('7%'), height: wp('7%') }]} />
+                                style={[GlobalStyles.arrowImage, { width: wp('6%'), height: wp('6%') }]} />
                         </TouchableOpacity>
                     </View>
-                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%') }]}>{item.name}</Text>
-                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.5%') }]}>Posted 7h ago</Text>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%'), marginBottom: hp('1%') }]}>{item.name}</Text>
+                    <Text style={[GlobalStyles.regularText,
+                    { color: Colors.darkGray, fontSize: hp('1.5%'), marginBottom: hp('3%') }]}>Posted 7h ago</Text>
+
                     <Text style={GlobalStyles.regularText}>
                         {item.aim}
                     </Text>
 
+                    <View style={[GlobalStyles.horizontalLine, { width: '100%', marginTop: hp('5%'), marginBottom: hp('1.5%') }]} />
+
                     <View style={styles.innerContainer}>
-                        <Text style={styles.sectionHeader}>Dates</Text>
-                        <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.startingDate} - {item.endingDate}</Text>
+                        <Text style={styles.sectionHeader}>Dates:</Text>
+                        <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>{item.startingDate} - {item.endingDate}</Text>
                     </View>
+
+                    <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
 
                     <View style={styles.innerContainer}>
                         <Text style={styles.sectionHeader}>Gender & Age</Text>
@@ -97,12 +108,14 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    {HeaderArray("Languages", Languages, null)}
-                    {HeaderArray("Categories", item.categories, ImagePath.category)}
-                    {HeaderArray("HashTage", ["@larose", "#larosetheworld", "#larosetheworldasdsa"], null)}
+                    <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
+
+                    {HeaderArray("Languages", Languages, null, true)}
+                    {HeaderArray("Categories", item.categories, ImagePath.category, true)}
+                    {HeaderArray("HashTage", ["@larose", "#larosetheworld", "#larosetheworldasdsa"], null, true)}
                     {HeaderArray("In order to apply you need to", [`${item.nof.join(" - ")} followers`,
                     `Engagement score of ${item.engagementRate.join("% - ")}%`,
-                    `Based in ${item.location.join(" - ")}`], ImagePath.ic_check)}
+                    `Based in ${item.location.join(" - ")}`], ImagePath.ic_check, false)}
 
                     <View style={GlobalStyles.graySeperator} />
                     <View style={styles.innerContainer}>
@@ -126,7 +139,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <TouchableOpacity
                         onPress={() => navigation.navigate("Price", { item })}
                         style={GlobalStyles.rowBetween}>
-                        {HeaderArray("What price Includes", ["All info"], null)}
+                        {HeaderArray("What price Includes", ["All info"], null, false)}
                         <Image
                             source={ImagePath.arrowRight}
                             style={GlobalStyles.arrowImage}
@@ -147,17 +160,17 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
             <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('15%') }]}>
                 <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('2%') }}>
-                    <View style={[GlobalStyles.rowBetween, { width: '85%' }]} >
+                    <View style={[GlobalStyles.rowBetween, { width: '80%' }]} >
                         <Image source={{ uri: item.photo }} style={styles.campaignImg} />
                         <View>
-                            <Text style={GlobalStyles.regularText}>{name}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{name}</Text>
                             <View>
-                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{categories.join(" - ")}</Text>
+                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{categories.join(" - ")}</Text>
                             </View>
                         </View>
                     </View>
 
-                    <View style={[GlobalStyles.horizontalLine, { width: '100%', marginBottom: 0 }]} />
+                    <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('1%') }]} />
                     {userView()}
                 </View>
             </ScrollView>
@@ -187,8 +200,8 @@ const styles = StyleSheet.create({
         bottom: hp('6%')
     }, campaignImg: {
         marginRight: wp('2%'),
-        width: wp('15%'),
-        height: wp('15%'),
+        width: wp('10%'),
+        height: wp('10%'),
         borderRadius: wp('3%')
     }, activeContainer: {
         backgroundColor: "#6FCF97",
@@ -199,23 +212,24 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: wp('85%'),
     }, innerContainer: {
-        marginVertical: hp('0.5%'),
+        marginVertical: hp('1.5%'),
     }, sectionHeader: {
         ...GlobalStyles.regularText,
         fontWeight: '600',
+        marginBottom: hp('0.5%')
     }, bottomButton: {
         paddingHorizontal: wp('6%'),
         paddingVertical: hp('1%'),
         width: wp('60%'),
         alignSelf: 'center'
     }, campaignView: {
-        paddingVertical: hp('0.75%'),
+        paddingVertical: hp('0.45%'),
         justifyContent: 'center',
         alignItems: 'center',
         borderColor: Colors.gray,
         borderWidth: wp('0.25%'),
-        borderRadius: wp('2%'),
-        width: wp('30%'),
+        borderRadius: wp('3%'),
+        paddingHorizontal: wp('2%'),
         marginTop: hp('2%'),
     }
 })

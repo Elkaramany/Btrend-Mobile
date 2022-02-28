@@ -121,7 +121,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            
+
             <View style={GlobalStyles.rowBetween}>
                 <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
                 <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
@@ -145,7 +145,10 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                             style={[GlobalStyles.buttonContainer, styles.dateButton]}
                             onPress={() => setDateOpen(true)}
                         >
-                            <Text style={[GlobalStyles.regularText, { textAlign: 'left', fontSize: hp('1.85%') }]}>{dob.length ? dob : "Date of Birth"}</Text>
+                            <Text style={[GlobalStyles.regularText, {
+                                textAlign: 'left', fontSize: hp('1.85%'),
+                                color: Colors.inputGray
+                            }]}>{dob.length ? dob : "Date of Birth"}</Text>
                         </TouchableOpacity>
 
                         <DateTimePickerModal
@@ -183,12 +186,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                 }
 
                 <View style={{ marginBottom: hp('3%') }}>
-                    <Text style={GlobalStyles.regularText}>
+                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>
                         Before you continue take a look at{" "}
                         <Text
                             style={[
                                 GlobalStyles.regularText,
-                                { textDecorationLine: "underline", color: Colors.blue }
+                                { textDecorationLine: "underline", color: Colors.blue, fontSize: hp('1.5%') }
                             ]}
                             onPress={() => handleUrlPress("https://google.com")}
                         >
@@ -198,7 +201,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         <Text
                             style={[
                                 GlobalStyles.regularText,
-                                { textDecorationLine: "underline", color: Colors.blue }
+                                { textDecorationLine: "underline", color: Colors.blue, fontSize: hp('1.5%') }
                             ]}
                             onPress={() => handleUrlPress("https://google.com")}
                         >
@@ -230,7 +233,7 @@ const styles = StyleSheet.create({
     }, dateButton: {
         paddingVertical: hp('1.6%'),
         justifyContent: 'flex-start',
-        borderColor: Colors.secondary,
+        borderColor: Colors.inputGray,
         borderWidth: wp('0.25%'),
         marginBottom: hp('3.5%')
     },

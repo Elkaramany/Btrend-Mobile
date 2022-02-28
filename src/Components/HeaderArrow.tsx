@@ -22,7 +22,7 @@ const HeaderArrow: React.FC<Props> = ({ headerText, headerStyle, textStyle, imag
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => onSkip()}>
-                        <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Skip</Text>
+                        <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontWeight: '500' }]}>Skip</Text>
                     </TouchableOpacity>
                 </View>
             )

@@ -31,7 +31,7 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
                     borderBottomColor: sameStat ? Colors.brightRed : 'transparent'
                 }]}>
                 <Text style={[GlobalStyles.regularText, {
-                    fontWeight: sameStat ? 'bold' : 'normal',
+                    fontWeight: sameStat ? 'bold' : '500',
                     color: sameStat ? Colors.secondary : Colors.darkGray,
                 }]}>{stat}</Text>
             </TouchableOpacity>

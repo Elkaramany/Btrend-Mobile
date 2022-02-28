@@ -46,8 +46,8 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
     return (
         <Container mainStyle={{ flex: 1 }}>
             <View style={GlobalStyles.rowBetween}>
-                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
-                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
+                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
                 <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
             </View>
             <HeaderArrow headerText={"Connect\nSocial Accounts"} navigateMeBack={() => navigation.goBack()} onSkip={() => pressedContinue()} />

@@ -42,7 +42,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
         }
         return (
             <FlatList
-                contentContainerStyle={{marginTop: hp('1.5%')}}
+                contentContainerStyle={{marginTop: hp('3%')}}
                 data={arr}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 renderItem={({ item }) => <UserCard

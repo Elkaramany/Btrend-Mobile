@@ -10,7 +10,7 @@ import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
 import SocialPrice from '../../Components/SocialPrice'
 
-const CARD_HEIGHT = hp('41%')
+const CARD_HEIGHT = hp('37%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
 const ACTION_OFFSET = 100
@@ -91,32 +91,34 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
 
                     <Image source={{ uri: item.photo }} style={styles.userImg} />
 
-                    <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('5%'), marginTop: hp('1%') }]}>
-                        <Text style={styles.userTitle}>{item.name}</Text>
-                        <TouchableOpacity onPress={() => onFavorite()}>
-                            <Image source={favorite ? ImagePath.heartFilled : ImagePath.heart}
-                                style={{
-                                    height: hp('3%'),
-                                    width: hp('3%'),
-                                    resizeMode: 'contain',
-                                }} />
-                        </TouchableOpacity>
-                    </View>
+                    <View style={{ marginHorizontal: wp('5%'), marginTop: hp('1%') }}>
+                        <View style={GlobalStyles.rowBetween}>
+                            <Text style={styles.userTitle}>Hydra zen Spray</Text>
+                            <TouchableOpacity onPress={() => onFavorite()}>
+                                <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
+                                    style={{
+                                        height: hp('3%'),
+                                        width: hp('3%'),
+                                        resizeMode: 'contain',
+                                    }} />
+                            </TouchableOpacity>
+                        </View>
 
-                    <SocialPrice instagram={true} tiktok={true} youtube={true} snapchat={true} price={item.price} />
+                        <SocialPrice instagram={true} tiktok={true} youtube={true} snapchat={true} price={item.price} />
 
-                    <View style={GlobalStyles.horizontalLine} />
+                        <View style={GlobalStyles.horizontalLine} />
 
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: wp('2%') }} >
-                        <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={styles.userIcon} />
-                        <View style={{ marginLeft: wp('5%') }}>
-                            <Text style={GlobalStyles.regularText}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}name of company here</Text>
-                            <View style={{ width: wp('55%') }}>
-                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.categories.join(" - ")}</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }} >
+                            <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={styles.userIcon} />
+                            <View style={{ marginLeft: wp('5%') }}>
+                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}name of company here</Text>
+                                <View style={{ width: wp('55%') }}>
+                                    <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{item.categories.join(" - ")}</Text>
+                                </View>
                             </View>
                         </View>
-                    </View>
 
+                    </View>
                 </Card >
             </TouchableOpacity>
         </Animated.View>
@@ -132,19 +134,18 @@ const styles = StyleSheet.create({
         paddingVertical: hp('1%'),
         borderRadius: wp('6%')
     }, userImg: {
-        height: hp('17%'),
+        height: hp('15%'),
         width: wp('90%'),
         resizeMode: 'cover',
-        borderRadius: hp('3%'),
+        borderRadius: wp('6%'),
         overflow: 'hidden'
     }, userTitle: {
-        fontWeight: '600',
+        fontWeight: '500',
         marginVertical: hp('1%'),
         fontSize: hp('3%'),
-        alignSelf: 'flex-start',
     }, userIcon: {
-        width: wp('10%'),
-        height: wp('10%'),
+        width: wp('8%'),
+        height: wp('8%'),
         borderRadius: hp('1%')
     }
 })

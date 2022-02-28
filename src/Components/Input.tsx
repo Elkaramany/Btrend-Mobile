@@ -40,7 +40,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             secureTextEntry={secureTextEntry || false}
             mode="outlined"
             multiline={false}
-            style={[{ marginBottom: hp('3.5%'), height: hp('6%') }, inputStyle]}
+            style={[{ marginBottom: hp('3.5%'), height: hp('5%') }, inputStyle]}
             label={label}
             value={value.toString()}
             onChangeText={text => onChangeText(text)}
