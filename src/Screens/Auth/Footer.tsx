@@ -20,7 +20,7 @@ const Footer: React.FC<Props> = ({ title, text, routing }) => {
             onPress={() => loading ? {} : routing()}
         >
             <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>{title}</Text>
-            <Text style={[GlobalStyles.regularText, { fontSize: hp('2.5%'), fontWeight: '500', color: Colors.brightRed }]}>{text}</Text>
+            <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>{text}</Text>
         </TouchableOpacity>
     )
 }
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         backgroundColor: Colors.lightGray,
-        marginBottom: hp('2%'),
+        marginBottom: hp('4%'),
         paddingTop: hp('1%')
     },
 })

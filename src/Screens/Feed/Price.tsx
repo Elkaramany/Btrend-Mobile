@@ -20,8 +20,8 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
 
     const SocialMediaPrice = (title: string, prices: any[], img: any) => {
         return (
-            <>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginHorizontal: wp('2.5%') }}>
+            <View style={{ marginHorizontal: wp('4%'), marginVertical: hp('1%') }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
                         source={img}
                         style={{ height: wp('10%'), width: wp('10%'), marginRight: wp('5%') }}
@@ -31,7 +31,7 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                 {prices.map((item, index) => {
                     return (
                         <>
-                            <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), marginHorizontal: wp('2.5%') }]}>
+                            <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
                                 <Text style={GlobalStyles.regularText}>{item.title}</Text>
                                 <Text style={[GlobalStyles.regularText, { fontWeight: '600' }]}>${item.amount}</Text>
                             </View>
@@ -41,13 +41,13 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                     )
                 })}
                 <View style={GlobalStyles.graySeperator} />
-            </>
+            </View>
         )
     }
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-            <View style={{ alignSelf: 'center', width: '95%' }}>
+            <View style={{ alignSelf: 'center', width: '93%' }}>
                 <HeaderBack headerText='What price includes' navigateMeBack={() => navigation.goBack()} />
             </View>
 
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         ...GlobalStyles.centeredContainer,
         marginTop: hp('1%'),
         marginBottom: hp('2%'),
-        marginLeft: wp('2.5%')
+        marginLeft: wp('3%')
     },
 })
 

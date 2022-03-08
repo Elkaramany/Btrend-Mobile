@@ -68,7 +68,7 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('3.5%') }]}>Collaborations</Text>
+            <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>Collaborations</Text>
             <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
             <View style={GlobalStyles.rowBetween}>
                 <Input
@@ -79,7 +79,7 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
                 />
                 {showIcon()}
             </View>
-            <View style={{ marginVertical: hp('2%'), flexDirection: 'row' }}>
+            <View style={{ marginTop: hp('2%'), flexDirection: 'row', marginBottom: hp('3.5%') }}>
                 {Stat("On-going")}
                 {Stat("Invited")}
                 {Stat("Finished")}

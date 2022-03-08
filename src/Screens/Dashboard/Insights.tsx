@@ -41,7 +41,7 @@ const Insights: React.FC<Props> = props => {
     }
 
     return (
-        <View style={{ justifyContent: 'space-around', flex: 1, }}>
+        <View style={{ justifyContent: 'space-around', flex: 1, marginBottom: hp('5%') }}>
             {DoubleStat("Matches", "Campaigns", ImagePath.matches, ImagePath.campaigns, "35", "30")}
             {DoubleStat("Profile Likes", "Profile Views", ImagePath.likes, ImagePath.eyeIcon, "25k", "24k")}
             {DoubleStat("Swipe Right", "Swipe Left", ImagePath.swipeRight, ImagePath.swipeLeft, "25k", "24k")}
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         fontSize: hp('2.5%')
     },
     statContainer: {
-        backgroundColor: Colors.lightGray,
+        backgroundColor: Colors.primary,
         borderRadius: hp('3%'),
         width: '48%',
         height: hp('20%'),

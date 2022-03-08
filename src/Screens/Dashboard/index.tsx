@@ -31,7 +31,7 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
                     borderBottomColor: sameStat ? Colors.brightRed : 'transparent'
                 }]}>
                 <Text style={[GlobalStyles.regularText, {
-                    fontWeight: sameStat ? 'bold' : '500',
+                    fontWeight: sameStat ? '500' : '400',
                     color: sameStat ? Colors.secondary : Colors.darkGray,
                 }]}>{stat}</Text>
             </TouchableOpacity>
@@ -39,27 +39,30 @@ const Dashboard: React.FC<Props> = ({ navigation }) => {
     }
 
     const SelectedStatScreen = () => {
-        if (selectedStat === "Earnings") return <Eearnings dates={dates} setDates={setDates} />
+        if (selectedStat === "Earnings") return <Eearnings />
         else if (selectedStat === "Insights") return <Insights />
         else if (selectedStat === "Payments") return <Payments navigation={navigation} dates={dates} setDates={setDates} />
         else return <View />
     }
 
     return (
-        <Container mainStyle={{ marginTop: hp('1%'), marginHorizontal: wp('4'), flex: 1, }}>
-            <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('3.5%') }]}>My Dashboard</Text>
-            <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
-            <View style={{ flexDirection: 'row' }}>
-                {Stat("Earnings")}
-                {Stat("Insights")}
-                {Stat("Payments")}
+        <View style={{ flex: 1, }}>
+            <View style={{ paddingHorizontal: wp('4'), backgroundColor: Colors.primary }}>
+                <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>My Dashboard</Text>
+                <View style={{ marginTop: hp('4%'), flexDirection: 'row', }}>
+                    {Stat("Earnings")}
+                    {Stat("Insights")}
+                    {Stat("Payments")}
+                </View>
             </View>
+
             <View style={[GlobalStyles.horizontalLine, { width: '150%', bottom: hp('1%') }]} />
 
+            <View style={{ flex: 1, marginHorizontal: wp('4') }}>
+                {SelectedStatScreen()}
+            </View>
 
-
-            {SelectedStatScreen()}
-        </Container>
+        </View>
     )
 }
 

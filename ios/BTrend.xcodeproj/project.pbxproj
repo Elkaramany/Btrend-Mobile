@@ -520,7 +520,7 @@
 				CODE_SIGN_ENTITLEMENTS = BTrend/BTrend.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = TRFVHCDY8B;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BTrend/Info.plist;
@@ -553,7 +553,7 @@
 				CODE_SIGN_ENTITLEMENTS = BTrend/BTrend.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = TRFVHCDY8B;
 				INFOPLIST_FILE = BTrend/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

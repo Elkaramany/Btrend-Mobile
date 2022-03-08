@@ -55,10 +55,10 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
                 label="Password"
                 value={password}
                 onChangeText={text => dispatch(Credential({ prop: 'password', value: text }))}
-                rightIcon={<TextInput.Icon name={secured ? "eye-off" : "eye"} color={Colors.gray}
+                rightIcon={password.length && <TextInput.Icon name={secured ? "eye-off" : "eye"} color={Colors.gray}
                     style={{ top: hp('0.45%') }} onPress={() => setSecured(!secured)} />}
             />
-            
+
             {showButton()}
         </Container>
     )

@@ -58,7 +58,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
     } else {
         return (
             <View style={{ flex: 1 }}>
-                <Container containerStyle={{flex: 0}}>
+                <Container containerStyle={{ flex: 0 }}>
                     <View style={GlobalStyles.rowBetween}>
                         <Image source={ImagePath.btrendBlack} style={styles.logo} />
                         <View style={GlobalStyles.rowBetween}>
@@ -68,7 +68,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
                             </TouchableOpacity>
                         </View>
                     </View>
-                    
+
                     <View style={{ height: hp('3.5%') }}>
                         <FlatList
                             horizontal
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         height: hp('8%'),
         resizeMode: 'contain'
     }, categoryContainer: {
-        marginRight: wp('3%'),
+        marginRight: wp('11%'),
         borderBottomWidth: hp('0.2%'),
     }
 })

@@ -18,6 +18,7 @@ const Colors = {
     lightGray: "#F2F2F2",
     veryLightGray: "#f6f6f6",
     mediumGray: "#C4C4C4",
+    lineGray: "#b6b6b6",
     darkGray: "#666666",
     gray: "#CCCCCC",
     blue: "#0E94F6",
@@ -26,8 +27,8 @@ const Colors = {
 
 const grayTextInputTheme = {
     colors: {
-        placeholder: Colors.darkGray, text: Colors.darkGray, primary: Colors.darkGray,
-        underlineColor: Colors.darkGray, background: Colors.primary
+        placeholder: Colors.gray, text: Colors.gray, primary: Colors.gray,
+        underlineColor: Colors.gray, background: Colors.gray
     }, roundness: hp('3%')
 }
 
@@ -83,9 +84,9 @@ const GlobalStyles = StyleSheet.create({
         alignItems: 'center'
     }, horizontalLine: {
         alignSelf: 'center',
-        backgroundColor: Colors.mediumGray,
-        height: hp('0.15%'),
-        width: wp('85%'),
+        backgroundColor: Colors.lineGray,
+        height: hp('0.06%'),
+        width: '100%',
         marginVertical: hp('1%')
     }, roundedImg: {
         height: hp('7%'),
@@ -100,6 +101,11 @@ const GlobalStyles = StyleSheet.create({
         borderColor: Colors.gray,
         borderWidth: hp('0.1%'),
         marginVertical: hp('1%')
+    }, redLine: {
+        width: wp('28%'), 
+        height: hp('0.5%'), 
+        backgroundColor: Colors.brightRed, 
+        borderRadius: wp('1%')
     }
 })
 

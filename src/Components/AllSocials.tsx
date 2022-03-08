@@ -25,7 +25,7 @@ const Name: React.FC = () => {
     const socialIcon = (title: string, firstImg: any, secondImg: any) => {
         return (
             <TouchableOpacity
-                style={{ flexDirection: 'row', justifyContent: 'space-between', width: '90%' }}
+                style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
                 onPress={() => addConnectedSocial(title)}
             >
                 <View style={GlobalStyles.rowAround}>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         width: wp('10%'),
         height: wp('10%'),
         resizeMode: 'contain',
-        marginLeft: wp('5%')
+        marginLeft: wp('7%')
     },
     socialButton: {
         width: '90%',

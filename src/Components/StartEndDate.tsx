@@ -19,7 +19,6 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
     const [visibleModal, setVisibleModal] = React.useState("none")
 
     const ConfirmDate = (start: Date, end: Date) => {
-        console.log(start, end)
         if (start >= end) {
             let newEndDate = new Date(start)
             newEndDate.setDate(newEndDate.getDate() + 1);
@@ -32,7 +31,7 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
 
     return (
         <View style={[GlobalStyles.rowBetween, { width: '100%', alignSelf: 'center' }]}>
-            <View style={styles.dateContainer}>
+            <View style={styles.container}>
                 <TouchableOpacity
                     style={GlobalStyles.rowBetween}
                     onPress={() => setVisibleModal("start")}
@@ -59,7 +58,7 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
 
             <Text style={[GlobalStyles.regularText, { color: Colors.inputGray, marginHorizontal: wp('1%') }]}>-</Text>
 
-            <View style={styles.dateContainer}>
+            <View style={styles.container}>
                 <TouchableOpacity
                     style={GlobalStyles.rowBetween}
                     onPress={() => setVisibleModal("end")}
@@ -92,7 +91,6 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
 
 const styles = StyleSheet.create({
     container: {
-    }, dateContainer: {
         alignSelf: 'center',
         borderWidth: hp('0.2%'),
         borderColor: Colors.inputGray,

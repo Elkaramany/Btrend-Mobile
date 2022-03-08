@@ -123,9 +123,9 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
         <Container mainStyle={{ flex: 1 }}>
 
             <View style={GlobalStyles.rowBetween}>
-                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.brightRed }} />
-                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
-                <View style={{ width: wp('25%'), height: hp('0.5%'), backgroundColor: Colors.gray }} />
+                <View style={GlobalStyles.redLine} />
+                <View style={[GlobalStyles.redLine, { backgroundColor: Colors.gray }]} />
+                <View style={[GlobalStyles.redLine, { backgroundColor: Colors.gray }]} />
             </View>
 
             <ScrollView style={{ flexGrow: 1 }}>
@@ -147,7 +147,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         >
                             <Text style={[GlobalStyles.regularText, {
                                 textAlign: 'left', fontSize: hp('1.85%'),
-                                color: Colors.inputGray
+                                color: dob.length ? Colors.secondary : Colors.inputGray
                             }]}>{dob.length ? dob : "Date of Birth"}</Text>
                         </TouchableOpacity>
 
@@ -210,7 +210,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                     </Text>
                 </View>
 
-                <View style={{ flex: 1, justifyContent: 'flex-end', marginTop: hp('3%') }}>
+                <View style={{ flex: 1, justifyContent: 'flex-end', marginTop: hp('10%') }}>
                     <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
                         onPress={() => pressedContinue()}
                     />

@@ -29,10 +29,6 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const photo = isBrand ? item.photo : item.brand.photo
     const categories = isBrand ? item.categories : item.brand.categories
 
-    React.useEffect(() => {
-        console.log(item, isFavorite)
-    }, [item])
-
     const onFavorite = () => {
         dispatch(FavoriteUser(item._id, token, changeFavorite, userType))
     }
@@ -77,7 +73,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         </View>
                         <TouchableOpacity onPress={() => onFavorite()} style={GlobalStyles.centeredContainer}>
                             <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
-                                style={[GlobalStyles.arrowImage, { width: wp('6%'), height: wp('6%') }]} />
+                                style={[GlobalStyles.arrowImage, { width: wp('7%'), height: wp('7%') }]} />
                         </TouchableOpacity>
                     </View>
                     <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%'), marginBottom: hp('1%') }]}>{item.name}</Text>
@@ -158,7 +154,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 <Image source={ImagePath.ic_cross} />
             </TouchableOpacity>
 
-            <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('15%') }]}>
+            <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('25%') }]}>
                 <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('2%') }}>
                     <View style={[GlobalStyles.rowBetween, { width: '80%' }]} >
                         <Image source={{ uri: item.photo }} style={styles.campaignImg} />
@@ -170,7 +166,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         </View>
                     </View>
 
-                    <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('1%') }]} />
+                    <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
                     {userView()}
                 </View>
             </ScrollView>

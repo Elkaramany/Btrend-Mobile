@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { StackNavigationProp } from '@react-navigation/stack';
+import { TextInput } from 'react-native-paper'
 
 import { GlobalStyles, ImagePath, Colors, grayTextInputTheme } from '../../Config'
 import { DatesType } from './types';
@@ -32,33 +33,33 @@ const DUMMY_DATA = [
     }
 ]
 
+const InputTheme = {
+    colors: {
+        placeholder: Colors.inputGray, text: Colors.darkGray, primary: Colors.inputGray,
+        underlineColor: Colors.inputGray, background: Colors.lightGray
+    }, roundness: hp('5%')
+}
+
 const Payments: React.FC<Props> = ({ navigation, dates, setDates }) => {
     const [search, setSearch] = React.useState('')
 
-    const showIcon = () => {
-        if (search.length) {
-            return (
-                <Icon name={"close"}
-                    size={25} color={Colors.darkGray}
-                    style={{ right: wp('9%'), top: hp('0.4%') }}
-                    onPress={() => setSearch('')} />
-            )
-        } else return <View />
-    }
-
     return (
         <>
-            <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1.5%') }]}>
+            <View style={{ marginBottom: hp('3%') }}>
                 <Input
-                    label={'Search'}
+                    label={'La rose'}
                     value={search}
                     onChangeText={(text) => setSearch(text)}
                     inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
+                    rightIcon={search.length && <TextInput.Icon name={"close"} color={Colors.gray}
+                        style={{ top: hp('0.45%') }} onPress={() => setSearch('')} />}
+                    theme={InputTheme}
                 />
-                {showIcon()}
             </View>
+
             <StartEndDate dates={dates} setDates={setDates} />
             <FlatList
+                contentContainerStyle={{ marginTop: hp('1%') }}
                 data={DUMMY_DATA}
                 keyExtractor={(item) => `${item.id}`}
                 renderItem={({ item }) => {
@@ -66,14 +67,14 @@ const Payments: React.FC<Props> = ({ navigation, dates, setDates }) => {
                         <>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate("SinglePayment", { payment: item })}
-                                style={{ marginVertical: hp('2%') }}>
+                                style={{ marginVertical: hp('2%'), marginHorizontal: wp('0.5%') }}>
                                 <View style={GlobalStyles.rowBetween}>
-                                    <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2%'), marginBottom: hp('0.5%') }]}>{item.campaignName}</Text>
+                                    <Text style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2.25%'), marginBottom: hp('0.5%') }]}>{item.campaignName}</Text>
                                     <GradientText style={{ fontWeight: 'bold', fontSize: hp('2%') }} end={{ x: 0.35, y: 0.35 }}>${item.amount}</GradientText>
                                 </View>
                                 <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{item.brandName}</Text>
                             </TouchableOpacity>
-                            <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('0.5%') }]} />
+                            <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('1%'), backgroundColor: "#C6C6C8" }]} />
                         </>
 
                     )

@@ -42,8 +42,10 @@ const Ready: React.FC<Props> = ({ navigation }) => {
             <ScrollView style={{ flexGrow: 1 }}>
                 <View style={{ marginBottom: hp('6%') }} />
                 <Image source={ImagePath.ic_ready} style={styles.locationIcon} />
-                <View style={styles.userTypeContainer}>
-                    <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontSize: hp('3%') }]}>{user.userType}</Text>
+                <View style={[styles.userTypeContainer, {
+                    backgroundColor: user.userType === "Brand" ? "#5286ff" : "#FF9500"
+                }]}>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontSize: hp('2.5%') }]}>{user.userType}</Text>
                 </View>
                 <Header headerText={"You're ready!"} textStyle={{ fontSize: hp('5%') }}
                     headerStyle={{ justifyContent: 'center', height: hp('10%') }} />
@@ -59,16 +61,15 @@ const styles = StyleSheet.create({
     locationIcon: {
         alignSelf: 'center',
         resizeMode: 'contain',
-        width: wp('70%'),
-        height: wp('100%'),
+        width: wp('50%'),
+        height: wp('90%'),
+        marginBottom: hp('6%')
     },
     userTypeContainer: {
-        backgroundColor: "#FF9500",
         paddingVertical: hp('0.3%'),
-        paddingHorizontal: wp('2.5%'),
         justifyContent: 'center',
         alignItems: 'center',
-        width: wp('35%'),
+        width: wp('28%'),
         borderRadius: wp('3%')
     }, tutorialStyle: {
         flex: 1,

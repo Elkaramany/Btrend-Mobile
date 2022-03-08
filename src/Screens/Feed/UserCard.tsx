@@ -10,7 +10,7 @@ import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
 import SocialPrice from '../../Components/SocialPrice'
 
-const CARD_HEIGHT = hp('37%')
+const CARD_HEIGHT = hp('38%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
 const ACTION_OFFSET = 100
@@ -93,7 +93,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
 
                     <View style={{ marginHorizontal: wp('5%'), marginTop: hp('1%') }}>
                         <View style={GlobalStyles.rowBetween}>
-                            <Text style={styles.userTitle}>Hydra zen Spray</Text>
+                            <Text style={styles.userTitle}>{item.name}</Text>
                             <TouchableOpacity onPress={() => onFavorite()}>
                                 <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
                                     style={{
@@ -134,8 +134,8 @@ const styles = StyleSheet.create({
         paddingVertical: hp('1%'),
         borderRadius: wp('6%')
     }, userImg: {
-        height: hp('15%'),
-        width: wp('90%'),
+        height: hp('16%'),
+        width: wp('93%'),
         resizeMode: 'cover',
         borderRadius: wp('6%'),
         overflow: 'hidden'

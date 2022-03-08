@@ -29,14 +29,14 @@ const Campaigns: React.FC<Props> = ({ data, screen, navigation }) => {
                                 style={{ flexDirection: 'row' }}>
                                 <Image
                                     source={ImagePath.profilePhoto}
-                                    style={{ width: wp('18%'), height: wp('18%'), resizeMode: 'contain', borderRadius: wp('5%') }}
+                                    style={{ width: wp('18%'), height: wp('18%'), resizeMode: 'contain', borderRadius: wp('3%') }}
                                 />
                                 <View style={{ left: wp('5%') }}>
                                     <View style={{ flex: 1 }}>
 
                                         <View style={[GlobalStyles.rowBetween, { width: wp('68%') }]}>
                                             <Text style={[GlobalStyles.regularText,
-                                            { fontWeight: 'bold' }]}>{item.campaignName}</Text>
+                                            { fontWeight: 'bold', fontSize: hp('2.25%') }]}>{item.campaignName}</Text>
                                             <Image
                                                 source={ImagePath.arrowRight}
                                                 style={{ width: wp('8%'), height: wp('8%'), resizeMode: 'contain' }}
@@ -73,7 +73,7 @@ const Campaigns: React.FC<Props> = ({ data, screen, navigation }) => {
 
                                 </View>
                             </TouchableOpacity>
-                            <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('2%') }]} />
+                            <View style={[GlobalStyles.horizontalLine, { width: '100%', marginVertical: hp('3%') }]} />
                         </>
                     )
                 }}

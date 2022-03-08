@@ -116,7 +116,9 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
         } else {
             return (
                 <>
-                    <Text style={[GlobalStyles.regularText, styles.subHeader]}>An email address containg a verification code will be sent to your email address</Text>
+                    <Text style={[GlobalStyles.regularText, styles.subHeader]}>
+                        Please enter the email address associated with your account and you will receive a link that can reset your password
+                    </Text>
                     <Input
                         label="Email"
                         value={email}
@@ -129,7 +131,7 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container>
-            <HeaderArrow headerText={'Trouble signing in'} navigateMeBack={() => navigation.goBack()} />
+            <HeaderArrow headerText={'Reset Password'} navigateMeBack={() => navigation.goBack()} />
             {showInputs()}
             {showButton()}
         </Container>
@@ -138,8 +140,8 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
 
 const styles = StyleSheet.create({
     subHeader: {
-        textAlign: 'center',
-        marginBottom: hp('5%')
+        marginBottom: hp('5%'),
+        color: Colors.darkGray
     }, cell: {
         width: 40,
         height: 40,

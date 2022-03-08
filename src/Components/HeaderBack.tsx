@@ -19,7 +19,7 @@ const HeaderBack: React.FC<Props> = ({ headerText, headerStyle, textStyle, image
             <TouchableOpacity onPress={() => navigateMeBack()}>
                 <Image source={imageName || ImagePath.leftArrow} style={[GlobalStyles.arrowImage, imageStyle]} />
             </TouchableOpacity>
-            <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('2.5%') }, textStyle]}>
+            <Text style={[GlobalStyles.regularText, { fontWeight: '500' }, textStyle]}>
                 {headerText}
             </Text>
             <View />

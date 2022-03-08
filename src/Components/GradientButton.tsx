@@ -18,7 +18,7 @@ const GradientButton: React.FC<Props> = ({ buttonContainerStyle, textStyle, text
             <LinearGradient colors={colors || Colors.gradientButton}
                 style={[GlobalStyles.buttonContainer, {
                     justifyContent: 'center', alignItems: 'center',
-                    borderRadius: wp('7%'), height: hp('5%'),
+                    borderRadius: wp('7%'), height: hp('5.5%'),
                     borderWidth: 0
                 }, buttonContainerStyle]}
                 start={{ y: 0.0, x: 0.0 }} end={{ y: 0.0, x: 1.0 }}>

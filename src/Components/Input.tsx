@@ -8,7 +8,7 @@ import { Colors } from '../Config'
 
 const textInputTheme = {
     colors: {
-        placeholder: Colors.inputGray, text: Colors.inputGray, primary: Colors.inputGray,
+        placeholder: Colors.inputGray, text: Colors.secondary, primary: Colors.inputGray,
         underlineColor: Colors.inputGray, background: Colors.primary
     }, roundness: hp('5%')
 }
@@ -40,7 +40,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             secureTextEntry={secureTextEntry || false}
             mode="outlined"
             multiline={false}
-            style={[{ marginBottom: hp('3.5%'), height: hp('5%') }, inputStyle]}
+            style={[{ marginBottom: hp('3.5%'), height: hp('5.5%') }, inputStyle]}
             label={label}
             value={value.toString()}
             onChangeText={text => onChangeText(text)}

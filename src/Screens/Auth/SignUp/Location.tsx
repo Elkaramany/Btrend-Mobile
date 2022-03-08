@@ -33,14 +33,16 @@ const Location: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <HeaderArrow headerText={"Enable location"} navigateMeBack={() => navigation.goBack()} onSkip={() => navigation.navigate("Ready")} />
+            <HeaderArrow headerText={"Enable location"} 
+            navigateMeBack={() => navigation.goBack()} onSkip={() => navigation.navigate("Ready")}
+            textStyle={{fontSize: hp('4.5%')}} />
             <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>
                 You'll need to enable your location in order to use BTrend
             </Text>
             
             <Image source={ImagePath.ic_location} style={styles.locationIcon} />
 
-            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
+            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('2%') }}>
                 <GradientButton text={'Allow location'} colors={Colors.gradientButton}
                     onPress={() => getUserLocation()} />
             </View>
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
     locationIcon: {
         alignSelf: 'center',
         resizeMode: 'contain',
-        width: wp('60%'),
+        width: wp('50%'),
         height: wp('90%'),
     }
 })

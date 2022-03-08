@@ -1,10 +1,10 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { Credential } from '../Redux/Actions';
-import { Colors, ImagePath, IOS, validateEmail } from '../Config';
+import { Colors, GlobalStyles, ImagePath, IOS, validateEmail } from '../Config';
 
 import GradientButton from './GradientButton'
 import Spinner from './Spinner'
@@ -37,15 +37,21 @@ const LoginMethods: React.FC<Props> = ({ pressedContinue = () => { }, phone = ()
                     onChangeText={text => dispatch(Credential({ prop: 'email', value: text }))}
                 />
 
-                <View style={{height: hp('1%')}} />
+                <View style={{ height: hp('1%') }} />
 
                 <GradientButton text={buttonText || 'Continue'} colors={validateEmail(email) ? Colors.gradientButton : Colors.disabledButton}
                     onPress={() => pressedContinue()}
                 />
 
-                <View style={{ backgroundColor: Colors.gray, height: hp('0.2%'), marginVertical: hp('5%') }} />
+                <View style={GlobalStyles.rowBetween}>
+                    <View style={[GlobalStyles.horizontalLine,
+                    { marginVertical: hp('5.5%'), width: '45%' }]} />
+                    <Text style={[GlobalStyles.regularText, { color: Colors.inputGray }]}> OR </Text>
+                    <View style={[GlobalStyles.horizontalLine,
+                    { marginVertical: hp('5.5%'), width: '45%' }]} />
+                </View>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-around'}}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                     <SocialButton imageName={ImagePath.phone} onPress={() => phone()} />
                     {IOS && <SocialButton imageName={ImagePath.apple} onPress={() => apple()} />}
                     <SocialButton imageName={ImagePath.google} onPress={() => google()} />
