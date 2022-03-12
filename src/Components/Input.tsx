@@ -1,5 +1,5 @@
 import React from 'react'
-import { ViewStyle } from 'react-native'
+import { ViewStyle, TextStyle } from 'react-native'
 import { TextInput } from 'react-native-paper';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -15,7 +15,7 @@ const textInputTheme = {
 
 interface Props {
     multiline?: boolean
-    inputStyle?: ViewStyle
+    inputStyle?: ViewStyle | TextStyle
     label: string
     value: string | number
     onChangeText: (text: string) => void
@@ -27,10 +27,11 @@ interface Props {
     dense?: boolean
     onSubmitEditing?: () => void
     theme?: any
+    placeHolder?: string
 }
 
 const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { },
-    secureTextEntry, rightIcon, leftIcon, type, numLines, dense, onSubmitEditing, theme }) => {
+    secureTextEntry, rightIcon, leftIcon, type, numLines, dense, multiline, onSubmitEditing, theme, placeHolder }) => {
     return (
         <TextInput
             dense={dense || false}
@@ -39,9 +40,10 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             left={leftIcon ? leftIcon : null}
             secureTextEntry={secureTextEntry || false}
             mode="outlined"
-            multiline={false}
+            multiline={multiline || false}
             style={[{ marginBottom: hp('3.5%'), height: hp('5.5%') }, inputStyle]}
             label={label}
+            placeholder={placeHolder || label}
             value={value.toString()}
             onChangeText={text => onChangeText(text)}
             theme={theme || textInputTheme}

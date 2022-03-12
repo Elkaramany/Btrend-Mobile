@@ -52,7 +52,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
             <HeaderArrow headerText={isSignUp ? 'Sign Up' : 'Sign In'} navigateMeBack={() => navigation.goBack()} />
             <Input
                 secureTextEntry={secured}
-                label="Password"
+                label=""
                 value={password}
                 onChangeText={text => dispatch(Credential({ prop: 'password', value: text }))}
                 rightIcon={password.length && <TextInput.Icon name={secured ? "eye-off" : "eye"} color={Colors.gray}

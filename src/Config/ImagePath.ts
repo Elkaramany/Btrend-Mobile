@@ -132,6 +132,9 @@ export const ImagePath = {
   coverHolder: require('./assets/images/coverPic.png'),
   cameraIcon: require('./assets/images/cameraIcon.png'),
   postShadow: require('./assets/images/postShadow.png'),
+  plus: require('./assets/images/plus.png'),
+  plusBlack: require('./assets/images/plusBlack.png'),
+  minus: require('./assets/images/minus.png'),
 
   ic_location: require('./assets/images/ic_location.png'),
   ic_posted: require('./assets/images/ic_posted.png'),

@@ -9,6 +9,7 @@ import Search from "../../Screens/Search";
 import SinglePayment from "../../Screens/Dashboard/SinglePayment";
 import CampaignDeal from "../../Screens/Collaborations/CampaignDeal"
 import Price from "../../Screens/Feed/Price"
+import Proposal from "../../Screens/Feed/Proposal";
 
 const Stack = createStackNavigator();
 
@@ -23,6 +24,7 @@ export default () => {
             <Stack.Screen name="CampaignDeal" component={CampaignDeal} />
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="Price" component={Price} />
+            <Stack.Screen name="Proposal" component={Proposal} />
             <Stack.Screen name="UserChat" component={UserChat} />
             <Stack.Screen name="Report" component={Report} />
         </Stack.Navigator>

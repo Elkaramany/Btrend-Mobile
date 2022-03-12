@@ -13,7 +13,6 @@ import { GlobalStyles, ImagePath, Colors, CategoriesArr } from '../../Config'
 import { SearchFeed } from '../../Redux/Actions'
 
 import Container from '../../Components/Container'
-import AddCampaign from './AddCampaign'
 import Match from './Match'
 
 import { INITIAL_FILTERS } from '../Search/Types';
@@ -29,7 +28,6 @@ const Search: React.FC<Props> = ({ navigation }) => {
     const { fetchedArray } = useSelector((state: RootStateOrAny) => state.SearchReducer)
     const [arr, setArr] = React.useState<any[]>([])
     const [selectedCategory, setSelectedCategory] = React.useState<string[]>([])
-    const [campaignVisible, setCampaignVisible] = React.useState(false)
     const [hasMatch, setHasMatch] = React.useState(false)
     const dispatch = useDispatch()
 
@@ -94,17 +92,6 @@ const Search: React.FC<Props> = ({ navigation }) => {
                 </Container>
 
                 <Feed arr={arr} navigation={navigation} setArr={setArr} />
-
-                {
-                    userType === "Brand" &&
-                    <View style={styles.addButton}>
-                        <TouchableOpacity onPress={() => setCampaignVisible(true)}>
-                            <Image source={ImagePath.uploadFocus} style={{ width: wp('10%'), height: hp('5%'), resizeMode: 'contain' }} />
-                        </TouchableOpacity>
-                        <AddCampaign modalVisible={campaignVisible} hideModal={() => setCampaignVisible(false)} />
-                    </View>
-
-                }
             </View>
         )
     }

@@ -67,7 +67,7 @@ const Home: React.FC<Props> = ({ navigation }) => {
             <Container>
                 <HeaderArrow headerText={'Sign In'} navigateMeBack={() => backHome()} />
 
-                <LoginMethods label={'Email'} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
+                <LoginMethods label={''} buttonText={"Continue"} pressedContinue={() => pressedContinue()}
                     apple={() => Apple()}
                     google={() => Google()}
                     facebook={() => Facebook()}

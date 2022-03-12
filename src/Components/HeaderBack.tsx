@@ -15,7 +15,7 @@ interface Props {
 const HeaderBack: React.FC<Props> = ({ headerText, headerStyle, textStyle, imageName, navigateMeBack, imageStyle }) => {
 
     return (
-        <View style={[GlobalStyles.rowBetween, headerStyle]}>
+        <View style={[GlobalStyles.rowBetween, { alignSelf: 'center', width: '93%' }, headerStyle]}>
             <TouchableOpacity onPress={() => navigateMeBack()}>
                 <Image source={imageName || ImagePath.leftArrow} style={[GlobalStyles.arrowImage, imageStyle]} />
             </TouchableOpacity>
@@ -26,5 +26,4 @@ const HeaderBack: React.FC<Props> = ({ headerText, headerStyle, textStyle, image
         </View>
     )
 }
-
 export default HeaderBack;

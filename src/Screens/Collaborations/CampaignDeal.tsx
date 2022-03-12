@@ -23,29 +23,31 @@ const CampaignDeal: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary }}>
-            <View style={{ marginHorizontal: wp('5%') }}>
-                <HeaderBack headerText='Campaign Deal' navigateMeBack={() => navigation.goBack()} />
-            </View>
+            <HeaderBack headerText='Campaign Deal' navigateMeBack={() => navigation.goBack()} />
 
-            <View style={{ backgroundColor: Colors.veryLightGray, marginTop: hp('2%'), paddingVertical: hp('2%') }}>
-                <View style={[GlobalStyles.rowBetween,
-                { marginHorizontal: wp('5%') }]}>
+            <View style={{ backgroundColor: Colors.veryLightGray, marginTop: hp('2%'), paddingVertical: hp('1%') }}>
+                <View style={{ marginHorizontal: wp('4%'), flexDirection: 'row', alignItems: 'center', width: '100%' }}>
                     <Image source={{ uri: item.photo }} style={styles.campaignImg} />
-                    <View style={{justifyContent: 'center', flex: 1}}>
-                        <Text style={[GlobalStyles.regularText, { fontWeight: 'bold' }]}>{item.name}</Text>
-                        <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>
-                            {isBrand ? `${item.firstName + ' ' + item.lastName}` : item.brand.companyName}
-                        </Text>
-                        <View style={{ width: '100%' }}>
-                            <SocialPrice
-                                containerStyle={{ marginRight: wp('5%'), marginLeft: 0, width: '85%' }}
-                                instagram={true} tiktok={true} youtube={true} snapchat={true} price={item.price} />
+                    <View style={{ top: hp('0.5%'), left: wp('5%'), width: '65%' }}>
+                        <View style={GlobalStyles.rowBetween}>
+                            <Text style={[GlobalStyles.regularText, { fontWeight: 'bold' }]}>{item.name}</Text>
+                            <Image source={ImagePath.arrowRight} style={{
+                                height: wp('8%'),
+                                width: wp('8%'),
+                            }} />
+                        </View>
+                        <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.name}</Text>
+                        <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), width: '90%' }]}>
+                            {true && <Image source={ImagePath.instaUrl} style={styles.socialIconStyle} />}
+                            {true && <Image source={ImagePath.ic_snapchat} style={styles.socialIconStyle} />}
+                            {true && <Image source={ImagePath.ic_tiktok} style={styles.socialIconStyle} />}
+                            {true && <Image source={ImagePath.youtube} style={styles.socialIconStyle} />}
+
+                            <View style={{ height: hp('3%'), width: wp('0.35%'), backgroundColor: Colors.mediumGray }} />
+
+                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>$1500</Text>
                         </View>
                     </View>
-                    <Image source={ImagePath.arrowRight} style={{
-                        height: wp('8%'),
-                        width: wp('8%'),
-                    }} />
                 </View>
             </View>
         </View>
@@ -54,10 +56,15 @@ const CampaignDeal: React.FC<Props> = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
     campaignImg: {
-        height: wp('19%'),
-        width: wp('19%'),
+        height: wp('20%'),
+        width: wp('20%'),
         borderRadius: wp('2.5%')
-    },
+    }, socialIconStyle: {
+        height: hp('2.5%'),
+        width: hp('2.5%'),
+        resizeMode: 'contain',
+        marginHorizontal: wp('2%')
+    }
 })
 
 export default CampaignDeal

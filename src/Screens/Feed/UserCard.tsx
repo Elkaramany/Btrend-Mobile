@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Animated, Image, PanResponder, TouchableOpacity, TouchableWithoutFeedback } from 'react-native'
 import { Card } from 'react-native-paper'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
@@ -10,7 +10,7 @@ import { Colors, ImagePath, GlobalStyles } from '../../Config'
 
 import SocialPrice from '../../Components/SocialPrice'
 
-const CARD_HEIGHT = hp('38%')
+const CARD_HEIGHT = hp('37%')
 const CARD_WIDTH = wp('95%')
 const THRESHOLD = CARD_WIDTH / 3.25
 const ACTION_OFFSET = 100
@@ -86,7 +86,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                 }]
             }}
         >
-            <TouchableOpacity onPress={() => navigation.navigate("UserProfile", { item, isFavorite: favorite })}>
+            <TouchableWithoutFeedback onPress={() => navigation.navigate("UserProfile", { item, isFavorite: favorite })}>
                 <Card style={styles.userContainer}>
 
                     <Image source={{ uri: item.photo }} style={styles.userImg} />
@@ -109,9 +109,9 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                         <View style={GlobalStyles.horizontalLine} />
 
                         <View style={{ flexDirection: 'row', alignItems: 'center' }} >
-                            <Image source={{ uri: isBrand ? item.photo : item.brand.photo }} style={styles.userIcon} />
+                            <Image source={{ uri: isBrand ? item.photo : item.brand.photo || null }} style={styles.userIcon} />
                             <View style={{ marginLeft: wp('5%') }}>
-                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}name of company here</Text>
+                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}</Text>
                                 <View style={{ width: wp('55%') }}>
                                     <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{item.categories.join(" - ")}</Text>
                                 </View>
@@ -120,7 +120,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
 
                     </View>
                 </Card >
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
         </Animated.View>
     )
 }
@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
         paddingVertical: hp('1%'),
-        borderRadius: wp('6%')
+        borderRadius: wp('6%'),
+        marginBottom: hp('3%'),
     }, userImg: {
         height: hp('16%'),
         width: wp('93%'),

@@ -47,11 +47,10 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-            <View style={{ alignSelf: 'center', width: '93%' }}>
-                <HeaderBack headerText='What price includes' navigateMeBack={() => navigation.goBack()} />
-            </View>
 
-            <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
+            <HeaderBack headerText='What price includes' navigateMeBack={() => navigation.goBack()} />
+
+            <View style={[GlobalStyles.horizontalLine, { width: '93%' }]} />
 
             <View style={styles.paymentTypeContainer}>
                 <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.payment}</Text>
