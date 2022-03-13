@@ -2,44 +2,27 @@ import React from 'react'
 import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import LinearGradient from 'react-native-linear-gradient';
 
 import { GlobalStyles, Colors, ImagePath, isEmptyObject } from '../../../Config'
+import { BASE_SOCIAL_MEDIA } from './types'
 
 import Input from '../../../Components/Input'
+import FixedPrice from './FixedPrice'
+import GradientButton from '../../../Components/GradientButton'
+import GradientText from '../../../Components/GradientText'
 
 interface Props {
     coverLetter: string
     setCoverLetter: (text: string) => void
     socialMedia: any
     setSocialMedia: (newSocial: any) => void
+    onSubmit: () => void
+    totalPrice: number
 }
 
-import FixedPrice from './FixedPrice'
-import GradientButton from '../../../Components/GradientButton'
 
-const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCoverLetter }) => {
-
-    const addNewSocialMedia = (title: string) => {
-        const newSocail = { ...socialMedia }
-        if (title === "Instagram") {
-            newSocail.instagram = {
-                post: { number: 1, price: 200 },
-            }
-        } else if (title === "Tiktok") {
-            newSocail.tiktok = {
-                feedVideo: { number: 1, price: 200 },
-            }
-        } else if (title === "Snapchat") {
-            newSocail.snapchat = {
-                snap: { number: 1, price: 200 },
-            }
-        } else {
-            newSocail.youtube = {
-                video: { number: 1, price: 200 },
-            }
-        }
-        setSocialMedia(newSocail)
-    }
+const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCoverLetter, onSubmit, totalPrice }) => {
 
     const changeOutletValue = (value: string, newValue: number | string, parent: string, outlet: string) => {
         const newSocial = { ...socialMedia }
@@ -52,18 +35,24 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
         else if (value === "number" && parseInt(newValue) <= 0) {
             delete newSocial[`${parent}`][`${outlet}`]
             if (isEmptyObject(newSocial[`${parent}`])) {
-                const newParent = {...newSocial}
+                const newParent = { ...newSocial }
                 delete newParent[`${parent}`]
                 if (!isEmptyObject(newParent)) {
                     delete newSocial[`${parent}`]
                 } else {
                     Alert.alert("You must have a social media posting!")
-                    newSocial[`${parent}`][`${outlet}`] = {number: 1 , price: 200}
+                    newSocial[`${parent}`][`${outlet}`] = { number: 1, price: 200 }
                 }
             }
         } else {
             newSocial[`${parent}`][`${outlet}`][`${value}`] = newValue;
         }
+        setSocialMedia(newSocial)
+    }
+
+    const addNewOutlet = (parent: string, outlet: string) => {
+        const newSocial = { ...socialMedia }
+        newSocial[`${parent}`][`${outlet}`] = { number: 1, price: 200 }
         setSocialMedia(newSocial)
     }
 
@@ -96,8 +85,9 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
                         <Input
                             inputStyle={styles.priceContainer}
                             type={'numeric'}
-                            label=''
-                            value={`$                ${outlet.price}`}
+                            label='$'
+                            placeHolder=''
+                            value={`${outlet.price}`}
                             onChangeText={(text: string | number) => changeOutletValue("price", text, parent, outletTitle.toLowerCase())}
                         />
                     </View>
@@ -107,6 +97,9 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
     }
 
     const SingleSocialMedia = (socialMedia: any, socialMediaTitle: string, img: any) => {
+        //Get all outlets of a specific social media except the ones that already exist
+        //@ts-ignore
+        const filteredOutlets = BASE_SOCIAL_MEDIA[`${socialMediaTitle}`].filter(item => !Object.getOwnPropertyNames(socialMedia).includes(item))
         return (
             <View style={{ marginVertical: hp('1%') }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: hp('2%') }}>
@@ -119,22 +112,54 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
                 {Object.getOwnPropertyNames(socialMedia).map((outletTitle: string) => {
                     return SocialMediaOutlet(socialMedia[`${outletTitle}`], outletTitle, socialMediaTitle)
                 })}
-
                 <View style={GlobalStyles.horizontalLine} />
+
+                {
+                    filteredOutlets.map((outletTitle: string) => {
+                        return (
+                            <>
+                                <TouchableOpacity
+                                    key={outletTitle}
+                                    onPress={() =>
+                                        addNewOutlet(socialMediaTitle.toLowerCase(), outletTitle.toLowerCase())
+                                    }
+                                    style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
+                                    <Text
+                                        style={styles.outlestStyle}>
+                                        {outletTitle}
+                                    </Text>
+                                    <Image source={ImagePath.plusBlack} style={{ height: wp('5%'), width: wp('5%') }} />
+                                </TouchableOpacity>
+                                <View style={GlobalStyles.horizontalLine} />
+                            </>
+                        )
+                    })
+                }
             </View>
         )
     }
 
     const MissingSocialMedia = (socialMediaTitle: string) => {
         return (
-            <GradientButton text={`Add ${socialMediaTitle}`} colors={Colors.gradientButton}
-                onPress={() => addNewSocialMedia(socialMediaTitle)} buttonContainerStyle={{ height: hp('5%'), marginVertical: hp('1%') }}
-            />
+            <TouchableOpacity
+                style={[GlobalStyles.centeredContainer, {
+                    padding: hp('1%'),
+                    marginVertical: hp('1%'),
+                    borderRadius: wp('10%'),
+                    borderWidth: wp('0.25%'),
+                    borderColor: Colors.brightRed
+                }]}>
+                <GradientText
+                    style={[GlobalStyles.regularText, { fontWeight: 'bold', fontSize: hp('2.25%') }]}
+                    end={{ x: 0.8, y: 0.35 }}>
+                    Add {socialMediaTitle}
+                </GradientText>
+            </TouchableOpacity>
         )
     }
 
     return (
-        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1, }}>
             {socialMedia['instagram'] && SingleSocialMedia(socialMedia.instagram, "instagram", ImagePath.instaUrl)}
             {socialMedia['tiktok'] && SingleSocialMedia(socialMedia.tiktok, "tiktok", ImagePath.ic_tiktok)}
             {socialMedia['snapchat'] && SingleSocialMedia(socialMedia.snapchat, "snapchat", ImagePath.ic_snapchat)}
@@ -144,7 +169,24 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
             {!socialMedia['tiktok'] && MissingSocialMedia("Tiktok")}
             {!socialMedia['snapchat'] && MissingSocialMedia("Snapchat")}
             {!socialMedia['youtube'] && MissingSocialMedia("Youtube")}
+            <LinearGradient colors={Colors.gradientButton}
+                style={[GlobalStyles.buttonContainer, {
+                    justifyContent: 'center', marginTop: hp('2%'),
+                    borderRadius: wp('7%'), height: hp('5.5%'),
+                    borderWidth: 0, width: '100%'
+                }]}
+                start={{ y: 0.0, x: 0.0 }} end={{ y: 0.0, x: 1.0 }}>
+                <View style={[GlobalStyles.rowBetween, { paddingHorizontal: wp('5%') }]}>
+                    <Text style={[GlobalStyles.regularText, { color: Colors.primary }]}>
+                        Total Amount
+                    </Text>
+                    <Text style={[GlobalStyles.regularText, { fontSize: hp('2.25%'), color: Colors.primary, fontWeight: '500' }]}>
+                        ${totalPrice}
+                    </Text>
+                </View>
+            </LinearGradient>
             <FixedPrice
+                onSubmit={onSubmit}
                 coverLetter={coverLetter} setCoverLetter={setCoverLetter} />
         </ScrollView>
     )
@@ -170,17 +212,3 @@ const styles = StyleSheet.create({
 })
 
 export default Bid
-
-/*
-<TouchableOpacity
-                                onPress={() =>
-                                    changeOutletValue("number", 1, socialMediaTitle, outletTitle.toLowerCase())
-                                }
-                                style={[GlobalStyles.rowBetween, { marginVertical: hp('1%') }]}>
-                                <Text
-                                    style={styles.outlestStyle}>
-                                    {outletTitle}
-                                </Text>
-                                <Image source={ImagePath.plusBlack} style={{ height: wp('5%'), width: wp('5%') }} />
-                            </TouchableOpacity>
-                            */

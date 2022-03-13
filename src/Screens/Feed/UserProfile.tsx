@@ -4,6 +4,7 @@ import {
     Image, TouchableOpacity, ScrollView, FlatList
 } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import moment from 'moment'
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -58,6 +59,11 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const userView = () => {
+        //Calculates when the campaign was created
+        const hours = moment(new Date).diff(moment(item.createdAt), "hours")
+        const minutes = moment(new Date).diff(moment(item.createdAt), "minutes")
+        const days = moment(new Date).diff(moment(item.createdAt), "days")
+        const lastSeen = minutes < 60 ? minutes === 0 ? `Freshly posted` : `Posted ${minutes} m(s) ago` : hours < 24 ? `Posted ${hours} h(s) ago` : `Posted ${days} d(s) ago`
         return (
             <View>
                 <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1%') }]}>
@@ -72,7 +78,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 </View>
                 <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%'), marginBottom: hp('1%') }]}>{item.name}</Text>
                 <Text style={[GlobalStyles.regularText,
-                { color: Colors.darkGray, fontSize: hp('1.5%'), marginBottom: hp('3%') }]}>Posted 7h ago</Text>
+                { color: Colors.darkGray, fontSize: hp('1.5%'), marginBottom: hp('3%') }]}>{lastSeen}</Text>
 
                 <Text style={GlobalStyles.regularText}>
                     {item.aim}
@@ -114,7 +120,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         contentContainerStyle={{ marginVertical: hp('1%') }}
                         horizontal
                         data={item.referencePhotos}
-                        keyExtractor={item => `${item}`}
+                        keyExtractor={(item, index) => `${item}${index}`}
                         //@ts-ignore
                         renderItem={({ item }) => {
                             return (
@@ -169,7 +175,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         <Text style={GlobalStyles.regularText}>${item.price}</Text>
                     </View>
                     <GradientButton text={'Continue'} colors={Colors.gradientButton}
-                        onPress={() => navigation.navigate("Proposal", { item: item.socialMedia, budget: item.price })} buttonContainerStyle={{ width: wp('55%') }}
+                        onPress={() => navigation.navigate("Proposal", 
+                        { item: item.socialMedia, budget: item.price, id: item._id })} 
+                        buttonContainerStyle={{ width: wp('55%') }}
                     />
                 </View>
             </View>

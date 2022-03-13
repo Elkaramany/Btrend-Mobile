@@ -42,7 +42,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
 
     const callEmit = () => {
         // @ts-ignore
-        socketRef.current = io(BASE_URL, { query: { token } })
+        socketRef.current = io(`${BASE_URL}/`, { query: { token } })
         // @ts-ignore
         socketRef.current.on(GET_CHATS, chats => {
             setFetchedChats(chats)

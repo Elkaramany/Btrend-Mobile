@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 
 import Input from '../../../Components/Input'
 
@@ -11,6 +11,7 @@ import Footer from './Footer'
 interface Props {
     coverLetter: string
     setCoverLetter: (text: string) => void
+    onSubmit: () => void
 }
 
 const textInputTheme = {
@@ -20,12 +21,15 @@ const textInputTheme = {
     }, roundness: hp('2%')
 }
 
-const FixedPrice: React.FC<Props> = ({ coverLetter, setCoverLetter }) => {
+const FixedPrice: React.FC<Props> = ({ coverLetter, setCoverLetter, onSubmit }) => {
+
     return (
         <View style={styles.container}>
+            <View style={[GlobalStyles.graySeperator, { width: wp('150%'), marginVertical: hp('3%') }]} />
+
             <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('2.5%'), marginBottom: hp('2%') }]}>Pitch</Text>
             <Text style={[GlobalStyles.regularText, { fontWeight: '400', marginBottom: hp('2%') }]}>Cover letter</Text>
-            <View style={{height: hp('45%')}}>
+            <View style={{ height: hp('45%') }}>
                 <Input
                     label=''
                     placeHolder={"Submit your pitch on why you're perfect for this project for the brand to review"}
@@ -37,8 +41,7 @@ const FixedPrice: React.FC<Props> = ({ coverLetter, setCoverLetter }) => {
                     theme={textInputTheme}
                 />
             </View>
-            <Footer Submit={() => console.log("Submit")}
-                Cancel={() => console.log("Cancel")}
+            <Footer Submit={onSubmit}
             />
         </View>
     )
