@@ -135,6 +135,7 @@ export const ImagePath = {
   plus: require('./assets/images/plus.png'),
   plusBlack: require('./assets/images/plusBlack.png'),
   minus: require('./assets/images/minus.png'),
+  warning: require('./assets/images/warning.png'),
 
   ic_location: require('./assets/images/ic_location.png'),
   ic_posted: require('./assets/images/ic_posted.png'),
@@ -145,6 +146,10 @@ export const ImagePath = {
   youtube_select: require('./assets/images/youtube_select.png'),
   snapchat_select: require('./assets/images/snapchat_select.png'),
   tiktok_select: require('./assets/images/tiktok_select.png'),
+  instagramFeed: require('./assets/images/instagramFeed.png'),
+  tiktokFeed: require('./assets/images/tiktokFeed.png'),
+  snapchatFeed: require('./assets/images/snapchatFeed.png'),
+  youtubeFeed: require('./assets/images/youtubeFeed.png'),
   multiple: require('./assets/images/multiple.png'),
   arrowRight: require('./assets/images/arrowRight.png'),
 

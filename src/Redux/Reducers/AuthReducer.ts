@@ -17,8 +17,8 @@ const INITIAL_STATE: Props = {
   phone: '',
   countryCode: '000',
   loading: false,
-  companyName: '',
-  companyEmail: '',
+  brandName: '',
+  brandEmail: '',
   brandInformation: '',
 }
 

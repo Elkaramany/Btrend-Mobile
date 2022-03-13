@@ -25,7 +25,7 @@ export interface Props {
     phone: string
     countryCode: string
     loading: boolean
-    companyName: string
-    companyEmail: string
+    brandName: string
+    brandEmail: string
     brandInformation: string
 }

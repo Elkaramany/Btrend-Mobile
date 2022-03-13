@@ -123,3 +123,7 @@ export const ShowToast = (type: string, text1: string, text2?: string) => {
         });
     }
 }
+
+export const isEmptyObject = (obj: any) => {
+    return Object.keys(obj).length === 0;
+}

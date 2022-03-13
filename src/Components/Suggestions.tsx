@@ -9,19 +9,26 @@ interface Props {
     SuggestionsArr: any[]
     arr: string[]
     setArr: (value: string[]) => void
+    deleteText: () => void
 }
 
-const Suggestions: React.FC<Props> = ({ text, SuggestionsArr, arr, setArr }) => {
-    if (text && text.length) {
-        return (
-            <View>
+const Suggestions: React.FC<Props> = ({ text, deleteText, SuggestionsArr, arr, setArr }) => {
+
+    const AddItem = (item: string, arr: string[]) => {
+        setArr(selectItem(item, arr))
+        deleteText()
+    }
+
+    const ViewSuggestions = () => {
+        if (text && text.length) {
+            return (
                 <View style={GlobalStyles.rowWrap}>
                     {getSuggesions(text, SuggestionsArr).map((item) => {
                         if (!arr.includes(item)) {
                             return (
                                 <TouchableOpacity key={item}
                                     style={styles.container}
-                                    onPress={() => setArr(selectItem(item, arr))}
+                                    onPress={() => AddItem(item, arr)}
                                 >
                                     <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.darkGray }]}>{item}</Text>
                                 </TouchableOpacity>
@@ -29,21 +36,28 @@ const Suggestions: React.FC<Props> = ({ text, SuggestionsArr, arr, setArr }) => 
                         }
                     })}
                 </View>
-                <View style={GlobalStyles.rowWrap}>
-                    {arr.map((item) => {
-                        return (
-                            <TouchableOpacity key={item}
-                                style={[styles.container, { backgroundColor: Colors.brightRed, borderWidth: 0 }]}
-                                onPress={() => setArr(selectItem(item, arr))}
-                            >
-                                <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>
-                            </TouchableOpacity>
-                        )
-                    })}
-                </View>
+            )
+        }
+        return <View />
+    }
+
+    return (
+        <>
+            {ViewSuggestions()}
+            <View style={GlobalStyles.rowWrap}>
+                {arr.map((item) => {
+                    return (
+                        <TouchableOpacity key={item}
+                            style={[styles.container, { backgroundColor: Colors.brightRed, borderWidth: 0 }]}
+                            onPress={() => AddItem(item, arr)}
+                        >
+                            <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>
+                        </TouchableOpacity>
+                    )
+                })}
             </View>
-        )
-    }return <View />
+        </>
+    )
 }
 
 

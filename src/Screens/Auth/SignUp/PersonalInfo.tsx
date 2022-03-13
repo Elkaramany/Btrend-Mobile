@@ -9,7 +9,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { ClearAll, Credential } from '../../../Redux/Actions';
 import {
     Colors, ImagePath, GlobalStyles, validateName,
-    validateEmail, ArabCountries, handleSelection
+    validateEmail, conservativeCountries, handleSelection
 }
     from '../../../Config';
 
@@ -25,11 +25,18 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
+const textInputTheme = {
+    colors: {
+        placeholder: Colors.inputGray, text: Colors.secondary, primary: Colors.inputGray,
+        underlineColor: Colors.inputGray, background: Colors.primary
+    }, roundness: hp('2%')
+}
+
 const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [verified, setVerified] = React.useState(false)
     const [dateOpen, setDateOpen] = React.useState(false)
-    const { userType, photo, firstName, lastName, dob, gender, companyName, companyEmail, brandInformation } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { userType, photo, firstName, lastName, dob, gender, brandName, brandEmail, brandInformation } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const isBrand = userType === 'Brand'
 
     const handleUrlPress = React.useCallback(async (url) => {
@@ -52,14 +59,15 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     React.useEffect(() => {
         if (userType === "Brand") {
-            if (validateEmail(companyEmail) && validateName(companyName) && validateName(photo) && validateName(brandInformation)) setVerified(true)
+            if (validateEmail(brandEmail) && validateName(brandName) 
+            && validateName(photo) && validateName(brandInformation)) setVerified(true)
             else setVerified(false)
         } else if (userType === "Influencer") {
             if (validateName(firstName) && validateName(lastName) && validateName(photo) && validateName(dob) && validateName(gender)) {
                 setVerified(true)
             } else setVerified(false)
         }
-    }, [dob, gender, firstName, lastName, companyName, companyEmail, brandInformation, photo])
+    }, [dob, gender, firstName, lastName, brandName, brandEmail, brandInformation, photo])
 
     const handleImage = async () => {
         const image: string | null = await handleSelection()
@@ -82,14 +90,14 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             return (
                 <>
                     <Input
-                        label="Company Name"
-                        value={companyName}
-                        onChangeText={text => dispatch(Credential({ prop: 'companyName', value: text }))}
+                        label="Brand Name"
+                        value={brandName}
+                        onChangeText={text => dispatch(Credential({ prop: 'brandName', value: text }))}
                     />
                     <Input
-                        label="Company Email"
-                        value={companyEmail}
-                        onChangeText={text => dispatch(Credential({ prop: 'companyEmail', value: text }))}
+                        label="Brand Email"
+                        value={brandEmail}
+                        onChangeText={text => dispatch(Credential({ prop: 'brandEmail', value: text }))}
                     />
                     <Input
                         dense
@@ -97,6 +105,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         inputStyle={{ width: wp('90%'), marginBottom: 5, height: hp('15%') }}
                         label="Brand Information"
                         value={brandInformation}
+                        theme={textInputTheme}
                         onChangeText={text => dispatch(Credential({ prop: 'brandInformation', value: text }))}
                     />
                 </>
@@ -129,14 +138,14 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             </View>
 
             <ScrollView style={{ flexGrow: 1 }}>
-                <HeaderArrow headerText={isBrand ? "Company Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
+                <HeaderArrow headerText={isBrand ? "Brand Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
                 <TouchableOpacity style={styles.addProfile}
                     onPress={() => handleImage()}
                 >
                     <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAddSquare} style={styles.imageStyle} />
                     <Text style={[GlobalStyles.regularText,
                     { marginLeft: wp('5%'), textDecorationLine: 'underline', fontWeight: 'bold' }]}
-                    >Add a {isBrand ? "company" : "profile"} photo</Text>
+                    >Add a {isBrand ? "brand" : "profile"} photo</Text>
                 </TouchableOpacity>
                 {showInput()}
                 {!isBrand &&
@@ -173,7 +182,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                                 onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Male" ? "" : "Male" }))}
                             />
 
-                            {!ArabCountries.includes(RNLocalize.getCountry()) &&
+                            {!conservativeCountries.includes(RNLocalize.getCountry()) &&
                                 <TouchableOpacity
                                     style={GlobalStyles.centeredContainer}
                                     onPress={() => navigation.navigate("Genders")}

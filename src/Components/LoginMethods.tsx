@@ -32,7 +32,7 @@ const LoginMethods: React.FC<Props> = ({ pressedContinue = () => { }, phone = ()
         return (
             <>
                 <Input
-                    label={label || "Enter your email address"}
+                    label={label || "Email"}
                     value={email}
                     onChangeText={text => dispatch(Credential({ prop: 'email', value: text }))}
                 />

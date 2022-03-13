@@ -52,7 +52,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
   }, [locationsText])
 
   React.useEffect(() => {
-    changeFilter('language', langArr)
+    changeFilter('languages', langArr)
   }, [langArr])
 
   const validateFilters = () => {
@@ -108,8 +108,8 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
 
               <Input
                 label={`${isBrand ? 'Influencer' : 'Brand'} Name`}
-                value={filters.name}
-                onChangeText={(text) => changeFilter('name', text)}
+                value={filters.brand}
+                onChangeText={(text) => changeFilter('brand', text)}
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
 
@@ -120,7 +120,8 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
 
-              <Suggestions text={categoriesText} SuggestionsArr={CategoriesArr} arr={catArr} setArr={setCatArr} />
+              <Suggestions text={categoriesText} deleteText={() => setCategoriesText('')}
+                SuggestionsArr={CategoriesArr} arr={catArr} setArr={setCatArr} />
 
               <Input
                 label={'Language'}
@@ -129,7 +130,8 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 inputStyle={{ width: wp('90%'), marginBottom: 10 }}
               />
 
-              <Suggestions text={langText} SuggestionsArr={Languages} arr={langArr} setArr={setLangArr} />
+              <Suggestions text={langText} deleteText={() => setLangText('')}
+                SuggestionsArr={Languages} arr={langArr} setArr={setLangArr} />
 
               {showBrandFilters()}
               <Input
@@ -139,33 +141,33 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 inputStyle={{ width: wp('90%'), marginBottom: 5 }}
               />
 
-              <Suggestions text={locationsText}
-                SuggestionsArr={googlePlacesPredictions} arr={filters.location}
-                setArr={(arr) => changeFilter('location', arr)} />
+              <Suggestions text={locationsText} deleteText={() => setLocationsText('')}
+                SuggestionsArr={googlePlacesPredictions} arr={filters.locations}
+                setArr={(arr) => changeFilter('locations', arr)} />
 
               <Text style={[GlobalStyles.regularText, styles.priceRange, { marginBottom: hp('2%') }]}>Platforms</Text>
               <View style={[GlobalStyles.rowBetween, { width: '70%', alignSelf: 'flex-start', marginLeft: wp('5%') }]}>
-                <TouchableOpacity onPress={() => AddOrRemovePlatform("Instagram")}>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("instagram")}>
                   <Image
-                    source={filters.platforms.includes("Instagram") ? ImagePath.instagramCircleSelect : ImagePath.instagramCircleDeselect}
+                    source={filters.platforms.includes("instagram") ? ImagePath.instagramCircleSelect : ImagePath.instagramCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => AddOrRemovePlatform("Snapchat")}>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("snapchat")}>
                   <Image
-                    source={filters.platforms.includes("Snapchat") ? ImagePath.snapchatCircleSelect : ImagePath.snapchatCircleDeselect}
+                    source={filters.platforms.includes("snapchat") ? ImagePath.snapchatCircleSelect : ImagePath.snapchatCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => AddOrRemovePlatform("Tiktok")}>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("tiktok")}>
                   <Image
-                    source={filters.platforms.includes("Tiktok") ? ImagePath.tiktokCircleSelect : ImagePath.tiktokCircleDeselect}
+                    source={filters.platforms.includes("tiktok") ? ImagePath.tiktokCircleSelect : ImagePath.tiktokCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => AddOrRemovePlatform("Youtube")}>
+                <TouchableOpacity onPress={() => AddOrRemovePlatform("youtube")}>
                   <Image
-                    source={filters.platforms.includes("Youtube") ? ImagePath.youtubeCircleSelect : ImagePath.youtubeCircleDeselect}
+                    source={filters.platforms.includes("youtube") ? ImagePath.youtubeCircleSelect : ImagePath.youtubeCircleDeselect}
                     style={{ width: wp('10%'), height: wp('10%') }}
                   />
                 </TouchableOpacity>
@@ -178,7 +180,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 <Input
                   type={'numeric'}
                   label={'$'}
-                  value={filters.range[0]}
+                  value={filters.range[0] || 1}
                   onChangeText={(text) => changeFilter('range', [parseInt(text), filters.range[1]])}
                   inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
@@ -186,7 +188,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
                 <Input
                   type={'numeric'}
                   label={'$'}
-                  value={filters.range[1]}
+                  value={filters.range[1] || 100000}
                   onChangeText={(text) => changeFilter('range', [filters.range[0], parseInt(text)])}
                   inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />

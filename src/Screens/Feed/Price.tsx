@@ -16,34 +16,46 @@ interface Props {
 }
 
 const Price: React.FC<Props> = ({ navigation, route }) => {
-    const { item } = route.params
+    const { item, payment, totalPrice } = route.params
 
-    const SocialMediaPrice = (title: string, prices: any[], img: any) => {
+    const SocialMedia = (socialMediaTitle: string, socialMedia: any, img: any) => {
         return (
             <View style={{ marginHorizontal: wp('4%'), marginVertical: hp('1%') }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
                         source={img}
-                        style={{ height: wp('10%'), width: wp('10%'), marginRight: wp('5%') }}
+                        style={{ height: wp('10%'), width: wp('10%'), marginRight: wp('5%'), resizeMode: 'contain' }}
                     />
-                    <Text style={[GlobalStyles.regularText, { fontWeight: '600' }]}>{title}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '600' }]}>{socialMediaTitle}</Text>
                 </View>
-                {prices.map((item, index) => {
-                    return (
-                        <>
-                            <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
-                                <Text style={GlobalStyles.regularText}>{item.title}</Text>
-                                <Text style={[GlobalStyles.regularText, { fontWeight: '600' }]}>${item.amount}</Text>
-                            </View>
-                            {index !== (prices.length - 1) && <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />}
-
-                        </>
-                    )
-                })}
+                {SocialMediaPrice(socialMedia)}
                 <View style={GlobalStyles.graySeperator} />
             </View>
         )
     }
+
+    const SocialMediaPrice = (socialMedia: any,) => {
+        return Object.getOwnPropertyNames(socialMedia).map((outletTitle) => {
+            if (socialMedia[`${outletTitle}`].number > 0) {
+                return (
+                    <>
+                        <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
+                            <View style={[GlobalStyles.rowCenter, { justifyContent: 'flex-start' }]}>
+                                <Text style={GlobalStyles.regularText}>{socialMedia[`${outletTitle}`].number} </Text>
+                                <Text style={GlobalStyles.regularText}>{outletTitle}</Text>
+                            </View>
+                            <Text style={GlobalStyles.regularText}>${socialMedia[`${outletTitle}`].price}</Text>
+                        </View>
+                        <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
+                    </>
+                )
+            }
+        })
+    }
+
+    React.useEffect(() => {
+        console.log(item, ' here')
+    }, [])
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
@@ -53,24 +65,20 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
             <View style={[GlobalStyles.horizontalLine, { width: '93%' }]} />
 
             <View style={styles.paymentTypeContainer}>
-                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{item.payment}</Text>
+                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>{payment}</Text>
             </View>
 
 
             <ScrollView style={{ flexGrow: 1, }}
             >
-                {SocialMediaPrice("Instagram",
-                    [{ title: "1 Post", amount: 350 }, { title: "3 Stories", amount: 300 }, { title: "1 Reel", amount: 500 }],
-                    ImagePath.instaUrl)}
-                {SocialMediaPrice("Snapchat",
-                    [{ title: "1 Post", amount: 350 }, { title: "3 Stories", amount: 300 }, { title: "1 Reel", amount: 500 }],
-                    ImagePath.ic_snapchat)}
-                {SocialMediaPrice("Tiktok",
-                    [{ title: "1 Post", amount: 350 }, { title: "3 Stories", amount: 300 }, { title: "1 Reel", amount: 500 }],
-                    ImagePath.ic_tiktok)}
-                {SocialMediaPrice("Youtube",
-                    [{ title: "1 video", amount: 350 }, { title: "3 Stories", amount: 300 }, { title: "1 Post", amount: 500 }],
-                    ImagePath.ic_youtube)}
+                {item.instagram && SocialMedia("Instagram", item.instagram, ImagePath.instagramFeed)}
+                {item.tiktok && SocialMedia("Tiktok", item.tiktok, ImagePath.tiktokFeed)}
+                {item.snapchat && SocialMedia("Snapchat", item.snapchat, ImagePath.snapchatFeed)}
+                {item.youtube && SocialMedia("Youtube", item.youtube, ImagePath.youtubeFeed)}
+                <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('3%') }]}>
+                    <Text style={GlobalStyles.regularText}>Total</Text>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4%') }]}>${totalPrice}</Text>
+                </View>
             </ScrollView>
         </View>
     )

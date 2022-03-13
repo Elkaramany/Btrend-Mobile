@@ -1,6 +1,6 @@
 import { CONVERSATIONS_URL } from '@env'
 import { StackNavigationProp } from '@react-navigation/stack';
-import { POST, GET } from '../../Config/API'
+import { POST } from '../../Config/API'
 import { ShowToast } from '../../Config'
 
 export const MessageUser = (token: string, id: string, navigation: StackNavigationProp<any, any>) => async (dispatch: any) => {

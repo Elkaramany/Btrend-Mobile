@@ -32,7 +32,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        setArr(fetchedArray)
+        setArr(fetchedArray.feed)
     }, [fetchedArray])
 
     React.useEffect(() => {

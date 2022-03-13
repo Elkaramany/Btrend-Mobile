@@ -15,31 +15,18 @@ interface Props {
     route: any
 }
 
-const SOCIAL_MEDIA = {
-    instagram: null,
-    tiktok: {
-        feedvideo: { number: 2, price: 200 },
-        livevideo: { number: 2, price: 200 },
-    },
-    snapchat: {
-        snap: { number: 2, price: 200 },
-        story: { number: 2, price: 200 },
-        spotlight: { number: 2, price: 200 },
-    },
-    youtube: {
-        video: { number: 2, price: 200 },
-        live: { number: 2, price: 200 },
-    }
-}
-
 const Proposal: React.FC<Props> = ({ navigation, route }) => {
-    const { item } = route.params
+    const { item, budget } = route.params
     const [selectedStat, setSelectedStat] = React.useState("Fixed price")
     const [coverLetter, setCoverLetter] = React.useState("")
-    const [socialMedia, setSocialMedia] = React.useState(SOCIAL_MEDIA)
+    const [socialMedia, setSocialMedia] = React.useState(item)
 
-    const OnSubmit = ()=>{
-        if(coverLetter.length < 20){
+    React.useEffect(() => {
+        console.log(socialMedia , ' here')
+    }, [socialMedia])
+
+    const OnSubmit = () => {
+        if (coverLetter.length < 20) {
             Alert.alert("Please add a cover letter of at least 20 words")
         }
     }
@@ -84,7 +71,7 @@ const Proposal: React.FC<Props> = ({ navigation, route }) => {
 
             <View style={{ flex: 1, marginHorizontal: wp('4') }}>
                 <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%'), marginBottom: hp('1.5%') }]}>Client's Budget:</Text>
-                <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>$12,000.000</Text>
+                <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>${budget}</Text>
 
                 <View style={[GlobalStyles.graySeperator, { marginVertical: hp('3%') }]} />
                 {SelectedStatScreen()}

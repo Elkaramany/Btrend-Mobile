@@ -82,7 +82,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
                 <View style={styles.innerContainer}>
                     <Text style={styles.sectionHeader}>Dates:</Text>
-                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>{item.startingDate} - {item.endingDate}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>{item.dates.join(" - ")}</Text>
                 </View>
 
                 <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
@@ -92,7 +92,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <View style={GlobalStyles.rowBetween}>
                         <View>
                             <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), marginVertical: hp('0.75%') }]}>{item.gender}</Text>
-                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.age || '18-30 Years old'}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.age.join(" - ")} years old</Text>
                         </View>
                         <Image source={item.gender === "Male" ? ImagePath.female : ImagePath.ic_gender} style={[GlobalStyles.arrowImage, { width: wp('9%'), height: wp('9%') }]} />
                     </View>
@@ -100,12 +100,12 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
                 <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
 
-                {HeaderArray("Languages", Languages, null, true)}
+                {HeaderArray("Languages", item.languages, null, true)}
                 {HeaderArray("Categories", item.categories, ImagePath.category, true)}
-                {HeaderArray("HashTage", ["@larose", "#larosetheworld", "#larosetheworldasdsa"], null, true)}
+                {HeaderArray("HashTage", item.tags, null, true)}
                 {HeaderArray("In order to apply you need to", [`${item.nof.join(" - ")} followers`,
                 `Engagement score of ${item.engagementRate.join("% - ")}%`,
-                `Based in ${item.location.join(" - ")}`], ImagePath.ic_check, false)}
+                `Based in ${item.locations.join(" - ")}`], ImagePath.ic_check, false)}
 
                 <View style={GlobalStyles.graySeperator} />
                 <View style={styles.innerContainer}>
@@ -113,12 +113,13 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <FlatList
                         contentContainerStyle={{ marginVertical: hp('1%') }}
                         horizontal
-                        data={[ImagePath.serum, ImagePath.editProfile]}
+                        data={item.referencePhotos}
                         keyExtractor={item => `${item}`}
+                        //@ts-ignore
                         renderItem={({ item }) => {
                             return (
                                 <Image
-                                    source={item}
+                                    source={{ uri: item }}
                                     style={{ width: wp('50%'), height: wp('60%'), marginRight: wp('3%') }}
                                 />
                             )
@@ -127,7 +128,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 </View>
                 <View style={GlobalStyles.graySeperator} />
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Price", { item })}
+                    onPress={() => navigation.navigate("Price", { item: item.socialMedia, payment: item.payment, totalPrice: item.price })}
                     style={[GlobalStyles.rowBetween, { marginBottom: hp('7%') }]}>
                     {HeaderArray("What price Includes", ["All info"], null, false)}
                     <Image
@@ -141,39 +142,36 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary }}>
-            <Image source={{ uri: item.brand.photo }} style={styles.image} />
+            <Image source={{ uri: item.coverPhoto }} style={styles.image} />
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.xImage}>
-                <Image source={ImagePath.ic_cross} />
+                <Image source={ImagePath.ic_cross} style={{ width: '100%', height: '100%' }} />
             </TouchableOpacity>
-
             <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('25%') }]}>
                 <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('2%') }}>
-                    <View style={[GlobalStyles.rowBetween, { width: '80%' }]} >
-                        <Image source={{ uri: item.photo }} style={styles.campaignImg} />
+                    <View style={{ width: '80%', flexDirection: 'row' }} >
+                        <Image source={{ uri: item.brand.photo }} style={styles.campaignImg} />
                         <View>
-                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.brand.companyName}</Text>
-                            <View>
-                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{item.brand.categories.join(" - ")}</Text>
-                            </View>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.brand.brandName}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), color: Colors.darkGray }]}>{item.brand.brandInformation}</Text>
                         </View>
                     </View>
                     {userView()}
 
                 </View>
             </ScrollView>
+
             <View style={
                 { position: 'absolute', bottom: 0, marginBottom: hp('4%'), width: '100%', backgroundColor: Colors.primary }}>
                 <View style={[GlobalStyles.horizontalLine, { width: '100%', marginTop: 0, marginBottom: hp('2%') }]} />
                 <View style={GlobalStyles.rowAround}>
                     <View>
                         <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Total price</Text>
-                        <Text style={GlobalStyles.regularText}>$1200</Text>
+                        <Text style={GlobalStyles.regularText}>${item.price}</Text>
                     </View>
                     <GradientButton text={'Continue'} colors={Colors.gradientButton}
-                        onPress={() => navigation.navigate("Proposal", { item })} buttonContainerStyle={{ width: wp('55%') }}
+                        onPress={() => navigation.navigate("Proposal", { item: item.socialMedia, budget: item.price })} buttonContainerStyle={{ width: wp('55%') }}
                     />
                 </View>
-
             </View>
         </View>
     )
@@ -183,14 +181,15 @@ const styles = StyleSheet.create({
     image: {
         width: wp('100%'),
         height: wp('100%'),
-        resizeMode: 'contain',
-    }, xImage: {
-        height: hp('5%'),
-        width: hp('5%'),
         resizeMode: 'cover',
+    }, xImage: {
+        height: hp('2%'),
+        width: hp('2%'),
+        resizeMode: 'contain',
         alignSelf: 'flex-end',
         left: wp('3%'),
         marginTop: hp('2%'),
+        top: 0,
         position: 'absolute',
     }, scroller: {
         flexGrow: 1,

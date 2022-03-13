@@ -37,7 +37,21 @@ const Search: React.FC<Props> = ({ navigation }) => {
     }, [filters.search])
 
     React.useEffect(() => {
-        setArr(fetchedArray)
+        console.log(filters)
+    }, [filters])
+
+    React.useEffect(() => {
+        if (visible) {
+            changeFilter('range', [10, 1000000])
+            if (userType === "Brand") {
+                changeFilter('nof', [10, 100000000])
+                changeFilter('engagementRate', [0.1, 50])
+            }
+        }
+    }, [visible])
+
+    React.useEffect(() => {
+        setArr(fetchedArray.feed)
     }, [fetchedArray])
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {

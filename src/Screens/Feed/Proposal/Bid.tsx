@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity, Alert } fr
 import { useSelector, useDispatch } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 
-import { GlobalStyles, Colors, ImagePath } from '../../../Config'
+import { GlobalStyles, Colors, ImagePath, isEmptyObject } from '../../../Config'
 
 import Input from '../../../Components/Input'
 
@@ -19,49 +19,51 @@ import GradientButton from '../../../Components/GradientButton'
 
 const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCoverLetter }) => {
 
-    React.useEffect(() => {
-        console.log(socialMedia)
-    }, [socialMedia])
-
     const addNewSocialMedia = (title: string) => {
         const newSocail = { ...socialMedia }
         if (title === "Instagram") {
             newSocail.instagram = {
                 post: { number: 1, price: 200 },
-                story: { number: 0, price: 200 },
-                carousel: { number: 0, price: 200 },
-                live: { number: 0, price: 200 },
-                igtv: { number: 0, price: 200 },
-                reel: { number: 0, price: 200 },
             }
         } else if (title === "Tiktok") {
             newSocail.tiktok = {
-                feedVideo: { number: 0, price: 200 },
-                liveVideo: { number: 1, price: 200 },
+                feedVideo: { number: 1, price: 200 },
             }
         } else if (title === "Snapchat") {
             newSocail.snapchat = {
                 snap: { number: 1, price: 200 },
-                story: { number: 0, price: 200 },
-                spotlight: { number: 0, price: 200 },
             }
         } else {
             newSocail.youtube = {
                 video: { number: 1, price: 200 },
-                live: { number: 0, price: 200 },
             }
         }
         setSocialMedia(newSocail)
     }
 
     const changeOutletValue = (value: string, newValue: number | string, parent: string, outlet: string) => {
+        const newSocial = { ...socialMedia }
         //@ts-ignore
         if (value === "price" && parseInt(newValue) <= 0) {
             Alert.alert("Price must be more than zero")
             return;
         }
-        const newSocial = { ...socialMedia }
-        newSocial[`${parent}`][`${outlet}`][`${value}`] = newValue;
+        //@ts-ignore
+        else if (value === "number" && parseInt(newValue) <= 0) {
+            delete newSocial[`${parent}`][`${outlet}`]
+            if (isEmptyObject(newSocial[`${parent}`])) {
+                const newParent = {...newSocial}
+                delete newParent[`${parent}`]
+                if (!isEmptyObject(newParent)) {
+                    delete newSocial[`${parent}`]
+                } else {
+                    Alert.alert("You must have a social media posting!")
+                    newSocial[`${parent}`][`${outlet}`] = {number: 1 , price: 200}
+                }
+            }
+        } else {
+            newSocial[`${parent}`][`${outlet}`][`${value}`] = newValue;
+        }
         setSocialMedia(newSocial)
     }
 
@@ -95,7 +97,7 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
                             inputStyle={styles.priceContainer}
                             type={'numeric'}
                             label=''
-                            value={outlet.price}
+                            value={`$                ${outlet.price}`}
                             onChangeText={(text: string | number) => changeOutletValue("price", text, parent, outletTitle.toLowerCase())}
                         />
                     </View>
@@ -104,7 +106,7 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
         )
     }
 
-    const SingleSocialMedia = (socialMediaTitle: string, img: any) => {
+    const SingleSocialMedia = (socialMedia: any, socialMediaTitle: string, img: any) => {
         return (
             <View style={{ marginVertical: hp('1%') }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: hp('2%') }}>
@@ -112,30 +114,12 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
                         source={img}
                         style={{ height: wp('8%'), width: wp('8%'), marginRight: wp('5%') }}
                     />
-                    <Text style={[GlobalStyles.regularText, { fontWeight: '600' }]}>{socialMediaTitle}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '600', textTransform: 'capitalize' }]}>{socialMediaTitle}</Text>
                 </View>
-                {Object.getOwnPropertyNames(socialMedia[`${socialMediaTitle.toLowerCase()}`]).map((outletTitle: string) => {
-                    if (socialMedia[`${socialMediaTitle.toLowerCase()}`][`${outletTitle}`].number > 0) {
-                        return SocialMediaOutlet(socialMedia[`${socialMediaTitle.toLowerCase()}`][`${outletTitle}`], outletTitle, socialMediaTitle.toLowerCase())
-                    }
+                {Object.getOwnPropertyNames(socialMedia).map((outletTitle: string) => {
+                    return SocialMediaOutlet(socialMedia[`${outletTitle}`], outletTitle, socialMediaTitle)
                 })}
-                {Object.getOwnPropertyNames(socialMedia[`${socialMediaTitle.toLowerCase()}`]).map((outletTitle: string) => {
-                    if (socialMedia[`${socialMediaTitle.toLowerCase()}`][`${outletTitle}`].number <= 0) {
-                        return (
-                            <TouchableOpacity
-                                onPress={() =>
-                                    changeOutletValue("number", 1, socialMediaTitle.toLocaleLowerCase(), outletTitle.toLowerCase())
-                                }
-                                style={[GlobalStyles.rowBetween, { marginVertical: hp('1%') }]}>
-                                <Text
-                                    style={styles.outlestStyle}>
-                                    {outletTitle}
-                                </Text>
-                                <Image source={ImagePath.plusBlack} style={{ height: wp('5%'), width: wp('5%') }} />
-                            </TouchableOpacity>
-                        )
-                    }
-                })}
+
                 <View style={GlobalStyles.horizontalLine} />
             </View>
         )
@@ -151,15 +135,15 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
 
     return (
         <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>
-            {socialMedia['instagram'] !== null && SingleSocialMedia("Instagram", ImagePath.instaUrl)}
-            {socialMedia['tiktok'] !== null && SingleSocialMedia("Tiktok", ImagePath.ic_tiktok)}
-            {socialMedia['snapchat'] !== null && SingleSocialMedia("Snapchat", ImagePath.ic_snapchat)}
-            {socialMedia['youtube'] !== null && SingleSocialMedia("Youtube", ImagePath.ic_youtube)}
+            {socialMedia['instagram'] && SingleSocialMedia(socialMedia.instagram, "instagram", ImagePath.instaUrl)}
+            {socialMedia['tiktok'] && SingleSocialMedia(socialMedia.tiktok, "tiktok", ImagePath.ic_tiktok)}
+            {socialMedia['snapchat'] && SingleSocialMedia(socialMedia.snapchat, "snapchat", ImagePath.ic_snapchat)}
+            {socialMedia['youtube'] && SingleSocialMedia(socialMedia.youtube, "youtube", ImagePath.ic_youtube)}
 
-            {socialMedia['instagram'] === null && MissingSocialMedia("Instagram")}
-            {socialMedia['tiktok'] === null && MissingSocialMedia("Tiktok")}
-            {socialMedia['snapchat'] === null && MissingSocialMedia("Snapchat")}
-            {socialMedia['youtube'] === null && MissingSocialMedia("Youtube")}
+            {!socialMedia['instagram'] && MissingSocialMedia("Instagram")}
+            {!socialMedia['tiktok'] && MissingSocialMedia("Tiktok")}
+            {!socialMedia['snapchat'] && MissingSocialMedia("Snapchat")}
+            {!socialMedia['youtube'] && MissingSocialMedia("Youtube")}
             <FixedPrice
                 coverLetter={coverLetter} setCoverLetter={setCoverLetter} />
         </ScrollView>
@@ -186,3 +170,17 @@ const styles = StyleSheet.create({
 })
 
 export default Bid
+
+/*
+<TouchableOpacity
+                                onPress={() =>
+                                    changeOutletValue("number", 1, socialMediaTitle, outletTitle.toLowerCase())
+                                }
+                                style={[GlobalStyles.rowBetween, { marginVertical: hp('1%') }]}>
+                                <Text
+                                    style={styles.outlestStyle}>
+                                    {outletTitle}
+                                </Text>
+                                <Image source={ImagePath.plusBlack} style={{ height: wp('5%'), width: wp('5%') }} />
+                            </TouchableOpacity>
+                            */

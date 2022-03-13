@@ -1,11 +1,11 @@
 import React from 'react'
-import { Text, FlatList, Image, View } from 'react-native'
+import { FlatList, Image, View } from 'react-native'
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { UserSwipe } from '../../Redux/Actions'
 
-import { GlobalStyles, ImagePath, Colors } from '../../Config';
+import { ImagePath } from '../../Config';
 
 import Spinner from '../../Components/Spinner'
 import UserCard from './UserCard'
@@ -22,7 +22,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
     const dispatch = useDispatch()
 
     const onSwipe = (id: number | string, direction: string) => {
-        if (direction === "right") dispatch(UserSwipe(id, token, userType))
+        dispatch(UserSwipe(id, token, direction, userType))
         let newArr = [...arr]
         newArr = newArr.filter(i => i._id !== id);
         setArr(newArr)
@@ -30,7 +30,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
 
     if (loading) return <Spinner size={false} />
     else {
-        if (!arr.length) {
+        if (!arr || !arr.length) {
             return (
                 <View style={{ justifyContent: 'center', alignItems: 'center', top: hp('15%') }}>
                     <Image
@@ -42,7 +42,6 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
         }
         return (
             <FlatList
-                contentContainerStyle={{marginTop: hp('3%')}}
                 data={arr}
                 keyExtractor={(item, index) => `${item.id}-${index}`}
                 renderItem={({ item }) => <UserCard

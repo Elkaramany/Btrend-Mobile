@@ -6,13 +6,13 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-nat
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
 import { FavoriteUser } from '../../Redux/Actions'
 
-import { Colors, ImagePath, GlobalStyles } from '../../Config'
+import { Colors, ImagePath, GlobalStyles, ANDROID } from '../../Config'
 
 import SocialPrice from '../../Components/SocialPrice'
 
-const CARD_HEIGHT = hp('37%')
+const CARD_HEIGHT = ANDROID ? hp('38%') : hp('37%')
 const CARD_WIDTH = wp('95%')
-const THRESHOLD = CARD_WIDTH / 3.25
+const THRESHOLD = CARD_WIDTH / 3
 const ACTION_OFFSET = 100
 
 interface Props {
@@ -31,8 +31,10 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
     const panResponder = PanResponder.create({
         onMoveShouldSetPanResponder: () => true,
         onPanResponderMove: (_, { dx, y0 }) => {
-            swipe.setValue({ x: dx, y: 0 })
-            titleSign.setValue(y0 > CARD_HEIGHT / 2 ? 1 : -1)
+            if (dx > 90) {
+                swipe.setValue({ x: dx, y: 0 })
+                titleSign.setValue(y0 > CARD_HEIGHT / 2 ? 1 : -1)
+            }
         },
         onPanResponderRelease: (_, { dx, dy }) => {
             if (dx > THRESHOLD) {
@@ -67,11 +69,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
     }
 
     const onFavorite = () => {
-        dispatch(FavoriteUser(item._id, token, changeFavorite, userType))
-    }
-
-    const changeFavorite = () => {
-        setFavorite(!favorite)
+        dispatch(FavoriteUser(item._id, token, () => setFavorite(!favorite), userType))
     }
 
     return (
@@ -89,7 +87,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
             <TouchableWithoutFeedback onPress={() => navigation.navigate("UserProfile", { item, isFavorite: favorite })}>
                 <Card style={styles.userContainer}>
 
-                    <Image source={{ uri: item.photo }} style={styles.userImg} />
+                    <Image source={{ uri: item.coverPhoto }} style={styles.userImg} />
 
                     <View style={{ marginHorizontal: wp('5%'), marginTop: hp('1%') }}>
                         <View style={GlobalStyles.rowBetween}>
@@ -104,14 +102,18 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                             </TouchableOpacity>
                         </View>
 
-                        <SocialPrice instagram={true} tiktok={true} youtube={true} snapchat={true} price={item.price} />
+                        <SocialPrice instagram={item.socialMedia.instagram}
+                            tiktok={item.socialMedia.tiktok}
+                            youtube={item.socialMedia.youtube}
+                            snapchat={item.socialMedia.snapchat}
+                            price={item.price} />
 
                         <View style={GlobalStyles.horizontalLine} />
 
                         <View style={{ flexDirection: 'row', alignItems: 'center' }} >
                             <Image source={{ uri: isBrand ? item.photo : item.brand.photo || null }} style={styles.userIcon} />
                             <View style={{ marginLeft: wp('5%') }}>
-                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{isBrand ? `${item.firstName} ${item.lastName}` : item.companyName}</Text>
+                                <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{isBrand ? `${item.firstName} ${item.lastName}` : item.brand.brandName}</Text>
                                 <View style={{ width: wp('55%') }}>
                                     <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontSize: hp('1.75%') }]}>{item.categories.join(" - ")}</Text>
                                 </View>
@@ -133,12 +135,12 @@ const styles = StyleSheet.create({
         width: CARD_WIDTH,
         paddingVertical: hp('1%'),
         borderRadius: wp('6%'),
-        marginBottom: hp('3%'),
+        marginVertical: hp('1.5%'),
     }, userImg: {
         height: hp('16%'),
         width: wp('93%'),
         resizeMode: 'cover',
-        borderRadius: wp('6%'),
+        borderRadius: wp('4%'),
         overflow: 'hidden'
     }, userTitle: {
         fontWeight: '500',

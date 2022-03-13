@@ -4,7 +4,7 @@ import RNLocalize from 'react-native-localize'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigation } from '@react-navigation/native';
-import { ArabCountries, ImagePath, GlobalStyles } from '../Config'
+import { conservativeCountries, ImagePath, GlobalStyles } from '../Config'
 import RadioBtn from './RadioBtn'
 
 interface Props {
@@ -28,7 +28,7 @@ const Genders: React.FC<Props> = ({ gender, setGender }) => {
                 onPress={() => setGender(gender === "Male" ? "" : "Male")}
             />
 
-            {!ArabCountries.includes(RNLocalize.getCountry()) &&
+            {!conservativeCountries.includes(RNLocalize.getCountry()) &&
                 <TouchableOpacity
                     style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}
                     onPress={() => navigation.navigate("Genders")}

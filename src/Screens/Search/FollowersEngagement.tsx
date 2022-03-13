@@ -21,7 +21,7 @@ const Name: React.FC<Props> = ({ nof, engagementRate, changeFilter }) => {
                 <Input
                     label=''
                     type={'numeric'}
-                    value={nof[0] || ""}
+                    value={nof[0] || 10}
                     onChangeText={(text: string) => changeFilter('nof', [parseInt(text), nof[1]])}
                     inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
@@ -29,7 +29,7 @@ const Name: React.FC<Props> = ({ nof, engagementRate, changeFilter }) => {
                 <Input
                     label=''
                     type={'numeric'}
-                    value={nof[1] || ""}
+                    value={nof[1] || 100000}
                     onChangeText={(text: string) => changeFilter('nof', [nof[0], parseInt(text)])}
                     inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
@@ -40,7 +40,7 @@ const Name: React.FC<Props> = ({ nof, engagementRate, changeFilter }) => {
                 <Input
                     label='%'
                     type={'numeric'}
-                    value={engagementRate[0] || ""}
+                    value={engagementRate[0] || 0.5}
                     onChangeText={(text: string) => changeFilter('engagementRate', [parseFloat(text), engagementRate[1]])}
                     inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />
@@ -48,7 +48,7 @@ const Name: React.FC<Props> = ({ nof, engagementRate, changeFilter }) => {
                 <Input
                     label='%'
                     type={'numeric'}
-                    value={engagementRate[1] || ""}
+                    value={engagementRate[1] || 50}
                     onChangeText={(text: string) => changeFilter('engagementRate', [engagementRate[0], parseFloat(text)])}
                     inputStyle={{ width: wp('40%'), marginBottom: 5 }}
                 />

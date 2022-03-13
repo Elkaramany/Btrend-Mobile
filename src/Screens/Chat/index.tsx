@@ -57,7 +57,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
     React.useEffect(() => {
         if (fetchedChats.length) {
             let filteredData = fetchedChats.filter((item: any) => {
-                const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.companyName
+                const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.brandName
                 return name.toLowerCase().indexOf(search.toLowerCase()) > -1;
             });
             setChats(filteredData)
@@ -70,7 +70,7 @@ const Chat: React.FC<Props> = ({ navigation }) => {
     }
 
     const renderItem = (item: any) => {
-        const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.companyName
+        const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.brandName
         const photo = isBrand ? item?.influencer?.photo : item?.brand?.photo
         const seen = isBrand ? item?.influencer?.lastSeen : item?.brand?.lastSeen
         //Calculate last seen

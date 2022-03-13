@@ -1,11 +1,12 @@
 import React from 'react'
+import { TouchableOpacity, Text } from 'react-native';
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Credential, SignIn } from '../../../Redux/Actions';
 import { TextInput } from 'react-native-paper';
 import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { validatePassword, Colors } from '../../../Config';
+import { validatePassword, Colors, GlobalStyles } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
@@ -53,6 +54,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
             <Input
                 secureTextEntry={secured}
                 label=""
+                placeHolder='Password'
                 value={password}
                 onChangeText={text => dispatch(Credential({ prop: 'password', value: text }))}
                 rightIcon={password.length && <TextInput.Icon name={secured ? "eye-off" : "eye"} color={Colors.gray}
@@ -60,6 +62,14 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
             />
 
             {showButton()}
+
+            {!loading &&
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("Trouble")}
+                    style={{ marginTop: hp('5%') }}
+                >
+                    <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Forgot password?</Text>
+                </TouchableOpacity>}
         </Container>
     )
 }

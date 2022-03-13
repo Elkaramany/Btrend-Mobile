@@ -15,13 +15,14 @@ interface Props {
 
 const Name: React.FC<Props> = ({ youtube, instagram, snapchat, tiktok, price, containerStyle }) => {
     return (
-        <View style={[GlobalStyles.rowBetween, { marginVertical: hp('1%'), marginRight: wp('20%') }, containerStyle]}>
-            {instagram && <Image source={ImagePath.instaUrl} style={styles.imgStyle} />}
-            {snapchat && <Image source={ImagePath.ic_snapchat} style={styles.imgStyle} />}
-            {tiktok && <Image source={ImagePath.ic_tiktok} style={styles.imgStyle} />}
-            {youtube && <Image source={ImagePath.youtube} style={styles.imgStyle} />}
+        <View style={[{ marginVertical: hp('1%'), flexDirection: 'row' }, containerStyle]}>
+            {instagram && <Image source={ImagePath.instagramFeed} style={styles.imgStyle} />}
+            {tiktok && <Image source={ImagePath.tiktokFeed} style={styles.imgStyle} />}
+            {snapchat && <Image source={ImagePath.snapchatFeed} style={styles.imgStyle} />}
+            {youtube && <Image source={ImagePath.youtubeFeed} style={styles.imgStyle} />}
 
-            <View style={{ height: hp('3%'), width: wp('0.35%'), backgroundColor: Colors.mediumGray }} />
+            <View style={{ height: hp('2.5%'), width: wp('0.35%'), 
+            backgroundColor: Colors.mediumGray, marginRight: wp('4%') }} />
 
             <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>${price}</Text>
         </View>
@@ -33,6 +34,7 @@ const styles = StyleSheet.create({
         height: hp('2.5%'),
         width: hp('2.5%'),
         resizeMode: 'contain',
+        marginRight: wp('4%')
     }
 })
 

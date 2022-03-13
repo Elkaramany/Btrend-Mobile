@@ -85,7 +85,7 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
                 dispatch(Credential({ prop: 'firstName', value: user.firstName || "" }))
                 dispatch(Credential({ prop: 'lastName', value: user.lastName || "" }))
             } else {
-                dispatch(Credential({ prop: 'companyName', value: `${user.firstName} ${user.lastName}` || "" }))
+                dispatch(Credential({ prop: 'brandName', value: `${user.firstName} ${user.lastName}` || "" }))
             }
             dispatch(Credential({ prop: 'photo', value: user.photo || "" }))
             dispatch(Credential({ prop: 'authType', value: type || "" }))

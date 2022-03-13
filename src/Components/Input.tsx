@@ -44,7 +44,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             style={[{ marginBottom: hp('3.5%'), height: hp('5.5%') }, inputStyle]}
             label={label}
             placeholder={placeHolder || label}
-            value={value.toString()}
+            value={value.toString() || ''}
             onChangeText={text => onChangeText(text)}
             theme={theme || textInputTheme}
             keyboardType={type ? type : "default"}

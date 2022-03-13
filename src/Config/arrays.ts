@@ -110,7 +110,7 @@ export const CategoriesArr = [
     "Charity", "Books", "Bloggers & Vloggers", "Education", "Sexuality", "Relationship", "TV shows", "Others"
 ]
 
-export const ArabCountries = [
+export const conservativeCountries = [
     "EG",
     "UAE",
     "BH",

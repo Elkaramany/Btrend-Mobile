@@ -72,14 +72,6 @@ const Home: React.FC<Props> = ({ navigation }) => {
                     google={() => Google()}
                     facebook={() => Facebook()}
                     phone={() => Phone()} />
-                {!loading &&
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate("Trouble")}
-                        style={{ marginTop: hp('5%') }}
-                    >
-                        <Text style={[GlobalStyles.regularText, { textDecorationLine: 'underline', textAlign: 'center' }]}>Trouble signing in?</Text>
-                    </TouchableOpacity>}
-
             </Container>
             <Footer title={'Need an account?'} text={'Create Account'} routing={() => navigation.navigate("EmailSignUp")} />
         </>
