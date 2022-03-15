@@ -32,7 +32,7 @@ const Submitted: React.FC<Props> = ({ navigation }) => {
                     The brand will reach out to you after{`\n`}reviewing your proposal
                 </Text>
             </View>
-            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
+            <View style={GlobalStyles.bottomContainer}>
                 <GradientButton text={'Thanks'} colors={Colors.gradientButton}
                     onPress={goBack}
                 />

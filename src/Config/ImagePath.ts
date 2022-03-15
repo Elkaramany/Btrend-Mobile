@@ -75,6 +75,7 @@ export const ImagePath = {
 
   //Profile Screen
   coverPhoto: require('./assets/images/coverPhoto.png'),
+  uploadCoverPhoto: require('./assets/images/uploadCoverPhoto.png'),
   profilePhoto: require('./assets/images/profilePhoto.png'),
   optionsBlack: require('./assets/images/optionsBlack.png'),
   smallVerticalLine: require('./assets/images/smallVerticalLine.png'),
@@ -84,6 +85,8 @@ export const ImagePath = {
 
   share: require('./assets/images/share.png'),
   heartFilled: require('./assets/images/heartFilled.png'),
+  checkedSquare: require('./assets/images/checkedSquare.png'),
+  uncheckedSquare: require('./assets/images/uncheckedSquare.png'),
   pro: require('./assets/images/Pro.png'),
   stats: require('./assets/images/stats.png'),
   edit: require('./assets/images/edit.png'),

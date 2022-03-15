@@ -42,7 +42,7 @@ const Location: React.FC<Props> = ({ navigation }) => {
             
             <Image source={ImagePath.ic_location} style={styles.locationIcon} />
 
-            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('2%') }}>
+            <View style={GlobalStyles.bottomContainer}>
                 <GradientButton text={'Allow location'} colors={Colors.gradientButton}
                     onPress={() => getUserLocation()} />
             </View>

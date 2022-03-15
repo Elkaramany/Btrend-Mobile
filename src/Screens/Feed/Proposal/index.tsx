@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { Colors, GlobalStyles } from '../../../Config'
-import { SubmitProposal } from '../../../Redux/Actions/ProposalActions';
+import { SubmitProposal } from '../../../Redux/Actions/CampaignActions';
 
 import HeaderBack from '../../../Components/HeaderBack'
 import FixedPrice from './FixedPrice'

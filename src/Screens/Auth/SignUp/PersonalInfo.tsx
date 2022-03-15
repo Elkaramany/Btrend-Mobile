@@ -180,7 +180,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                             <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>
                                 {gender.length ? gender : "Select your Gender"}
                             </Text>
-                            <Image source={ImagePath.arrowRight} style={{height: wp('8%'), width: wp('8%'), left: wp('2%')}} />
+                            <Image source={ImagePath.arrowRight} style={{ height: wp('8%'), width: wp('8%'), left: wp('2%') }} />
                         </TouchableOpacity>
                     </>
                 }
@@ -210,7 +210,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                     </Text>
                 </View>
 
-                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+                <View style={[GlobalStyles.bottomContainer, { marginBottom: hp('1%') }]}>
                     <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
                         onPress={() => pressedContinue()}
                     />

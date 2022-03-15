@@ -31,9 +31,9 @@ const Index: React.FC<Props> = ({ navigation }) => {
                 <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontSize: hp('1.75%') }]}>
                     It will only take a few minutes to fill out {'\n'}and your campaign will be published right away
                 </Text>
-                <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
+                <View style={GlobalStyles.bottomContainer}>
                     <GradientButton text={"Let's Start"} colors={Colors.gradientButton}
-                        onPress={() => { }}
+                        onPress={() => navigation.navigate("CoverPhoto")}
                     />
                 </View>
             </Container>

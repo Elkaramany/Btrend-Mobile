@@ -13,9 +13,13 @@ interface DatesType {
 interface Props {
     dates: DatesType
     setDates: (newDates: DatesType) => void
+    minStartDate?: Date
+    maxStartDate?: Date
+    minEndDate?: Date
+    maxEndDate?: Date
 }
 
-const Name: React.FC<Props> = ({ dates, setDates }) => {
+const Name: React.FC<Props> = ({ dates, setDates, minStartDate, maxStartDate, minEndDate, maxEndDate }) => {
     const [visibleModal, setVisibleModal] = React.useState("none")
 
     const ConfirmDate = (start: Date, end: Date) => {
@@ -48,7 +52,8 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
 
                 <DateTimePickerModal
                     date={dates.start}
-                    maximumDate={new Date()}
+                    minimumDate={minStartDate}
+                    maximumDate={maxStartDate || new Date()}
                     isVisible={visibleModal === "start"}
                     mode="date"
                     onConfirm={(date) => ConfirmDate(date, dates.end)}
@@ -77,7 +82,7 @@ const Name: React.FC<Props> = ({ dates, setDates }) => {
                 <DateTimePickerModal
                     date={dates.end}
                     minimumDate={dates.start}
-                    maximumDate={new Date()}
+                    maximumDate={maxEndDate}
                     isVisible={visibleModal === "end"}
                     mode="date"
                     onConfirm={(date) => ConfirmDate(dates.start, date)}

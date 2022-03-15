@@ -28,10 +28,12 @@ interface Props {
     onSubmitEditing?: () => void
     theme?: any
     placeHolder?: string
+    maxLength?: number
 }
 
 const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text) => { },
-    secureTextEntry, rightIcon, leftIcon, type, numLines, dense, multiline, onSubmitEditing, theme, placeHolder }) => {
+    secureTextEntry, rightIcon, leftIcon, type, numLines, dense,
+    multiline, onSubmitEditing, theme, placeHolder, maxLength }) => {
     return (
         <TextInput
             dense={dense || false}
@@ -49,6 +51,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             theme={theme || textInputTheme}
             keyboardType={type ? type : "default"}
             onSubmitEditing={onSubmitEditing}
+            maxLength={maxLength || 100}
         />
     )
 }

@@ -2,9 +2,18 @@ import { BASE_URL } from '@env'
 import { POST } from '../../Config/API'
 import { ShowToast } from '../../Config'
 
-interface PROPOSAL {
-    coverLetter: string
+interface Cred {
+    prop: string
+    value: number | object | string | null | boolean | string[] | number[]
 }
+
+export const CampaignCredential = (cred: Cred) => {
+    return {
+        type: 'Campaign_Credential_In',
+        payload: { prop: cred.prop, value: cred.value }
+    }
+}
+
 
 export const SubmitProposal = (proposal: any, id: string | number, goBack: () => void) => async (dispatch: any) => {
     dispatch({ type: "Switch_Loading", payload: true })

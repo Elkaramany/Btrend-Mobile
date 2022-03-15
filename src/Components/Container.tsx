@@ -10,7 +10,7 @@ interface Props {
 
 const Container: React.FC<Props> = ({ containerStyle, mainStyle, children }) => {
     return (
-        <View style={[{ flex: 1}, containerStyle]}>
+        <View style={[{ flex: 1, backgroundColor: Colors.primary }, containerStyle]}>
             <View style={[mainStyle, { marginHorizontal: wp('5%') }]}>
                 {children}
             </View>

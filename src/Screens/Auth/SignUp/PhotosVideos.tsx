@@ -37,7 +37,7 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
                 <AllSocials />
             </>
 
-            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('2%') }}>
+            <View style={GlobalStyles.bottomContainer}>
                 <GradientButton text={'Continue'} colors={Colors.gradientButton}
                     onPress={() => pressedContinue()} />
             </View>

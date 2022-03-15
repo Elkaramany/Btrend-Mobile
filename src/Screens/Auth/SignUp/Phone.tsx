@@ -163,7 +163,7 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
             }
 
 
-            <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: hp('3%') }}>
+            <View style={GlobalStyles.bottomContainer}>
                 {showButton()}
             </View>
         </Container>

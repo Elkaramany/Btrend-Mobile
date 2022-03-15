@@ -100,7 +100,12 @@ const GlobalStyles = StyleSheet.create({
         width: hp('7%'),
         resizeMode: 'cover',
         borderRadius: wp('50%'),
-    }, graySeperator: {
+    }, bottomContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: hp('3%')
+    },
+    graySeperator: {
         width: WIDTH * 1.5,
         height: hp('1.5%'),
         right: wp('10%'),
