@@ -3,6 +3,8 @@ import {
 } from "@react-navigation/bottom-tabs";
 import React from "react";
 import { Image, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 import { Colors, ImagePath } from "../../Config";
 
@@ -15,6 +17,8 @@ import Profile from "../../Screens/Profile";
 const BottomTab = createBottomTabNavigator();
 
 export default () => {
+    const { userType } = useSelector((state) => state.AuthReducer)
+
     return (
         <BottomTab.Navigator
             initialRouteName={'Feed'}
@@ -33,10 +37,7 @@ export default () => {
                     tabBarIcon: ({ focused }) => {
                         return (
                             <Image
-                                style={{
-                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
-                                }}
-                                source={ImagePath.feed}
+                                source={focused ? ImagePath.feedFocus : ImagePath.feed}
                             />
                         );
                     },
@@ -50,10 +51,7 @@ export default () => {
                     tabBarIcon: ({ focused }) => {
                         return (
                             <Image
-                                style={{
-                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
-                                }}
-                                source={ImagePath.dashboardFocus}
+                                source={focused ? ImagePath.dashboardFocus : ImagePath.dashboard}
                             />
                         );
                     },
@@ -68,9 +66,10 @@ export default () => {
                         return (
                             <Image
                                 style={{
-                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
+                                    tintColor: focused && userType === "Brand" ? Colors.secondary : Colors.blackOpacity30,
+                                    height: wp('10%'), width: wp('10%')
                                 }}
-                                source={ImagePath.collaborationsFocus}
+                                source={userType === "Brand" ? focused ? ImagePath.campaignsFocus : ImagePath.campaigns : focused ? ImagePath.collaborationsFocus : ImagePath.collaborations}
                             />
                         );
                     },
@@ -84,10 +83,7 @@ export default () => {
                     tabBarIcon: ({ focused }) => {
                         return (
                             <Image
-                                style={{
-                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
-                                }}
-                                source={ImagePath.chat}
+                                source={focused ? ImagePath.chatFocus : ImagePath.chat}
                             />
                         );
                     },
@@ -101,10 +97,7 @@ export default () => {
                     tabBarIcon: ({ focused }) => {
                         return (
                             <Image
-                                style={{
-                                    tintColor: focused ? Colors.secondary : Colors.blackOpacity30,
-                                }}
-                                source={ImagePath.profile}
+                                source={focused ? ImagePath.profileFocus : ImagePath.profile}
                             />
                         );
                     },

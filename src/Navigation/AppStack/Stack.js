@@ -10,6 +10,9 @@ import SinglePayment from "../../Screens/Dashboard/SinglePayment";
 import CampaignDeal from "../../Screens/Collaborations/CampaignDeal"
 import Price from "../../Screens/Feed/Price"
 import Proposal from "../../Screens/Feed/Proposal";
+import Submitted from "../../Screens/Feed/Proposal/Submitted";
+
+import AddCampaign from './AddCampaignStack'
 
 const Stack = createStackNavigator();
 
@@ -25,8 +28,10 @@ export default () => {
             <Stack.Screen name="UserProfile" component={UserProfile} />
             <Stack.Screen name="Price" component={Price} />
             <Stack.Screen name="Proposal" component={Proposal} />
+            <Stack.Screen name="Submitted" component={Submitted} />
             <Stack.Screen name="UserChat" component={UserChat} />
             <Stack.Screen name="Report" component={Report} />
+            <Stack.Screen name="AddCampaign" component={AddCampaign} />
         </Stack.Navigator>
     );
 };

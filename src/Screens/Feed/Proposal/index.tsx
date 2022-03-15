@@ -26,7 +26,6 @@ const Proposal: React.FC<Props> = ({ navigation, route }) => {
     const dispatch = useDispatch()
 
     React.useEffect(() => {
-        console.log(socialMedia)
         let newPrice = 0
         Object.getOwnPropertyNames(socialMedia).map((parent) => {
             Object.values(socialMedia[`${parent}`]).map((child: any) => {
@@ -55,7 +54,7 @@ const Proposal: React.FC<Props> = ({ navigation, route }) => {
             dispatch(SubmitProposal({
                 type: selectedStat, socialMedia: selectedStat === "Bid" ? socialMedia : item
                 , coverLetter, price, token
-            }, id, () => navigation.navigate("Feed")))
+            }, id, () => navigation.navigate("Submitted")))
         }
     }
 

@@ -37,10 +37,6 @@ const Search: React.FC<Props> = ({ navigation }) => {
     }, [filters.search])
 
     React.useEffect(() => {
-        console.log(filters)
-    }, [filters])
-
-    React.useEffect(() => {
         if (visible) {
             changeFilter('range', [10, 1000000])
             if (userType === "Brand") {
@@ -87,7 +83,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
                         pressedSearch={() => getFeed()}
                     />
                 </View>
-                <Feed arr={arr} navigation={navigation} setArr={setArr} />
+                <Feed arr={arr} navigation={navigation} setArr={setArr} refreshFeed={getFeed}/>
             </Container>
         </View>
     )

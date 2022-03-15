@@ -2,14 +2,13 @@ import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, Alert, ScrollView } from 'react-native'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import * as RNLocalize from "react-native-localize";
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { ClearAll, Credential } from '../../../Redux/Actions';
 import {
     Colors, ImagePath, GlobalStyles, validateName,
-    validateEmail, conservativeCountries, handleSelection
+    validateEmail, handleSelection
 }
     from '../../../Config';
 
@@ -36,7 +35,8 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
     const [verified, setVerified] = React.useState(false)
     const [dateOpen, setDateOpen] = React.useState(false)
-    const { userType, photo, firstName, lastName, dob, gender, brandName, brandEmail, brandInformation } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { userType, photo, firstName, lastName, position,
+        dob, gender, brandName, brandEmail, brandInformation } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const isBrand = userType === 'Brand'
 
     const handleUrlPress = React.useCallback(async (url) => {
@@ -59,11 +59,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
 
     React.useEffect(() => {
         if (userType === "Brand") {
-            if (validateEmail(brandEmail) && validateName(brandName) 
-            && validateName(photo) && validateName(brandInformation)) setVerified(true)
+            if (validateEmail(brandEmail) && validateName(brandName)
+                && validateName(photo) && validateName(brandInformation)) setVerified(true)
             else setVerified(false)
         } else if (userType === "Influencer") {
-            if (validateName(firstName) && validateName(lastName) && validateName(photo) && validateName(dob) && validateName(gender)) {
+            if (validateName(firstName) && validateName(lastName) && validateName(position),
+                validateName(photo) && validateName(dob) && validateName(gender)) {
                 setVerified(true)
             } else setVerified(false)
         }
@@ -90,12 +91,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             return (
                 <>
                     <Input
-                        label="Brand Name"
+                        placeHolder="Brand Name"
                         value={brandName}
                         onChangeText={text => dispatch(Credential({ prop: 'brandName', value: text }))}
                     />
                     <Input
-                        label="Brand Email"
+                        placeHolder="Brand Email"
                         value={brandEmail}
                         onChangeText={text => dispatch(Credential({ prop: 'brandEmail', value: text }))}
                     />
@@ -114,12 +115,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
             return (
                 <>
                     <Input
-                        label="First Name"
+                        placeHolder="First Name"
                         value={firstName}
                         onChangeText={text => dispatch(Credential({ prop: 'firstName', value: text }))}
                     />
                     <Input
-                        label="Last Name"
+                        placeHolder="Last Name"
                         value={lastName}
                         onChangeText={text => dispatch(Credential({ prop: 'lastName', value: text }))}
                     />
@@ -150,6 +151,11 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                 {showInput()}
                 {!isBrand &&
                     <>
+                        <Input
+                            placeHolder='Fashion Influencer'
+                            value={position}
+                            onChangeText={text => dispatch(Credential({ prop: 'position', value: text }))}
+                        />
                         <TouchableOpacity
                             style={[GlobalStyles.buttonContainer, styles.dateButton]}
                             onPress={() => setDateOpen(true)}
@@ -169,28 +175,13 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                             onCancel={() => setDateOpen(false)}
                         />
 
-                        <View style={[GlobalStyles.rowBetween, { marginBottom: hp('5%') }]}>
-                            <RadioBtn
-                                text={"Female"}
-                                selected={gender === "Female"}
-                                onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Female" ? "" : "Female" }))}
-                            />
-
-                            <RadioBtn
-                                text={"Male"}
-                                selected={gender === "Male"}
-                                onPress={() => dispatch(Credential({ prop: 'gender', value: gender === "Male" ? "" : "Male" }))}
-                            />
-
-                            {!conservativeCountries.includes(RNLocalize.getCountry()) &&
-                                <TouchableOpacity
-                                    style={GlobalStyles.centeredContainer}
-                                    onPress={() => navigation.navigate("Genders")}
-                                >
-                                    <Text style={GlobalStyles.regularText}>{gender.length && gender !== 'Male' && gender !== 'Female' ? gender : "Other"}</Text>
-                                </TouchableOpacity>
-                            }
-                        </View>
+                        <TouchableOpacity onPress={() => navigation.navigate("Genders")}
+                            style={[GlobalStyles.rowBetween, { marginBottom: hp('3%'), marginHorizontal: wp('1%') }]}>
+                            <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>
+                                {gender.length ? gender : "Select your Gender"}
+                            </Text>
+                            <Image source={ImagePath.arrowRight} style={{height: wp('8%'), width: wp('8%'), left: wp('2%')}} />
+                        </TouchableOpacity>
                     </>
                 }
 
@@ -219,7 +210,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                     </Text>
                 </View>
 
-                <View style={{ flex: 1, justifyContent: 'flex-end', marginTop: hp('10%') }}>
+                <View style={{ flex: 1, justifyContent: 'flex-end' }}>
                     <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
                         onPress={() => pressedContinue()}
                     />

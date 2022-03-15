@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { GlobalStyles, Colors, grayTextInputTheme } from '../../Config'
+import { GlobalStyles, Colors, ImagePath } from '../../Config'
 
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
@@ -38,6 +38,8 @@ const DUMMY_DATA = [
 const Collaborations: React.FC<Props> = ({ navigation }) => {
     const [search, setSearch] = React.useState('')
     const [selectedTransaction, setSelectedTransaction] = React.useState("On-going")
+    const { userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const isBrand = userType === "Brand"
 
     const showIcon = () => {
         if (search.length) {
@@ -66,26 +68,42 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
         )
     }
 
+    const Title = (str: string) => {
+        return <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>{str}</Text>
+    }
+
     return (
-        <Container>
-            <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>Collaborations</Text>
-            <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
-            <View style={GlobalStyles.rowBetween}>
-                <Input
-                    label={'Search'}
-                    value={search}
-                    onChangeText={(text) => setSearch(text)}
-                    inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
-                />
-                {showIcon()}
+        <View style={{ flex: 1, }}>
+            <View style={{ backgroundColor: Colors.primary, paddingHorizontal: wp('4'), }}>
+                {isBrand ?
+                    <View style={GlobalStyles.rowBetween}>
+                        {Title("Campaigns")}
+                        <TouchableOpacity onPress={() => navigation.navigate("AddCampaign")}>
+                            <Image source={ImagePath.iconPluss} style={GlobalStyles.arrowImage} />
+                        </TouchableOpacity>
+                    </View>
+                    :
+                    Title("Collaborations")
+                }
+                <View style={{ marginTop: hp('4%'), flexDirection: 'row', }}>
+                    {Stat("On-going")}
+                    {Stat("Invited")}
+                    {Stat("Finished")}
+                </View>
             </View>
-            <View style={{ marginTop: hp('2%'), flexDirection: 'row', marginBottom: hp('3.5%') }}>
-                {Stat("On-going")}
-                {Stat("Invited")}
-                {Stat("Finished")}
+            <View style={{ paddingHorizontal: wp('4') }}>
+                <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
+                    <Input
+                        label={'Search'}
+                        value={search}
+                        onChangeText={(text) => setSearch(text)}
+                        inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
+                    />
+                    {showIcon()}
+                </View>
+                <Campaigns data={DUMMY_DATA} navigation={navigation} screen={selectedTransaction} />
             </View>
-            <Campaigns data={DUMMY_DATA} navigation={navigation} screen={selectedTransaction} />
-        </Container>
+        </View>
     )
 }
 

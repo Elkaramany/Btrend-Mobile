@@ -19,7 +19,6 @@ export const ImagePath = {
   eyeIcon: require('./assets/images/eyeIcon.png'),
   likes: require('./assets/images/likes.png'),
   matches: require('./assets/images/matches.png'),
-  campaigns: require('./assets/images/campaigns.png'),
   swipeRight: require('./assets/images/swipeRight.png'),
   swipeLeft: require('./assets/images/swipeLeft.png'),
   hidePassword: require('./assets/images/hidePasword.png'),
@@ -37,16 +36,21 @@ export const ImagePath = {
   rightArrowGray: require('./assets/images/rightArrowgray.png'),
 
   //tab bar icons
-  feed: require('./assets/images/Feed.png'),
+  feed: require('./assets/images/feed.png'),
+  feedFocus: require('./assets/images/feedFocus.png'),
   chat: require('./assets/images/chat.png'),
+  chatFocus: require('./assets/images/chatFocus.png'),
   search: require('./assets/images/search.png'),
   profile: require('./assets/images/Profile.png'),
+  profileFocus: require('./assets/images/profileFocus.png'),
   upload: require('./assets/images/upload_focus.png'),
   uploadFocus: require('./assets/images/uploadFocuss.png'),
-  dashboard: require('./assets/images/Dashboard.png'),
+  dashboard: require('./assets/images/dashboard.png'),
   dashboardFocus: require('./assets/images/dashboardFocus.png'),
   collaborations: require('./assets/images/Collaborations.png'),
   collaborationsFocus: require('./assets/images/collaborationsFocus.png'),
+  campaigns: require('./assets/images/campaigns.png'),
+  campaignsFocus: require('./assets/images/campaignsFocus.png'),
 
   notification: require('./assets/images/notification.png'),
   btrend: require('./assets/images/btrend_logo.png'),
@@ -66,6 +70,8 @@ export const ImagePath = {
   brandImg2: require('./assets/images/brandImg2.png'),
   horizontalLine2: require('./assets/images/horizontalLine2.png'),
   emptySearch: require('./assets/images/emptySearch.png'),
+  fadedBackground: require('./assets/images/fadedBackground.png'),
+  addCampaignBackground: require('./assets/images/addCampaignBackground.png'),
 
   //Profile Screen
   coverPhoto: require('./assets/images/coverPhoto.png'),
@@ -112,6 +118,7 @@ export const ImagePath = {
   ic_upward: require('./assets/images/ic_upward.png'),
   backArrow: require('./assets/images/backArrow.png'),
   ic_crosss: require('./assets/images/ic_crosss.png'),
+  whiteCross: require('./assets/images/ic_whiteCross.png'),
   blackCross: require('./assets/images/blackCross.png'),
   remove: require('./assets/images/remove.png'),
   tiktok: require('./assets/images/tiktok_logo.png'),
@@ -127,6 +134,8 @@ export const ImagePath = {
   optGrey: require('./assets/images/optGrey.png'),
   priceRange: require('./assets/images/priceRange.png'),
   category: require('./assets/images/category.png'),
+  whiteCircle: require('./assets/images/whiteCircle.png'),
+  selectedCircle: require('./assets/images/selectedCircle.png'),
 
   profilePlace: require('./assets/images/dpHolder.png'),
   coverHolder: require('./assets/images/coverPic.png'),
@@ -185,5 +194,6 @@ export const ImagePath = {
   profileAdd: require('./assets/images/profileAdd.jpg'),
   profileAddSquare: require('./assets/images/profileAddSquare.png'),
   iconPlus: require('./assets/images/iconPlus.png'),
+  iconPluss: require('./assets/images/iconPluss.png'),
   unarchive_ic: require('./assets/images/unarchive_ic.png'),
 };

@@ -1,6 +1,6 @@
 import React from 'react'
 import {
-    View, Text, StyleSheet, ScrollView, Image,
+    View, Text, StyleSheet, ScrollView, Image, FlatList,
 } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
@@ -8,7 +8,6 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { Colors, GlobalStyles, ImagePath } from '../../Config'
 
 import HeaderBack from '../../Components/HeaderBack'
-
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
@@ -53,10 +52,6 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
         })
     }
 
-    React.useEffect(() => {
-        console.log(item, ' here')
-    }, [])
-
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
 
@@ -75,9 +70,36 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                 {item.tiktok && SocialMedia("Tiktok", item.tiktok, ImagePath.tiktokFeed)}
                 {item.snapchat && SocialMedia("Snapchat", item.snapchat, ImagePath.snapchatFeed)}
                 {item.youtube && SocialMedia("Youtube", item.youtube, ImagePath.youtubeFeed)}
-                <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('3%') }]}>
+                <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('3%'), marginBottom: hp('5%') }]}>
                     <Text style={GlobalStyles.regularText}>Total</Text>
                     <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4%') }]}>${totalPrice}</Text>
+                </View>
+                <View
+                    style={{
+                        borderColor: Colors.darkGray, borderWidth: wp('0.15%'),
+                        marginHorizontal: wp('5%'), borderRadius: wp('10%'),
+                    }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: wp('5%') }}>
+                        <Image source={ImagePath.warning} style={GlobalStyles.arrowImage} />
+                        <Text style={[GlobalStyles.regularText, {
+                            color: Colors.darkGray, fontWeight: '500',
+                            paddingHorizontal: wp('5%'), paddingVertical: hp('1.5%')
+                        }]}>
+                            Licensing
+                        </Text>
+                    </View>
+                    {['Personal use', 'Commercial use', 'Sponsored social content', ' Temporal license']
+                        .map((item) => {
+                            return (
+                                <Text style={[GlobalStyles.regularText, {
+                                    color: Colors.darkGray,
+                                    paddingHorizontal: wp('15%'), paddingVertical: hp('0.25%')
+                                }]}>
+                                    •  {item}
+                                </Text>
+                            )
+                        })}
+
                 </View>
             </ScrollView>
         </View>

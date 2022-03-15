@@ -32,6 +32,13 @@ const grayTextInputTheme = {
     }, roundness: hp('3%')
 }
 
+const semiGrayTextInputTheme = {
+    colors: {
+        placeholder: Colors.inputGray, text: Colors.darkGray, primary: Colors.inputGray,
+        underlineColor: Colors.inputGray, background: Colors.lightGray
+    }, roundness: hp('5%')
+}
+
 const GlobalStyles = StyleSheet.create({
     centeredContainer: {
         justifyContent: 'center',
@@ -69,8 +76,8 @@ const GlobalStyles = StyleSheet.create({
         textAlign: 'center'
     },
     arrowImage: {
-        width: wp('5%'),
-        height: wp('5%'),
+        width: wp('6%'),
+        height: wp('6%'),
         resizeMode: 'contain'
     },
     regularText: {
@@ -100,11 +107,11 @@ const GlobalStyles = StyleSheet.create({
         backgroundColor: Colors.lightGray,
         marginVertical: hp('2%')
     }, redLine: {
-        width: wp('28%'), 
-        height: hp('0.5%'), 
-        backgroundColor: Colors.brightRed, 
+        width: wp('28%'),
+        height: hp('0.5%'),
+        backgroundColor: Colors.brightRed,
         borderRadius: wp('1%')
     }
 })
 
-export { Colors, GlobalStyles, IOS, ANDROID, WIDTH, HEIGHT, grayTextInputTheme };
+export { Colors, GlobalStyles, IOS, ANDROID, WIDTH, HEIGHT, grayTextInputTheme, semiGrayTextInputTheme };

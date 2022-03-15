@@ -72,6 +72,8 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
         dispatch(FavoriteUser(item._id, token, () => setFavorite(!favorite), userType))
     }
 
+    if (isBrand) return <View />
+
     return (
         <Animated.View
             {...panResponder.panHandlers}
@@ -102,10 +104,10 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                             </TouchableOpacity>
                         </View>
 
-                        <SocialPrice instagram={item.socialMedia.instagram}
-                            tiktok={item.socialMedia.tiktok}
-                            youtube={item.socialMedia.youtube}
-                            snapchat={item.socialMedia.snapchat}
+                        <SocialPrice instagram={item.socialMedia.instagram || false}
+                            tiktok={item.socialMedia.tiktok || false}
+                            youtube={item.socialMedia.youtube || false}
+                            snapchat={item.socialMedia.snapchat || false}
                             price={item.price} />
 
                         <View style={GlobalStyles.horizontalLine} />

@@ -8,11 +8,10 @@ export default async () => {
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
     });
     if (!res) return null
-    if(!res.email) Alert.alert("Please allow us to get your email address")
     return {
-        id: res.user, 
-        firstName: res.fullName?.givenName, 
-        lastName: res.fullName?.familyName,
-        email: res.email
+        id: res?.user,
+        firstName: res?.fullName?.givenName || '',
+        lastName: res?.fullName?.familyName || '',
+        email: res?.email || `${res?.user.slice(0,9)}apple@email.com`
     }
 }

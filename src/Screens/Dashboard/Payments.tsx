@@ -1,15 +1,14 @@
 import React from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
+import { View, Text, FlatList, TouchableOpacity } from 'react-native'
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { TextInput } from 'react-native-paper'
 
-import { GlobalStyles, ImagePath, Colors, grayTextInputTheme } from '../../Config'
+import { GlobalStyles, Colors, semiGrayTextInputTheme } from '../../Config'
 import { DatesType } from './types';
 
 import StartEndDate from '../../Components/StartEndDate'
 import Input from '../../Components/Input'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import GradientText from '../../Components/GradientText'
 
 interface Props {
@@ -33,13 +32,6 @@ const DUMMY_DATA = [
     }
 ]
 
-const InputTheme = {
-    colors: {
-        placeholder: Colors.inputGray, text: Colors.darkGray, primary: Colors.inputGray,
-        underlineColor: Colors.inputGray, background: Colors.lightGray
-    }, roundness: hp('5%')
-}
-
 const Payments: React.FC<Props> = ({ navigation, dates, setDates }) => {
     const [search, setSearch] = React.useState('')
 
@@ -53,7 +45,7 @@ const Payments: React.FC<Props> = ({ navigation, dates, setDates }) => {
                     inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
                     rightIcon={search.length && <TextInput.Icon name={"close"} color={Colors.gray}
                         style={{ top: hp('0.45%') }} onPress={() => setSearch('')} />}
-                    theme={InputTheme}
+                    theme={semiGrayTextInputTheme}
                 />
             </View>
 

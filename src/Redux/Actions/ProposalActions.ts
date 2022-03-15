@@ -8,12 +8,8 @@ interface PROPOSAL {
 
 export const SubmitProposal = (proposal: any, id: string | number, goBack: () => void) => async (dispatch: any) => {
     dispatch({ type: "Switch_Loading", payload: true })
-    console.log(BASE_URL)
     const { success, data }: any = await POST(`${BASE_URL}/proposals/submit/${id}`, proposal)
-    if (success) {
-        ShowToast("success", "Your propsosal has been submitted")
-        goBack()
-    }
+    if (success) goBack()
     else ShowToast("error", "Error submitting your proposal", data)
     dispatch({ type: "Switch_Loading", payload: false })
 }

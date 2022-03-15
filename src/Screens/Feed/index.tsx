@@ -36,8 +36,10 @@ const Search: React.FC<Props> = ({ navigation }) => {
     }, [fetchedArray])
 
     React.useEffect(() => {
-        dispatch(SearchFeed({ ...INITIAL_FILTERS, categories: selectedCategory, token }, userType))
+        refreshFeed()
     }, [selectedCategory])
+
+    const refreshFeed = () => dispatch(SearchFeed({ ...INITIAL_FILTERS, categories: selectedCategory, token }, userType))
 
     const AddOrRemoveCategory = (item: string | undefined) => {
         if (!item || !item.length) return;
@@ -91,7 +93,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
                     </View>
                 </Container>
 
-                <Feed arr={arr} navigation={navigation} setArr={setArr} />
+                <Feed arr={arr} navigation={navigation} setArr={setArr} refreshFeed={refreshFeed} />
             </View>
         )
     }

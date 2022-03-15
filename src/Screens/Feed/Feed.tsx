@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, Image, View } from 'react-native'
+import { FlatList, Image, View, RefreshControl } from 'react-native'
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -14,9 +14,10 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
     arr: any[],
     setArr: (arr: any[]) => void
+    refreshFeed: () => void
 }
 
-const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
+const Feed: React.FC<Props> = ({ navigation, arr, setArr, refreshFeed }) => {
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const { loading } = useSelector((state: RootStateOrAny) => state.SearchReducer)
     const dispatch = useDispatch()
@@ -28,29 +29,32 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr }) => {
         setArr(newArr)
     }
 
-    if (loading) return <Spinner size={false} />
-    else {
-        if (!arr || !arr.length) {
-            return (
-                <View style={{ justifyContent: 'center', alignItems: 'center', top: hp('15%') }}>
-                    <Image
-                        source={ImagePath.emptySearch}
-                        style={{ width: wp('25%'), height: wp('25%'), alignSelf: 'center' }}
-                    />
-                </View>
-            )
-        }
+    if (!arr || !arr.length) {
         return (
-            <FlatList
-                data={arr}
-                keyExtractor={(item, index) => `${item.id}-${index}`}
-                renderItem={({ item }) => <UserCard
-                    item={item} onSwipe={onSwipe} navigation={navigation}
+            <View style={{ justifyContent: 'center', alignItems: 'center', top: hp('15%') }}>
+                <Image
+                    source={ImagePath.emptySearch}
+                    style={{ width: wp('25%'), height: wp('25%'), alignSelf: 'center' }}
                 />
-                }
-            />
+            </View>
         )
     }
+    return (
+        <FlatList
+            refreshControl={
+                <RefreshControl
+                    refreshing={loading}
+                    onRefresh={refreshFeed}
+                />
+            }
+            data={arr}
+            keyExtractor={(item, index) => `${item.id}-${index}`}
+            renderItem={({ item }) => <UserCard
+                item={item} onSwipe={onSwipe} navigation={navigation}
+            />
+            }
+        />
+    )
 }
 
 export default Feed

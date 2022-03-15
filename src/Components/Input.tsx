@@ -16,7 +16,7 @@ const textInputTheme = {
 interface Props {
     multiline?: boolean
     inputStyle?: ViewStyle | TextStyle
-    label: string
+    label?: string
     value: string | number
     onChangeText: (text: string) => void
     secureTextEntry?: boolean
@@ -42,8 +42,8 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             mode="outlined"
             multiline={multiline || false}
             style={[{ marginBottom: hp('3.5%'), height: hp('5.5%') }, inputStyle]}
-            label={label}
-            placeholder={placeHolder || label}
+            label={label || ''}
+            placeholder={placeHolder || ''}
             value={value.toString() || ''}
             onChangeText={text => onChangeText(text)}
             theme={theme || textInputTheme}

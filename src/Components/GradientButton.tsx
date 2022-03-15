@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Touchable } from 'react-native'
-import { Colors, GlobalStyles, WIDTH } from '../Config'
+import { Text, ViewStyle, TextStyle, TouchableOpacity } from 'react-native'
+import { Colors, GlobalStyles } from '../Config'
 import LinearGradient from 'react-native-linear-gradient';
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from 'react-native-responsive-screen';
 

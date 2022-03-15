@@ -8,6 +8,7 @@ const INITIAL_STATE: Props = {
   lastName: '',
   dob: '',
   gender: '',
+  position: '',
   photo: '',
   id: null,
   authType: '',

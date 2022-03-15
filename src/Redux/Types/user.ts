@@ -16,6 +16,7 @@ export interface Props {
     lastName: string
     dob: Date | string
     gender: string
+    position: string
     photo: string
     categories: string[]
     location: Location | null

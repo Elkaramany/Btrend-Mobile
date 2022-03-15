@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Footer: React.FC<Props> = ({ Submit }) => {
-    const { loading } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { loading } = useSelector((state: RootStateOrAny) => state.SearchReducer)
     const navigation = useNavigation()
 
     const Loader = () => {
