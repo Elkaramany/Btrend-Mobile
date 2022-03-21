@@ -31,3 +31,7 @@ export const SubmitProposal = (proposal: any, id: string | number, goBack: () =>
     else ShowToast("error", "Error submitting your proposal", data)
     dispatch({ type: "Switch_Loading", payload: false })
 }
+
+export const ResetCampaign = () => async (dispatch: any) => {
+    dispatch({ type: "Reset_Campaign" })
+}

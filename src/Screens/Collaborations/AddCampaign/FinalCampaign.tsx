@@ -25,11 +25,6 @@ const FinalCampaign: React.FC<Props> = ({ navigation }) => {
     const { brandName, photo, brandInformation, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const item = useSelector((state: RootStateOrAny) => state.CampaignReducer)
 
-    const navigateAndResetCampaign = () => {
-        navigation.navigate("CongratsCampaign")
-        dispatch({ type: "Reset_Campaign" })
-    }
-
     const HeaderArray = (header: string, arr: string[], icon: any, bottomLine: boolean) => {
         return (
             <>
@@ -150,7 +145,7 @@ const FinalCampaign: React.FC<Props> = ({ navigation }) => {
                     <Spinner />
                     :
                     <Footer nextText='Publish' backPress={() => navigation.goBack()}
-                        nextPress={() => dispatch(CreateCampaign(item, token, navigateAndResetCampaign()))}
+                        nextPress={() => dispatch(CreateCampaign(item, token, () => navigation.navigate("CongratsCampaign")))}
                         lineWidth={0} verified={true}
                     />
                 }
