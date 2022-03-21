@@ -4,33 +4,30 @@ import {
     Image, TouchableOpacity, ScrollView, FlatList
 } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import moment from 'moment'
 
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
+import { CreateCampaign } from '../../../Redux/Actions';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { FavoriteUser } from '../../Redux/Actions'
-import { GlobalStyles, Colors, ImagePath, LanguagesArr } from '../../Config';
+import { GlobalStyles, Colors, ImagePath, formatDate } from '../../../Config';
 
-import GradientButton from '../../Components/GradientButton';
+import GradientText from '../../../Components/GradientText'
+import Footer from './Footer'
+import Spinner from '../../../Components/Spinner';
 
 
 interface Props {
-    route: any
     navigation: StackNavigationProp<any, any>,
 }
 
-const UserProfile: React.FC<Props> = ({ route, navigation }) => {
+const FinalCampaign: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
-    const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
-    const { item, isFavorite } = route.params
-    const [favorite, setFavorite] = React.useState(isFavorite)
+    const { loading } = useSelector((state: RootStateOrAny) => state.SearchReducer)
+    const { brandName, photo, brandInformation, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const item = useSelector((state: RootStateOrAny) => state.CampaignReducer)
 
-    const onFavorite = () => {
-        dispatch(FavoriteUser(item._id, token, changeFavorite, userType))
-    }
-
-    const changeFavorite = () => {
-        setFavorite(!favorite)
+    const navigateAndResetCampaign = () => {
+        navigation.navigate("CongratsCampaign")
+        dispatch({ type: "Reset_Campaign" })
     }
 
     const HeaderArray = (header: string, arr: string[], icon: any, bottomLine: boolean) => {
@@ -38,9 +35,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
             <>
                 <View style={styles.innerContainer}>
                     <Text style={styles.sectionHeader}>{header}</Text>
-                    {arr.map((cat: any) => {
+                    {arr.map((cat: any, index: number) => {
                         return (
-                            <View style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
+                            <View key={index} style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
                                 {icon &&
                                     <Image
                                         source={icon}
@@ -59,11 +56,6 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const userView = () => {
-        //Calculates when the campaign was created
-        const hours = moment(new Date).diff(moment(item.createdAt), "hours")
-        const minutes = moment(new Date).diff(moment(item.createdAt), "minutes")
-        const days = moment(new Date).diff(moment(item.createdAt), "days")
-        const lastSeen = minutes < 60 ? minutes === 0 ? `Freshly posted` : `Posted ${minutes} m(s) ago` : hours < 24 ? `Posted ${hours} h(s) ago` : `Posted ${days} d(s) ago`
         return (
             <View>
                 <View style={[GlobalStyles.rowBetween, { marginBottom: hp('1%') }]}>
@@ -71,14 +63,22 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         <Text style={[GlobalStyles.regularText,
                         { color: Colors.darkGray, fontSize: hp('1.75%'), fontWeight: '500' }]}>Campaign</Text>
                     </View>
-                    <TouchableOpacity onPress={() => onFavorite()} style={GlobalStyles.centeredContainer}>
-                        <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
-                            style={[GlobalStyles.arrowImage, { width: wp('7%'), height: wp('7%') }]} />
-                    </TouchableOpacity>
                 </View>
-                <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%'), marginBottom: hp('1%') }]}>{item.name}</Text>
+                <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%') }]}>
+                    {item.name}
+                </Text>
+
+                <GradientText
+                    style={[GlobalStyles.regularText,
+                    { fontWeight: 'bold', fontSize: hp('2.25%'), marginVertical: hp('2%') }]}
+                    end={{ x: 0.2, y: 0.35 }}>
+                    ${item.price}
+                </GradientText>
+
                 <Text style={[GlobalStyles.regularText,
-                { color: Colors.darkGray, fontSize: hp('1.5%'), marginBottom: hp('3%') }]}>{lastSeen}</Text>
+                { color: Colors.darkGray, fontSize: hp('1.5%'), marginBottom: hp('2%') }]}>
+                    Freshly posted
+                </Text>
 
                 <Text style={GlobalStyles.regularText}>
                     {item.aim}
@@ -88,7 +88,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
                 <View style={styles.innerContainer}>
                     <Text style={styles.sectionHeader}>Dates:</Text>
-                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>{item.dates.join(" - ")}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>
+                        {formatDate(item.dates[0])} - {formatDate(item.dates[1])}
+                    </Text>
                 </View>
 
                 <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
@@ -97,7 +99,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <Text style={styles.sectionHeader}>Gender & Age</Text>
                     <View style={GlobalStyles.rowBetween}>
                         <View>
-                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), marginVertical: hp('0.75%') }]}>{item.gender.join(" - ")}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), marginVertical: hp('0.75%') }]}>
+                                {item.gender.join(" - ")}
+                            </Text>
                             <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.age.join(" - ")} years old</Text>
                         </View>
                         <Image source={item.gender[0] === "Male" ? ImagePath.female : ImagePath.ic_gender} style={[GlobalStyles.arrowImage, { width: wp('8.75%'), height: wp('8.75%') }]} />
@@ -134,7 +138,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 </View>
                 <View style={GlobalStyles.graySeperator} />
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Price", { item: item.socialMedia, payment: item.payment, totalPrice: item.price })}
+                    onPress={() => navigation.navigate("Price", { item: item.socialMedia, payment: item.payment, totalPrice: item.price, licensing: item.licensing })}
                     style={[GlobalStyles.rowBetween, { marginBottom: hp('7%') }]}>
                     {HeaderArray("What price Includes", ["All info"], null, false)}
                     <Image
@@ -142,6 +146,14 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                         style={GlobalStyles.arrowImage}
                     />
                 </TouchableOpacity>
+                {loading ?
+                    <Spinner />
+                    :
+                    <Footer nextText='Publish' backPress={() => navigation.goBack()}
+                        nextPress={() => dispatch(CreateCampaign(item, token, navigateAndResetCampaign()))}
+                        lineWidth={0} verified={true}
+                    />
+                }
             </View>
         )
     }
@@ -155,32 +167,19 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
             <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('25%') }]}>
                 <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('2%') }}>
                     <View style={{ width: '80%', flexDirection: 'row' }} >
-                        <Image source={{ uri: item.brand.photo }} style={styles.campaignImg} />
+                        <Image source={{ uri: photo }} style={styles.campaignImg} />
                         <View>
-                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.brand.brandName}</Text>
-                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), color: Colors.darkGray }]}>{item.brand.brandInformation}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>
+                                {brandName}
+                            </Text>
+                            <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), color: Colors.darkGray }]}>
+                                {brandInformation}
+                            </Text>
                         </View>
                     </View>
                     {userView()}
-
                 </View>
             </ScrollView>
-
-            <View style={
-                { position: 'absolute', bottom: 0, marginBottom: hp('4%'), width: '100%', backgroundColor: Colors.primary }}>
-                <View style={[GlobalStyles.horizontalLine, { width: '100%', marginTop: 0, marginBottom: hp('2%') }]} />
-                <View style={GlobalStyles.rowAround}>
-                    <View>
-                        <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Total price</Text>
-                        <Text style={GlobalStyles.regularText}>${item.price}</Text>
-                    </View>
-                    <GradientButton text={'Continue'} colors={Colors.gradientButton}
-                        onPress={() => navigation.navigate("Proposal", 
-                        { item: item.socialMedia, budget: item.price, id: item._id })} 
-                        buttonContainerStyle={{ width: wp('55%') }}
-                    />
-                </View>
-            </View>
         </View>
     )
 }
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: wp('8%'),
         width: '100%',
         backgroundColor: Colors.primary,
-        bottom: hp('6%')
+        bottom: hp('1%')
     }, campaignImg: {
         marginRight: wp('2%'),
         width: wp('10%'),
@@ -242,4 +241,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default UserProfile
+export default FinalCampaign

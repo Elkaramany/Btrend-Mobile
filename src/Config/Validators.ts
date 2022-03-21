@@ -47,7 +47,7 @@ export const selectItem = (item: string, arr: string[]) => {
         newArr = newArr.filter(i => i !== item);
         return newArr
     } else {
-        //Only have 5 catefories max
+        //Can only have 5 catefories max
         if (arr.length <= 4) {
             const newArr = [...arr]
             newArr.push(item)

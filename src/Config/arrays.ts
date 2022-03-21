@@ -137,7 +137,7 @@ export const conservativeCountries = [
     "TN",
 ]
 
-export const Languages = [
+export const LanguagesArr = [
     "English",
     "French",
     "Arabic"

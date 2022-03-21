@@ -139,9 +139,22 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
         )
     }
 
+    const addNewSocialMedia = (parent: string) => {
+        const newSocial = { ...socialMedia }
+        let outlet = ''
+        if (parent === 'instagram') outlet = 'post'
+        else if (parent === 'tiktok') outlet = 'Feedvideo'
+        else if (parent === 'snapchat') outlet = 'snap'
+        else if (parent === 'youtube') outlet = 'video'
+        newSocial[`${parent}`] = {}
+        newSocial[`${parent}`][`${outlet}`] = { number: 1, price: 200 }
+        setSocialMedia(newSocial)
+    }
+
     const MissingSocialMedia = (socialMediaTitle: string) => {
         return (
             <TouchableOpacity
+                onPress={() => addNewSocialMedia(socialMediaTitle.toLowerCase())}
                 style={[GlobalStyles.centeredContainer, {
                     padding: hp('1%'),
                     marginVertical: hp('1%'),

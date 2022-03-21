@@ -46,7 +46,7 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
             return (
                 <Icon name={"close"}
                     size={25} color={Colors.darkGray}
-                    style={{ right: wp('9%'), top: hp('0.4%') }}
+                    style={{ right: wp('8.75%'), top: hp('0.4%') }}
                     onPress={() => setSearch('')} />
             )
         } else return <View />
@@ -79,7 +79,8 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
                     <View style={GlobalStyles.rowBetween}>
                         {Title("Campaigns")}
                         <TouchableOpacity onPress={() => navigation.navigate("AddCampaign")}>
-                            <Image source={ImagePath.iconPluss} style={GlobalStyles.arrowImage} />
+                            <Image source={ImagePath.iconPluss}
+                                style={{ width: wp('8%'), height: wp('8%'), resizeMode: 'contain' }} />
                         </TouchableOpacity>
                     </View>
                     :

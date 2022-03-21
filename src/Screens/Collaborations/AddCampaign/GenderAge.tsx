@@ -34,7 +34,6 @@ const GenderAge: React.FC<Props> = ({ navigation }) => {
     }, [selectedGenders])
 
     const Cancel = () => {
-        console.log('here')
         navigation.reset({
             index: 0,
             routes: [{ name: 'User' }]
@@ -98,7 +97,7 @@ const GenderAge: React.FC<Props> = ({ navigation }) => {
                 </View>
 
                 <Footer backPress={() => navigation.goBack()} nextPress={() => navigation.navigate("Languages")}
-                    verified={gender.length && age.length} lineWidth={wp('9.5%') * 3}
+                    verified={gender.length && age.length} lineWidth={wp('8.75%') * 3}
                 />
             </ScrollView>
         </Container>

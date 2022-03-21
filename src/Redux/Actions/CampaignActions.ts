@@ -1,4 +1,4 @@
-import { BASE_URL } from '@env'
+import { BASE_URL, BRANDS_URL } from '@env'
 import { POST } from '../../Config/API'
 import { ShowToast } from '../../Config'
 
@@ -14,6 +14,15 @@ export const CampaignCredential = (cred: Cred) => {
     }
 }
 
+export const CreateCampaign = (item: any, token: string | number, goBack: () => void) => async (dispatch: any) => {
+    dispatch({ type: "Switch_Loading", payload: true })
+    const { success, data }: any = await POST(`${BRANDS_URL}/create`, { ...item, token })
+    if (success) {
+        goBack()
+    }
+    else ShowToast("error", "Error creating your campaign", data)
+    dispatch({ type: "Switch_Loading", payload: false })
+}
 
 export const SubmitProposal = (proposal: any, id: string | number, goBack: () => void) => async (dispatch: any) => {
     dispatch({ type: "Switch_Loading", payload: true })

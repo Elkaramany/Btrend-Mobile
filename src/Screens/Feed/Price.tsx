@@ -15,7 +15,7 @@ interface Props {
 }
 
 const Price: React.FC<Props> = ({ navigation, route }) => {
-    const { item, payment, totalPrice } = route.params
+    const { item, payment, totalPrice, licensing } = route.params
 
     const SocialMedia = (socialMediaTitle: string, socialMedia: any, img: any) => {
         return (
@@ -41,7 +41,7 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                         <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
                             <View style={[GlobalStyles.rowCenter, { justifyContent: 'flex-start' }]}>
                                 <Text style={GlobalStyles.regularText}>{socialMedia[`${outletTitle}`].number} </Text>
-                                <Text style={GlobalStyles.regularText}>{outletTitle}</Text>
+                                <Text style={[GlobalStyles.regularText, { textTransform: 'capitalize' }]}>{outletTitle}</Text>
                             </View>
                             <Text style={GlobalStyles.regularText}>${socialMedia[`${outletTitle}`].price}</Text>
                         </View>
@@ -72,12 +72,12 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                 {item.youtube && SocialMedia("Youtube", item.youtube, ImagePath.youtubeFeed)}
                 <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('3%'), marginBottom: hp('5%') }]}>
                     <Text style={GlobalStyles.regularText}>Total</Text>
-                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4%') }]}>${totalPrice}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>${totalPrice}</Text>
                 </View>
                 <View
                     style={{
                         borderColor: Colors.darkGray, borderWidth: wp('0.15%'),
-                        marginHorizontal: wp('5%'), borderRadius: wp('10%'),
+                        marginHorizontal: wp('5%'), borderRadius: wp('5%'),
                     }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: wp('5%') }}>
                         <Image source={ImagePath.warning} style={GlobalStyles.arrowImage} />
@@ -88,17 +88,16 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                             Licensing
                         </Text>
                     </View>
-                    {['Personal use', 'Commercial use', 'Sponsored social content', ' Temporal license']
-                        .map((item) => {
-                            return (
-                                <Text style={[GlobalStyles.regularText, {
-                                    color: Colors.darkGray,
-                                    paddingHorizontal: wp('15%'), paddingVertical: hp('0.25%')
-                                }]}>
-                                    •  {item}
-                                </Text>
-                            )
-                        })}
+                    {licensing.map((item: string) => {
+                        return (
+                            <Text style={[GlobalStyles.regularText, {
+                                color: Colors.darkGray,
+                                paddingHorizontal: wp('15%'), paddingVertical: hp('1%')
+                            }]}>
+                                •  {item}
+                            </Text>
+                        )
+                    })}
 
                 </View>
             </ScrollView>

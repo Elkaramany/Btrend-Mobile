@@ -36,7 +36,6 @@ const CoverPhoto: React.FC<Props> = ({ navigation }) => {
     }
 
     const Cancel = () => {
-        console.log('here')
         navigation.reset({
             index: 0,
             routes: [{ name: 'User' }]
@@ -56,7 +55,7 @@ const CoverPhoto: React.FC<Props> = ({ navigation }) => {
             </TouchableOpacity>
             {renderCoverPhoto()}
             <Footer backPress={() => navigation.goBack()} nextPress={() => navigation.navigate("Title")}
-                verified={coverPhoto.length} lineWidth={wp('9.5%')}
+                verified={coverPhoto.length} lineWidth={wp('8.75%')}
             />
         </Container>
     )

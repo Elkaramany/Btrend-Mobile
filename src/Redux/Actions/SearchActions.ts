@@ -4,14 +4,6 @@ import { Filter } from '../../Screens/Search/Types'
 import { AddFilter } from '../../Screens/Feed/Types'
 import { ShowToast } from '../../Config'
 
-export const CreateCampaign = (filters: AddFilter) => async (dispatch: any) => {
-    dispatch({ type: "Switch_Loading", payload: true })
-    const { success, data }: any = await POST(`${BRANDS_URL}/create`, filters)
-    if (success) ShowToast("success", "Your campaign has been published")
-    else ShowToast("error", "Error publishing your campaign", data)
-    dispatch({ type: "Switch_Loading", payload: false })
-}
-
 export const SearchFeed = (filters: Filter, userType: String) => async (dispatch: any) => {
     dispatch({ type: "Switch_Loading", payload: true })
     //Get influencer's profile if logged in as brand and campaigns if logged in as influencer

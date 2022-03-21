@@ -1,15 +1,16 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native'
+import { View, Text } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { useDispatch } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Credential } from '../../../Redux/Actions';
-import { Colors, CategoriesArr, GlobalStyles, selectItem, itemSelected } from '../../../Config';
+import { Colors, GlobalStyles } from '../../../Config';
 
 import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
 import GradientButton from '../../../Components/GradientButton'
+import AllCategories from '../../../Components/AllCategories';
 
 
 interface Props {
@@ -38,47 +39,12 @@ const Categories: React.FC<Props> = ({ navigation }) => {
                 of your business & products you are aligned with
             </Text>
 
-            <ScrollView style={{ flexGrow: 1, height: hp('58%') }}>
-                <View style={[GlobalStyles.rowWrap, { justifyContent: 'flex-start', right: wp('1%') }]}>
-                    {CategoriesArr.map((item) => {
-                        //@ts-ignore
-                        const isSelected = itemSelected(item, arr)
-                        return (
-                            <TouchableOpacity key={item}
-                                style={[styles.mainButton,
-                                {
-                                    backgroundColor: isSelected ? Colors.brightRed : Colors.primary,
-                                    borderColor: Colors.gray,
-                                    borderWidth: !isSelected ? wp('0.25%') : 0,
-                                }]}
-                                onPress={() => setArr(selectItem(item, arr))}
-                            >
-                                <Text style={[GlobalStyles.regularText, {
-                                    textAlign: 'center',
-                                    textAlignVertical: 'center',
-                                    color: isSelected ? Colors.primary : Colors.gray,
-                                    fontWeight: isSelected ? 'bold' : 'normal'
-                                }]}>{item}</Text>
-                            </TouchableOpacity>
-                        )
-                    })}
-                </View>
-            </ScrollView>
+            <AllCategories setArr={setArr} arr={arr} />
             <GradientButton text={'Continue'} colors={Colors.gradientButton}
                 onPress={() => pressedContinue()}
             />
         </Container >
     )
 }
-
-const styles = StyleSheet.create({
-    mainButton: {
-        paddingVertical: hp('1%'),
-        paddingHorizontal: wp('2%'),
-        marginVertical: hp('1%'),
-        marginHorizontal: wp('1%'),
-        borderRadius: wp('10%')
-    }
-})
 
 export default Categories

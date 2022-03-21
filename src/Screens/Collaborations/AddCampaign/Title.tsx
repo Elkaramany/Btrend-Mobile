@@ -37,7 +37,6 @@ const Title: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
 
     const Cancel = () => {
-        console.log('here')
         navigation.reset({
             index: 0,
             routes: [{ name: 'User' }]
@@ -85,7 +84,7 @@ const Title: React.FC<Props> = ({ navigation }) => {
             maxStartDate={oneMonthFromToday} maxEndDate={fortyDaysFromToday} />
 
             <Footer backPress={() => navigation.goBack()} nextPress={() => navigation.navigate("GenderAge")}
-                verified={name.length && aim.length && dates.length > 1} lineWidth={wp('9.5%') * 2}
+                verified={name.length && aim.length && dates.length > 1} lineWidth={wp('8.75%') * 2}
             />
         </Container>
     )

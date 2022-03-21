@@ -39,22 +39,25 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr, refreshFeed }) => {
             </View>
         )
     }
-    return (
-        <FlatList
-            refreshControl={
-                <RefreshControl
-                    refreshing={loading}
-                    onRefresh={refreshFeed}
+    if (loading) return <Spinner size={true} />
+    else {
+        return (
+            <FlatList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={loading}
+                        onRefresh={refreshFeed}
+                    />
+                }
+                data={arr}
+                keyExtractor={(item, index) => `${item.id}-${index}`}
+                renderItem={({ item }) => <UserCard
+                    item={item} onSwipe={onSwipe} navigation={navigation}
                 />
-            }
-            data={arr}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            renderItem={({ item }) => <UserCard
-                item={item} onSwipe={onSwipe} navigation={navigation}
+                }
             />
-            }
-        />
-    )
+        )
+    }
 }
 
 export default Feed

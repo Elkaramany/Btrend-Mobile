@@ -30,7 +30,10 @@ const Suggestions: React.FC<Props> = ({ text, deleteText, SuggestionsArr, arr, s
                                     style={styles.container}
                                     onPress={() => AddItem(item, arr)}
                                 >
-                                    <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.darkGray }]}>{item}</Text>
+                                    <Text
+                                        style={[GlobalStyles.regularText,
+                                        { textAlign: 'center', textAlignVertical: 'center', color: Colors.darkGray }]}>
+                                        {item}</Text>
                                 </TouchableOpacity>
                             )
                         }
@@ -51,7 +54,11 @@ const Suggestions: React.FC<Props> = ({ text, deleteText, SuggestionsArr, arr, s
                             style={[styles.container, { backgroundColor: Colors.brightRed, borderWidth: 0 }]}
                             onPress={() => AddItem(item, arr)}
                         >
-                            <Text style={[GlobalStyles.regularText, { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>{item}</Text>
+                            <Text
+                                style={[GlobalStyles.regularText,
+                                { textAlign: 'center', textAlignVertical: 'center', color: Colors.primary }]}>
+                                {item}
+                            </Text>
                         </TouchableOpacity>
                     )
                 })}
@@ -64,8 +71,8 @@ const Suggestions: React.FC<Props> = ({ text, deleteText, SuggestionsArr, arr, s
 const styles = StyleSheet.create({
     container: {
         backgroundColor: Colors.primary,
-        padding: hp('0.5%'),
-        paddingHorizontal: wp('2%'),
+        padding: hp('1%'),
+        paddingHorizontal: wp('3%'),
         ...GlobalStyles.rowBetween,
         justifyContent: 'center',
         margin: wp('1%'),

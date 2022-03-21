@@ -40,7 +40,7 @@ export interface Campaign {
     name: string
     aim: string
     gender: string[]
-    age: number[]
+    age: string[]
     languages: string[]
     categories: string[]
     tags: string[]
@@ -52,4 +52,5 @@ export interface Campaign {
     dates: string[]
     socialMedia: SocialMedia
     price: number | string
+    licensing: string[]
 }

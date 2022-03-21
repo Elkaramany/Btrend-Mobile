@@ -9,7 +9,7 @@ import GradientText from '../../Components/GradientText';
 
 import { useSelector, RootStateOrAny } from 'react-redux'
 
-import { GlobalStyles, Colors, ImagePath, Languages, CategoriesArr } from '../../Config'
+import { GlobalStyles, Colors, ImagePath, LanguagesArr, CategoriesArr } from '../../Config'
 import { Filter } from './Types'
 import { GoogleAutocomplete } from '../../Config/Utils/Google';
 
@@ -131,7 +131,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
               />
 
               <Suggestions text={langText} deleteText={() => setLangText('')}
-                SuggestionsArr={Languages} arr={langArr} setArr={setLangArr} />
+                SuggestionsArr={LanguagesArr} arr={langArr} setArr={setLangArr} />
 
               {showBrandFilters()}
               <Input
