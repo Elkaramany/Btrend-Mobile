@@ -20,10 +20,11 @@ import Feed from './Feed';
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
+    route: any
 }
 
 
-const Search: React.FC<Props> = ({ navigation }) => {
+const Search: React.FC<Props> = ({ navigation, route }) => {
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const { fetchedArray } = useSelector((state: RootStateOrAny) => state.SearchReducer)
     const [arr, setArr] = React.useState<any[]>([])

@@ -9,7 +9,7 @@ import moment from 'moment'
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 import { FavoriteUser } from '../../Redux/Actions'
-import { GlobalStyles, Colors, ImagePath, LanguagesArr } from '../../Config';
+import { GlobalStyles, Colors, ImagePath, formatDate } from '../../Config';
 
 import GradientButton from '../../Components/GradientButton';
 
@@ -38,9 +38,10 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
             <>
                 <View style={styles.innerContainer}>
                     <Text style={styles.sectionHeader}>{header}</Text>
-                    {arr.map((cat: any) => {
+                    {arr.map((cat: any, index: number) => {
                         return (
-                            <View style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
+                            <View key={index}
+                                style={{ flexDirection: 'row', marginVertical: hp('0.5%') }}>
                                 {icon &&
                                     <Image
                                         source={icon}
@@ -88,7 +89,9 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
 
                 <View style={styles.innerContainer}>
                     <Text style={styles.sectionHeader}>Dates:</Text>
-                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>{item.dates.join(" - ")}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>
+                        {formatDate(item.dates[0])} - {formatDate(item.dates[1])}
+                    </Text>
                 </View>
 
                 <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
@@ -134,7 +137,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                 </View>
                 <View style={GlobalStyles.graySeperator} />
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("Price", { item: item.socialMedia, payment: item.payment, totalPrice: item.price })}
+                    onPress={() => navigation.navigate("Price", { item: item.socialMedia, payment: item.payment, totalPrice: item.price, licensing: item.licensing })}
                     style={[GlobalStyles.rowBetween, { marginBottom: hp('7%') }]}>
                     {HeaderArray("What price Includes", ["All info"], null, false)}
                     <Image
@@ -169,17 +172,23 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
             <View style={
                 { position: 'absolute', bottom: 0, marginBottom: hp('4%'), width: '100%', backgroundColor: Colors.primary }}>
                 <View style={[GlobalStyles.horizontalLine, { width: '100%', marginTop: 0, marginBottom: hp('2%') }]} />
-                <View style={GlobalStyles.rowAround}>
-                    <View>
-                        <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Total price</Text>
-                        <Text style={GlobalStyles.regularText}>${item.price}</Text>
+                {item.submittedProposal ?
+                    <Text style={[GlobalStyles.regularText, { textAlign: 'center' }]}>
+                        You've already a submitted a proposal to this campaign
+                    </Text>
+                    :
+                    <View style={GlobalStyles.rowAround}>
+                        <View>
+                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Total price</Text>
+                            <Text style={GlobalStyles.regularText}>${item.price}</Text>
+                        </View>
+                        <GradientButton text={'Continue'} colors={Colors.gradientButton}
+                            onPress={() => navigation.navigate("Proposal",
+                                { item: item.socialMedia, budget: item.price, id: item._id })}
+                            buttonContainerStyle={{ width: wp('55%') }}
+                        />
                     </View>
-                    <GradientButton text={'Continue'} colors={Colors.gradientButton}
-                        onPress={() => navigation.navigate("Proposal", 
-                        { item: item.socialMedia, budget: item.price, id: item._id })} 
-                        buttonContainerStyle={{ width: wp('55%') }}
-                    />
-                </View>
+                }
             </View>
         </View>
     )

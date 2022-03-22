@@ -4,9 +4,9 @@ import {
 import React from "react";
 import { Image, StyleSheet } from "react-native";
 import { useSelector } from "react-redux";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import { heightPercentageToDP, widthPercentageToDP as wp } from "react-native-responsive-screen";
 
-import { Colors, ImagePath } from "../../Config";
+import { Colors, GlobalStyles, ImagePath } from "../../Config";
 
 import Feed from "../../Screens/Feed"
 import Dashboard from "../../Screens/Dashboard"
@@ -38,6 +38,7 @@ export default () => {
                         return (
                             <Image
                                 source={focused ? ImagePath.feedFocus : ImagePath.feed}
+                                style={styles.iconStyle}
                             />
                         );
                     },
@@ -52,6 +53,7 @@ export default () => {
                         return (
                             <Image
                                 source={focused ? ImagePath.dashboardFocus : ImagePath.dashboard}
+                                style={styles.iconStyle}
                             />
                         );
                     },
@@ -65,10 +67,7 @@ export default () => {
                     tabBarIcon: ({ focused }) => {
                         return (
                             <Image
-                                style={{
-                                    tintColor: focused && userType === "Brand" ? Colors.secondary : Colors.blackOpacity30,
-                                    height: wp('10%'), width: wp('10%')
-                                }}
+                                style={styles.iconStyle}
                                 source={userType === "Brand" ? focused ? ImagePath.campaignsFocus : ImagePath.campaigns : focused ? ImagePath.collaborationsFocus : ImagePath.collaborations}
                             />
                         );
@@ -84,6 +83,7 @@ export default () => {
                         return (
                             <Image
                                 source={focused ? ImagePath.chatFocus : ImagePath.chat}
+                                style={styles.iconStyle}
                             />
                         );
                     },
@@ -98,6 +98,7 @@ export default () => {
                         return (
                             <Image
                                 source={focused ? ImagePath.profileFocus : ImagePath.profile}
+                                style={styles.iconStyle}
                             />
                         );
                     },
@@ -110,5 +111,10 @@ export default () => {
 const styles = StyleSheet.create({
     customBottomtabsStyle: {
         height: 50,
-    },
+    }, iconStyle: {
+        width: wp('8%'),
+        height: wp('8%'),
+        top: heightPercentageToDP('1%'),
+        resizeMode: 'contain'
+    }
 });

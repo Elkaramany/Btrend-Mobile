@@ -1,20 +1,29 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Colors, GlobalStyles, ImagePath } from '../../../Config';
+import { SearchFeed } from '../../../Redux/Actions';
+import { INITIAL_FILTERS } from '../../Search/Types';
 
 import Container from '../../../Components/Container'
 import GradientButton from '../../../Components/GradientButton'
+
 
 interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
 const Submitted: React.FC<Props> = ({ navigation }) => {
+    const dispatch = useDispatch()
+    const { token, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
-    const goBack = () => navigation.navigate("Feed")
+    const goBack = () => {
+        dispatch(SearchFeed({ ...INITIAL_FILTERS, categories: [], token }, userType))
+        navigation.navigate("Feed")
+    }
 
     return (
         <Container mainStyle={{ flex: 1 }}>

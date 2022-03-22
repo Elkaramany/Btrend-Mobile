@@ -13,11 +13,11 @@ import moment from "moment";
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStateOrAny, useSelector } from 'react-redux'
 
-import Container from '../../Components/Container'
-import { GlobalStyles, ImagePath, Colors, handleSelection } from '../../Config'
+import Container from '../../../Components/Container'
+import { GlobalStyles, ImagePath, Colors, handleSelection, semiGrayTextInputTheme } from '../../../Config'
 
-import Input from '../../Components/Input'
-import Spinner from '../../Components/Spinner';
+import Input from '../../../Components/Input'
+import Spinner from '../../../Components/Spinner';
 import Options from './Options'
 
 
@@ -94,7 +94,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                 {item.type === "text" &&
                     <View key={item._id} style={[styles.chatContainer, msgFromMe ? styles.myChat : styles.otherChat]}>
                         {msgFromMe ?
-                            <View style={[styles.balloon, { backgroundColor: Colors.darkRed }]}>
+                            <View style={[styles.balloon, { backgroundColor: Colors.brightRed }]}>
                                 <Text style={[GlobalStyles.regularText, { paddingTop: 5, color: 'white' }]}>{item.content}</Text>
                                 <View
                                     style={[
@@ -105,7 +105,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                                     <Svg style={styles.arrowRight} width={moderateScale(15.5, 0.6)} height={moderateScale(17.5, 0.6)} viewBox="32.485 17.5 15.515 17.5" enable-background="new 32.485 17.5 15.515 17.5">
                                         <Path
                                             d="M48,35c-7-4-6-8.75-6-17.5C28,17.5,29,35,48,35z"
-                                            fill={Colors.darkRed}
+                                            fill={Colors.brightRed}
                                             x="0"
                                             y="0"
                                         />
@@ -113,7 +113,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                                 </View>
                             </View>
                             :
-                            <View style={[styles.balloon, { backgroundColor: Colors.gray }]}>
+                            <View style={[styles.balloon, { backgroundColor: Colors.primary }]}>
                                 <Text style={[GlobalStyles.regularText, { paddingTop: 5, color: Colors.secondary }]}>{item.content}</Text>
                                 <View
                                     style={[
@@ -124,7 +124,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                                     <Svg style={styles.arrowLeft} width={moderateScale(15.5, 0.6)} height={moderateScale(17.5, 0.6)} viewBox="32.484 17.5 15.515 17.5" enable-background="new 32.485 17.5 15.515 17.5">
                                         <Path
                                             d="M38.484,17.5c0,8.75,1,13.5-6,17.5C51.484,35,52.484,17.5,38.484,17.5z"
-                                            fill={Colors.gray}
+                                            fill={Colors.primary}
                                             x="0"
                                             y="0"
                                         />
@@ -155,20 +155,18 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                             return <TouchableWithoutFeedback key={index}>{renderItem(item, index)}</TouchableWithoutFeedback>
                         })}
                     </ScrollView>
-                    <View style={GlobalStyles.rowBetween}>
-                        <Input
-                            label='Message...'
-                            multiline
-                            value={text}
-                            onChangeText={(val: string) => setText(val)}
-                            inputStyle={{ width: wp('80%') }}
-                            onSubmitEditing={() => onSend(text, "text")}
-                            rightIcon={<TextInput.Icon name={"image"} color={Colors.gray} size={32} onPress={() => sendImage()} />}
-                        />
-                        <TouchableOpacity onPress={() => onSend(text, "text")}>
-                            <Image source={ImagePath.rightArrow} style={[styles.inputImage, { bottom: hp('1.5%'), marginRight: wp('2.5%') }]} />
-                        </TouchableOpacity>
-                    </View>
+                    <Input
+                        label='Message...'
+                        multiline
+                        value={text}
+                        onChangeText={(val: string) => setText(val)}
+                        inputStyle={{ width: wp('90%'), height: hp('7%') }}
+                        onSubmitEditing={() => onSend(text, "text")}
+                        rightIcon={<TextInput.Icon name={"image"}
+                            color={Colors.gray} size={32}
+                            style={{ top: hp('0.5%'), right: wp('2%') }}
+                            onPress={() => sendImage()} />}
+                    />
                 </>
             )
         } else return <Spinner size={false} />
@@ -204,16 +202,18 @@ const styles = StyleSheet.create({
         borderRadius: moderateScale(15),
         minWidth: moderateScale(50)
     }, myChat: {
-        backgroundColor: Colors.darkRed,
+        backgroundColor: Colors.brightRed,
         marginLeft: '20%',
         marginRight: "2%",
         alignSelf: 'flex-end',
     },
     otherChat: {
-        backgroundColor: Colors.gray,
+        backgroundColor: Colors.primary,
         marginRight: "20%",
         marginLeft: '2%',
         alignSelf: 'flex-start',
+        borderWidth: wp('0.25%'),
+        borderColor: Colors.gray,
     }, arrowContainer: {
         position: 'absolute',
         top: 0,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     },
     arrowLeftContainer: {
         justifyContent: 'flex-end',
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
     },
 
     arrowRightContainer: {

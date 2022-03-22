@@ -5,9 +5,9 @@ import { useDispatch, RootStateOrAny, useSelector } from 'react-redux'
 
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { GlobalStyles, ImagePath, Colors } from '../../Config'
-import { Delete, MarkUnread, Mute, SendReport } from '../../Redux/Actions'
-import Spinner from '../../Components/Spinner';
+import { GlobalStyles, ImagePath, Colors } from '../../../Config'
+import { Delete, MarkUnread, Mute, SendReport } from '../../../Redux/Actions'
+import Spinner from '../../../Components/Spinner';
 
 interface Props {
     visible: boolean
@@ -39,7 +39,7 @@ const Options: React.FC<Props> = ({ visible, setVisible, converastionId, navigat
                 <View style={styles.optionsContainer}>
                     {loading ? <Spinner size={true} /> :
                         <>
-                            <TouchableOpacity onPress={() => dispatch(Delete(token, converastionId, navigation))}
+                            <TouchableOpacity onPress={() => dispatch(Delete(token, converastionId, () => { }))}
                                 style={styles.optionContainer}>
                                 <Image source={ImagePath.delete} style={GlobalStyles.arrowImage} />
                                 <Text style={styles.optionText}>Delete</Text>
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 0,
+        marginTop: hp('7%'),
         backgroundColor: Colors.primary,
         padding: hp('2%'),
         borderRadius: hp('1%'),

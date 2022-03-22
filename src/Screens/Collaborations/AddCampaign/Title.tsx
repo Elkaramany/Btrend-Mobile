@@ -30,8 +30,6 @@ const Title: React.FC<Props> = ({ navigation }) => {
     const oneMonthFromToday = new Date(today);
     const fortyDaysFromToday = new Date(today);
     tenDaysFromToday.setDate(tenDaysFromToday.getDate() + 10);
-    oneMonthFromToday.setDate(oneMonthFromToday.getDate() + 30);
-    fortyDaysFromToday.setDate(fortyDaysFromToday.getDate() + 40);
     const { name, aim, dates } = useSelector((state: RootStateOrAny) => state.CampaignReducer)
     const [campaignDates, setCampaignDates] = React.useState({ start: today, end: tenDaysFromToday })
     const dispatch = useDispatch()

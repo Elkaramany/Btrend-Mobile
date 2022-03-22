@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { POST } from '../../Config/API'
 import { ShowToast } from '../../Config'
 
-export const MessageUser = (token: string, id: string, navigation: StackNavigationProp<any, any>) => async (dispatch: any) => {
+export const MessageUser = (token: string, id: string) => async (dispatch: any) => {
     dispatch({ type: "Loading_Message", payload: true })
 
     const { success, data }: any = await POST(`${CONVERSATIONS_URL}/create/${id}`, { token })
@@ -11,7 +11,6 @@ export const MessageUser = (token: string, id: string, navigation: StackNavigati
         if (data) {
             ShowToast("info", data)
         }
-        navigation.navigate("Chat")
     }
     else {
         ShowToast("error", "Error starting a conversation", data)
@@ -19,7 +18,7 @@ export const MessageUser = (token: string, id: string, navigation: StackNavigati
     dispatch({ type: "Loading_Message", payload: false })
 }
 
-export const Delete = (token: string, id: string, navigation: StackNavigationProp<any, any>) => async (dispatch: any) => {
+export const Delete = (token: string, id: string, navigateMe: () => void) => async (dispatch: any) => {
     console.log("Delete")
 }
 
@@ -27,10 +26,8 @@ export const MarkUnread = (token: string, id: string, setVisible: (val: boolean)
     dispatch({ type: "Loading_Message", payload: true })
 
     const { success, data }: any = await POST(`${CONVERSATIONS_URL}/unread/${id}`, { token })
-    if (success) {
-        if (data) {
-            ShowToast("info", data)
-        }
+    if (success && data) {
+        ShowToast("info", data)
     }
     else {
         ShowToast("error", data)
@@ -60,10 +57,8 @@ export const SendReport = (token: string, id: string, reason: string, setVisible
     dispatch({ type: "Loading_Message", payload: true })
 
     const { success, data }: any = await POST(`${CONVERSATIONS_URL}/report/${id}`, { token, reason })
-    if (success) {
-        if (data) {
-            ShowToast("info", data)
-        }
+    if (success && data) {
+        ShowToast("info", data)
     }
     else {
         ShowToast("error", data)

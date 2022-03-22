@@ -8,12 +8,12 @@ import { Card } from 'react-native-paper';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStateOrAny, useSelector} from 'react-redux'
 
-import Container from '../../Components/Container'
-import { GlobalStyles, ImagePath, Colors } from '../../Config'
+import Container from '../../../Components/Container'
+import { GlobalStyles, ImagePath, Colors } from '../../../Config'
 
-import Input from '../../Components/Input'
-import GradientButton from '../../Components/GradientButton';
-import Spinner from '../../Components/Spinner';
+import Input from '../../../Components/Input'
+import GradientButton from '../../../Components/GradientButton';
+import Spinner from '../../../Components/Spinner';
 
 interface Props {
     route: any,
