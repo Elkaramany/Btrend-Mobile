@@ -5,6 +5,7 @@ import {
     FlatList, ScrollView, TouchableWithoutFeedback
 } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { Svg, Path } from 'react-native-svg'
 import { scale, verticalScale, moderateScale } from 'react-native-size-matters';
 import { TextInput } from 'react-native-paper'
@@ -146,7 +147,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
         if (loaded) {
             return (
                 <>
-                    <ScrollView style={{ flexGrow: 1, height: hp('80%') }}
+                    <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}
                         // @ts-ignore
                         ref={scrollRef}
                         // @ts-ignore
@@ -155,19 +156,21 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
                         {messages.map((item: any, index: number) => {
                             return <TouchableWithoutFeedback key={index}>{renderItem(item, index)}</TouchableWithoutFeedback>
                         })}
-                    </ScrollView>
-                    <Input
-                        label='Message...'
-                        multiline
-                        value={text}
-                        onChangeText={(val: string) => setText(val)}
-                        inputStyle={{ width: wp('90%'), height: hp('7%') }}
-                        onSubmitEditing={() => onSend(text, "text")}
-                        rightIcon={<TextInput.Icon name={"image"}
-                            color={Colors.gray} size={32}
-                            style={{ top: hp('0.5%'), right: wp('2%') }}
-                            onPress={() => sendImage()} />}
-                    />
+                        <View style={GlobalStyles.bottomContainer}>
+                            <Input
+                                label='Message...'
+                                multiline
+                                value={text}
+                                onChangeText={(val: string) => setText(val)}
+                                inputStyle={{ width: wp('90%'), height: hp('7%'), marginBottom: 0 }}
+                                onSubmitEditing={() => onSend(text, "text")}
+                                rightIcon={<TextInput.Icon name={"image"}
+                                    color={Colors.gray} size={32}
+                                    style={{ top: hp('0.5%'), right: wp('2%') }}
+                                    onPress={() => sendImage()} />}
+                            />
+                        </View>
+                    </KeyboardAwareScrollView>
                 </>
             )
         } else return <Spinner size={false} />
