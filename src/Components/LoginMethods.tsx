@@ -45,10 +45,10 @@ const LoginMethods: React.FC<Props> = ({ pressedContinue = () => { }, phone = ()
 
                 <View style={GlobalStyles.rowBetween}>
                     <View style={[GlobalStyles.horizontalLine,
-                    { marginVertical: hp('5.5%'), width: '45%' }]} />
+                    { marginVertical: hp('7%'), width: '45%' }]} />
                     <Text style={[GlobalStyles.regularText, { color: Colors.inputGray }]}> OR </Text>
                     <View style={[GlobalStyles.horizontalLine,
-                    { marginVertical: hp('5.5%'), width: '45%' }]} />
+                    { marginVertical: hp('7%'), width: '45%' }]} />
                 </View>
 
                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>

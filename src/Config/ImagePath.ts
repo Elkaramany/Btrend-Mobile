@@ -19,6 +19,7 @@ export const ImagePath = {
   eyeIcon: require('./assets/images/eyeIcon.png'),
   likes: require('./assets/images/likes.png'),
   matches: require('./assets/images/matches.png'),
+  wave: require('./assets/images/wave.png'),
   swipeRight: require('./assets/images/swipeRight.png'),
   swipeLeft: require('./assets/images/swipeLeft.png'),
   hidePassword: require('./assets/images/hidePasword.png'),
@@ -32,7 +33,6 @@ export const ImagePath = {
   crossIcon: require('./assets/images/crossIcon.png'),
   calendar: require('./assets/images/calendar.png'),
   messageIcon: require('./assets/images/messageIcon.png'),
-  ready: require('./assets/images/Ready.png'),
   rightArrowGray: require('./assets/images/rightArrowgray.png'),
 
   //tab bar icons
@@ -140,6 +140,7 @@ export const ImagePath = {
   category: require('./assets/images/category.png'),
   whiteCircle: require('./assets/images/whiteCircle.png'),
   selectedCircle: require('./assets/images/selectedCircle.png'),
+  selectedGradientCircle: require('./assets/images/selectedGradientCircle.png'),
 
   profilePlace: require('./assets/images/dpHolder.png'),
   coverHolder: require('./assets/images/coverPic.png'),

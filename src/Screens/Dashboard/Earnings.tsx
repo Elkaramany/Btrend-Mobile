@@ -27,7 +27,7 @@ const Eearnings: React.FC<Props> = () => {
     }
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
             <LinearGradient start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} colors={Colors.gradientButton}
                 style={styles.mainContainer}
             >
@@ -35,7 +35,8 @@ const Eearnings: React.FC<Props> = () => {
                     <Text style={[GlobalStyles.regularText, { color: Colors.primary, left: wp('7%') }]}>
                         How much I've earned
                     </Text>
-                    <Text style={[GlobalStyles.regularText, { color: Colors.primary, fontWeight: 'bold', fontSize: hp('5%'), left: wp('7%'), top: hp('1%') }]}>
+                    <Text style={[GlobalStyles.regularText,
+                    { color: Colors.primary, fontWeight: 'bold', fontSize: hp('4%'), left: wp('7%'), top: hp('1%') }]}>
                         $100
                     </Text>
                 </View>
@@ -60,7 +61,7 @@ const Eearnings: React.FC<Props> = () => {
 
                         <Image
                             source={ImagePath.calendar}
-                            style={GlobalStyles.arrowImage}
+                            style={{ width: wp('5%'), height: wp('5%'), resizeMode: 'contain' }}
                         />
                     </TouchableOpacity>
                     <Modal
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
         height: hp('14%'),
         borderRadius: hp('3%'),
         justifyContent: 'center',
-        marginTop: hp('2.5%')
+        marginVertical: hp('2.5%')
     }, chartContainer: {
         marginTop: hp('1%'),
         backgroundColor: Colors.primary,

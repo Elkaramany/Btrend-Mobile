@@ -50,7 +50,7 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <Container>
-            <HeaderArrow headerText={isSignUp ? 'Sign Up' : 'Sign In'} navigateMeBack={() => navigation.goBack()} />
+            <HeaderArrow headerText={isSignUp ? 'Create Account' : 'Sign In'} navigateMeBack={() => navigation.goBack()} />
             <Input
                 secureTextEntry={secured}
                 label=""

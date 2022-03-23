@@ -23,7 +23,7 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Image
                         source={img}
-                        style={{ height: wp('10%'), width: wp('10%'), marginRight: wp('5%'), resizeMode: 'contain' }}
+                        style={{ height: wp('8%'), width: wp('8%'), marginRight: wp('5%'), resizeMode: 'contain' }}
                     />
                     <Text style={[GlobalStyles.regularText, { fontWeight: '600' }]}>{socialMediaTitle}</Text>
                 </View>
@@ -43,7 +43,9 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                                 <Text style={GlobalStyles.regularText}>{socialMedia[`${outletTitle}`].number} </Text>
                                 <Text style={[GlobalStyles.regularText, { textTransform: 'capitalize' }]}>{outletTitle}</Text>
                             </View>
-                            <Text style={GlobalStyles.regularText}>${socialMedia[`${outletTitle}`].price}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>
+                                ${socialMedia[`${outletTitle}`].price}
+                            </Text>
                         </View>
                         <View style={[GlobalStyles.horizontalLine, { width: '100%' }]} />
                     </>
@@ -64,7 +66,7 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
             </View>
 
 
-            <ScrollView style={{ flexGrow: 1, }}
+            <ScrollView contentContainerStyle={{ flexGrow: 1, }}
             >
                 {item.instagram && SocialMedia("Instagram", item.instagram, ImagePath.instagramFeed)}
                 {item.tiktok && SocialMedia("Tiktok", item.tiktok, ImagePath.tiktokFeed)}
@@ -72,7 +74,7 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                 {item.youtube && SocialMedia("Youtube", item.youtube, ImagePath.youtubeFeed)}
                 <View style={[GlobalStyles.rowBetween, { marginHorizontal: wp('3%'), marginBottom: hp('5%') }]}>
                     <Text style={GlobalStyles.regularText}>Total</Text>
-                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('3%') }]}>${totalPrice}</Text>
+                    <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('2.5%') }]}>${totalPrice}</Text>
                 </View>
                 <View
                     style={{
@@ -88,9 +90,9 @@ const Price: React.FC<Props> = ({ navigation, route }) => {
                             Licensing
                         </Text>
                     </View>
-                    {licensing.map((item: string) => {
+                    {licensing.map((item: string, index: number) => {
                         return (
-                            <Text style={[GlobalStyles.regularText, {
+                            <Text key={index} style={[GlobalStyles.regularText, {
                                 color: Colors.darkGray,
                                 paddingHorizontal: wp('15%'), paddingVertical: hp('1%')
                             }]}>

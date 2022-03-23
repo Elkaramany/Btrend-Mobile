@@ -4,7 +4,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { GlobalStyles, Colors, ImagePath } from '../../Config'
+import { GlobalStyles, Colors, ImagePath, semiGrayTextInputTheme } from '../../Config'
 
 import Container from '../../Components/Container'
 import Input from '../../Components/Input'
@@ -93,12 +93,13 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
                 </View>
             </View>
             <View style={{ paddingHorizontal: wp('4') }}>
-                <View style={[GlobalStyles.rowBetween, { marginVertical: hp('2%') }]}>
+                <View style={[GlobalStyles.rowBetween, { marginVertical: hp('3%'), marginBottom: hp('4%') }]}>
                     <Input
                         label={'Search'}
                         value={search}
                         onChangeText={(text) => setSearch(text)}
                         inputStyle={{ width: wp('90%'), marginBottom: 0, height: hp('5%') }}
+                        theme={semiGrayTextInputTheme}
                     />
                     {showIcon()}
                 </View>

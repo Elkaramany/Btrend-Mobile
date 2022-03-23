@@ -60,11 +60,15 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
             dispatch(SendOTP(countryCode, phone, value, screenType, navigation))
         } else {
             if (validatePhone(`+${countryCode}${phone}`)) {
-                dispatch(SendCode(countryCode, phone, screenType, userType, OTPSentSuccessFully))
+                sendVerificationCode()
             } else {
                 Alert.alert("Please enter a valid phone number")
             }
         }
+    }
+
+    const sendVerificationCode = () => {
+        dispatch(SendCode(countryCode, phone, screenType, userType, OTPSentSuccessFully))
     }
 
     const chosenCountry = (selectedCountry: any) => {
@@ -116,6 +120,13 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
                             </Text>
                         )}
                     />
+                    <TouchableOpacity onPress={() => sendVerificationCode()}
+                        style={{ marginTop: hp('5%') }}>
+                        <Text style={[GlobalStyles.regularText,
+                        { fontWeight: '500', textDecorationLine: 'underline' }]}>
+                            Send again
+                        </Text>
+                    </TouchableOpacity>
                 </>
             )
         } else {
@@ -148,11 +159,12 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <HeaderArrow headerText={screenType === "signup" ? 'Sign Up' : "Sign In"} navigateMeBack={() => goBack()} />
+            <HeaderArrow headerText={screenType === "signup" ? 'Create Account' : "Sign In"} navigateMeBack={() => goBack()} />
 
             {showVerification()}
 
             {visible === true && <CountryPicker
+                //@ts-ignore
                 cca2={cca2}
                 visible={visible}
                 withFlagButton={false}

@@ -43,7 +43,7 @@ const Input: React.FC<Props> = ({ inputStyle, label, value, onChangeText = (text
             secureTextEntry={secureTextEntry || false}
             mode="outlined"
             multiline={multiline || false}
-            style={[{ marginBottom: hp('3.5%'), height: hp('5.5%') }, inputStyle]}
+            style={[{ marginBottom: hp('3%'), height: hp('5.5%'), borderWidth: 0 }, inputStyle]}
             label={label || ''}
             placeholder={placeHolder || ''}
             value={value.toString() || ''}

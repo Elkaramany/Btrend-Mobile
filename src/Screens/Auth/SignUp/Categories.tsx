@@ -23,7 +23,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
         dispatch(Credential({ prop: 'categories', value: arr }))
-        navigation.navigate("PhotosVideos")
+        navigation.navigate("ConnectSocial")
     }
 
     return (

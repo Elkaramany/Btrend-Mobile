@@ -53,7 +53,7 @@ const Genders: React.FC<Props> = ({ navigation }) => {
             <TouchableOpacity style={[GlobalStyles.rowBetween, { marginVertical: hp('1.5%') }]}
                 onPress={() => selectGender(item)}>
                 <Text style={[GlobalStyles.regularText, { marginLeft: wp('2%') }]}>{item}</Text>
-                <Image source={gender == item ? ImagePath.selectedCircle : ImagePath.whiteCircle}
+                <Image source={gender == item ? ImagePath.selectedGradientCircle : ImagePath.whiteCircle}
                     style={GlobalStyles.arrowImage}
                 />
             </TouchableOpacity>
@@ -62,9 +62,9 @@ const Genders: React.FC<Props> = ({ navigation }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <HeaderArrow headerText={"Select your Gender"} 
-            textStyle={{fontWeight: '400', fontSize: hp('3.75%')}}
-            navigateMeBack={() => navigation.goBack()} />
+            <HeaderArrow headerText={"Select your Gender"}
+                textStyle={{ fontWeight: '400', fontSize: hp('3.75%') }}
+                navigateMeBack={() => navigation.goBack()} />
             <Input
                 label=""
                 placeHolder='Insert your gender'
@@ -77,12 +77,14 @@ const Genders: React.FC<Props> = ({ navigation }) => {
                     onPress={() => search.length ? setSearch('') : {}} />}
                 theme={semiGrayTextInputTheme}
             />
+
             <FlatList
                 data={arr}
                 renderItem={renderItem}
-                keyExtractor={gender => gender}
+                keyExtractor={gender => `${gender}`}
             />
             <View style={{ height: hp('5%') }} />
+
         </Container>
     )
 }

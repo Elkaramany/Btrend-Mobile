@@ -44,10 +44,10 @@ const AllCategories: React.FC<Props> = ({ setArr, arr }) => {
 
 const styles = StyleSheet.create({
     mainButton: {
-        paddingVertical: hp('1%'),
-        paddingHorizontal: wp('2%'),
+        paddingVertical: hp('1.2%'),
+        paddingHorizontal: wp('3%'),
         marginVertical: hp('1%'),
-        marginHorizontal: wp('1%'),
+        marginHorizontal: wp('1.25%'),
         borderRadius: wp('10%')
     }
 })

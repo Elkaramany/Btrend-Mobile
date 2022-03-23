@@ -24,33 +24,36 @@ const Name: React.FC = () => {
 
     const socialIcon = (title: string, firstImg: any, secondImg: any) => {
         return (
-            <TouchableOpacity
-                style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
-                onPress={() => addConnectedSocial(title)}
-            >
-                <View style={GlobalStyles.rowAround}>
-                    <Image source={connected.includes(title) ? firstImg : secondImg}
-                        style={styles.socialMediaIcon} />
-                    <Text style={GlobalStyles.regularText}>{title}</Text>
-                </View>
+            <>
+                <TouchableOpacity
+                    style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}
+                    onPress={() => addConnectedSocial(title)}
+                >
+                    <View style={GlobalStyles.rowAround}>
+                        <Image source={connected.includes(title) ? firstImg : secondImg}
+                            style={styles.socialMediaIcon} />
+                        <Text style={GlobalStyles.regularText}>{title}</Text>
+                    </View>
 
-                <View style={GlobalStyles.rowAround}>
-                    {connected.includes(title) ?
-                        <>
-                            <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontWeight: '500' }]}>Connected</Text>
-                            <Image source={ImagePath.rightMarker}
-                                style={styles.markerIcon} />
-                        </>
-                        :
-                        <>
-                            <Text style={GlobalStyles.regularText}>Connect</Text>
-                            <Image source={ImagePath.orangeArrow}
-                                style={styles.markerIcon} />
-                        </>
+                    <View style={GlobalStyles.rowAround}>
+                        {connected.includes(title) ?
+                            <>
+                                <Text style={[GlobalStyles.regularText, { color: Colors.darkGray, fontWeight: '400' }]}>Connected</Text>
+                                <Image source={ImagePath.rightMarker}
+                                    style={styles.markerIcon} />
+                            </>
+                            :
+                            <>
+                                <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>Connect</Text>
+                                <Image source={ImagePath.orangeArrow}
+                                    style={styles.markerIcon} />
+                            </>
 
-                    }
-                </View>
-            </TouchableOpacity>
+                        }
+                    </View>
+                </TouchableOpacity>
+                <View style={GlobalStyles.horizontalLine} />
+            </>
         )
     }
 

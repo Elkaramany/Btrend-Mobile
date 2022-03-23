@@ -29,7 +29,7 @@ export const validatePhone = (phone: string) => {
 }
 
 export const formatDate = (date: Date | string) => {
-    return date.toString().substring(0, date.toString().length - 18)
+    return date.toString().substring(4, date.toString().length - 18)
 }
 
 function padTo2Digits(num: any) {

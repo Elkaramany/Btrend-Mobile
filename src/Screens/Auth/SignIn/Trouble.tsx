@@ -71,6 +71,7 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
         if (loading) return <Spinner size={true} />
         return (
             <GradientButton text={codeSent ? 'Reset password' : 'Send code'}
+                buttonContainerStyle={{marginTop: hp('2%')}}
                 colors={codeSent ? value.length === 4 && validatePassword(newPassword) ? Colors.gradientButton : Colors.disabledButton : validateEmail(email) ? Colors.gradientButton : Colors.disabledButton}
                 onPress={() => pressedContinue()}
             />

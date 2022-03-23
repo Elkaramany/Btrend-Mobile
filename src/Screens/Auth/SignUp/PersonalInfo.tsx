@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image, Linking, Alert, ScrollView } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
@@ -16,7 +17,6 @@ import Container from '../../../Components/Container'
 import HeaderArrow from '../../../Components/HeaderArrow'
 import Input from '../.././../Components/Input'
 import GradientButton from '../../../Components/GradientButton'
-import RadioBtn from '../../../Components/RadioBtn';
 
 import { formatDate } from '../../../Config/Validators';
 
@@ -138,7 +138,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                 <View style={[GlobalStyles.redLine, { backgroundColor: Colors.gray }]} />
             </View>
 
-            <ScrollView style={{ flexGrow: 1 }}>
+            <KeyboardAwareScrollView>
                 <HeaderArrow headerText={isBrand ? "Brand Info" : "Personal Info"} navigateMeBack={() => sendMeBack()} />
                 <TouchableOpacity style={styles.addProfile}
                     onPress={() => handleImage()}
@@ -164,6 +164,8 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                                 textAlign: 'left', fontSize: hp('1.85%'),
                                 color: dob.length ? Colors.secondary : Colors.inputGray
                             }]}>{dob.length ? dob : "Date of Birth"}</Text>
+                            <Image source={ImagePath.calendar}
+                                style={[GlobalStyles.arrowImage, { right: wp('3%') }]} />
                         </TouchableOpacity>
 
                         <DateTimePickerModal
@@ -210,12 +212,12 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                     </Text>
                 </View>
 
-                <View style={[GlobalStyles.bottomContainer, { marginBottom: hp('1%') }]}>
-                    <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
-                        onPress={() => pressedContinue()}
-                    />
-                </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
+            <View style={GlobalStyles.bottomContainer}>
+                <GradientButton text={'Continue'} colors={verified ? Colors.gradientButton : Colors.disabledButton}
+                    onPress={() => pressedContinue()}
+                />
+            </View>
         </Container >
     )
 }
@@ -231,8 +233,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: hp('3%')
     }, dateButton: {
+        ...GlobalStyles.rowBetween,
         paddingVertical: hp('1.6%'),
-        justifyContent: 'flex-start',
         borderColor: Colors.inputGray,
         borderWidth: wp('0.25%'),
         marginBottom: hp('3.5%')

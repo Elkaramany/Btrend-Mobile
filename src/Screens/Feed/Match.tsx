@@ -9,13 +9,12 @@ import { Colors, GlobalStyles, ImagePath } from '../../Config'
 import GradientButton from '../../Components/GradientButton'
 
 interface Props {
-    firstImg?: string
-    secondImg?: string
     hasMatch: () => void
     navigation: StackNavigationProp<any, any>,
+    matches: any[]
 }
 
-const Name: React.FC<Props> = ({ firstImg, secondImg, hasMatch, navigation }) => {
+const Name: React.FC<Props> = ({ hasMatch, navigation, matches }) => {
 
     const pressedMessage = () => {
         hasMatch()

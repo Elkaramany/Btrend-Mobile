@@ -23,6 +23,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     const dispatch = useDispatch()
     const { userType, token } = useSelector((state: RootStateOrAny) => state.AuthReducer)
     const { item, isFavorite } = route.params
+    const [scrollingPosition, setScrollingPosition] = React.useState(hp('30%'))
     const [favorite, setFavorite] = React.useState(isFavorite)
 
     const onFavorite = () => {
@@ -45,7 +46,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                                 {icon &&
                                     <Image
                                         source={icon}
-                                        style={[GlobalStyles.arrowImage, { marginRight: wp('3%') }]}
+                                        style={{ marginRight: wp('3%'), width: wp('5%'), height: wp('5%'), resizeMode: 'contain' }}
                                     />
                                 }
                                 <Text key={cat} style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{cat}</Text>
@@ -74,7 +75,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     </View>
                     <TouchableOpacity onPress={() => onFavorite()} style={GlobalStyles.centeredContainer}>
                         <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
-                            style={[GlobalStyles.arrowImage, { width: wp('7%'), height: wp('7%') }]} />
+                            style={[GlobalStyles.arrowImage, { width: wp('10%'), height: wp('10%') }]} />
                     </TouchableOpacity>
                 </View>
                 <Text style={[GlobalStyles.regularText, { fontWeight: '500', fontSize: hp('4.5%'), marginBottom: hp('1%') }]}>{item.name}</Text>
@@ -149,25 +150,34 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
         )
     }
 
+    const adjustScroll = (y: number) => {
+        console.log(y)
+        if (y > 120) setScrollingPosition(hp('15%'))
+        else if (y <= 0) setScrollingPosition(hp('30%'))
+    }
+
     return (
         <View style={{ flex: 1, backgroundColor: Colors.primary }}>
             <Image source={{ uri: item.coverPhoto }} style={styles.image} />
             <TouchableOpacity onPress={() => navigation.goBack()} style={styles.xImage}>
                 <Image source={ImagePath.ic_cross} style={{ width: '100%', height: '100%' }} />
             </TouchableOpacity>
-            <ScrollView style={[styles.scroller, { position: 'absolute', top: hp('25%') }]}>
-                <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('2%') }}>
+
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}
+                onScroll={(event) => adjustScroll(event.nativeEvent.contentOffset.y)}
+                style={[styles.scroller, { position: 'absolute', top: scrollingPosition }]}>
+                <View style={{ width: '90%', alignSelf: 'center', marginTop: hp('3%') }}>
                     <View style={{ width: '80%', flexDirection: 'row' }} >
-                        <Image source={{ uri: item.brand.photo }} style={styles.campaignImg} />
+                        <Image source={{ uri: item.brand.photo }} style={styles.brandImg} />
                         <View>
                             <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%') }]}>{item.brand.brandName}</Text>
                             <Text style={[GlobalStyles.regularText, { fontSize: hp('1.75%'), color: Colors.darkGray }]}>{item.brand.brandInformation}</Text>
                         </View>
                     </View>
                     {userView()}
-
                 </View>
             </ScrollView>
+
 
             <View style={
                 { position: 'absolute', bottom: 0, marginBottom: hp('4%'), width: '100%', backgroundColor: Colors.primary }}>
@@ -180,7 +190,7 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
                     <View style={GlobalStyles.rowAround}>
                         <View>
                             <Text style={[GlobalStyles.regularText, { color: Colors.darkGray }]}>Total price</Text>
-                            <Text style={GlobalStyles.regularText}>${item.price}</Text>
+                            <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>${item.price}</Text>
                         </View>
                         <GradientButton text={'Continue'} colors={Colors.gradientButton}
                             onPress={() => navigation.navigate("Proposal",
@@ -215,10 +225,11 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: Colors.primary,
         bottom: hp('6%')
-    }, campaignImg: {
+    }, brandImg: {
         marginRight: wp('2%'),
         width: wp('10%'),
         height: wp('10%'),
+        resizeMode: 'contain',
         borderRadius: wp('3%')
     }, activeContainer: {
         backgroundColor: "#6FCF97",

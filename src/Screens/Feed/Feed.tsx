@@ -43,6 +43,7 @@ const Feed: React.FC<Props> = ({ navigation, arr, setArr, refreshFeed }) => {
     else {
         return (
             <FlatList
+                contentContainerStyle={{marginTop: hp('2%')}}
                 refreshControl={
                     <RefreshControl
                         refreshing={loading}

@@ -113,7 +113,7 @@ const GlobalStyles = StyleSheet.create({
         marginVertical: hp('2%')
     }, redLine: {
         width: wp('28%'),
-        height: hp('0.5%'),
+        height: hp('0.3%'),
         backgroundColor: Colors.brightRed,
         borderRadius: wp('1%')
     }

@@ -59,7 +59,7 @@ const Campaigns: React.FC<Props> = ({ data, screen, navigation }) => {
                                             }
                                         </View>
                                         {screen === "Invited" &&
-                                            <View style={[GlobalStyles.rowBetween, { width: '79%' }]}>
+                                            <View style={[GlobalStyles.rowBetween, { width: '77%' }]}>
                                                 <GradientButton text={'Confirm'} colors={Colors.gradientButton}
                                                     buttonContainerStyle={{ ...styles.declinceButton, borderWidth: 0 }}
                                                     onPress={() => console.log("Confirm")} textStyle={{ fontSize: hp('2%') }}

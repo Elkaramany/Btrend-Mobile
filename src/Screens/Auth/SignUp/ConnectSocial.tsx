@@ -1,6 +1,6 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { View, Text } from 'react-native'
+import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Colors, GlobalStyles } from '../../../Config';
@@ -15,9 +15,10 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
-const PhotosVideos: React.FC<Props> = ({ navigation }) => {
+const ConnectSocial: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = () => {
+        //Add validation for the gradient button and this function to make sure the user connected at least one social account
         navigation.navigate("Location")
     }
 
@@ -46,15 +47,4 @@ const PhotosVideos: React.FC<Props> = ({ navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    addProfile: {
-        marginBottom: hp('3%')
-    }, imageStyle: {
-        width: wp('40%'),
-        height: wp('40%'),
-        resizeMode: 'contain',
-        borderRadius: wp('4%'),
-    },
-})
-
-export default PhotosVideos
+export default ConnectSocial

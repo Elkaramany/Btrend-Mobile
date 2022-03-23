@@ -86,8 +86,8 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                                 <TouchableOpacity onPress={() => onFavorite()}>
                                     <Image source={favorite ? ImagePath.heartFilled : ImagePath.heartBlack}
                                         style={{
-                                            height: hp('3%'),
-                                            width: hp('3%'),
+                                            height: hp('4%'),
+                                            width: hp('4%'),
                                             resizeMode: 'contain',
                                         }} />
                                 </TouchableOpacity>
@@ -149,12 +149,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: CARD_HEIGHT,
         width: CARD_WIDTH,
-        paddingVertical: hp('1%'),
+        padding: hp('1%'),
         borderRadius: wp('6%'),
         marginVertical: hp('1.5%'),
     }, userImg: {
-        height: hp('16%'),
-        width: wp('93%'),
+        height: hp('17%'),
+        width: wp('91%'),
         resizeMode: 'cover',
         borderRadius: wp('4%'),
         overflow: 'hidden'
