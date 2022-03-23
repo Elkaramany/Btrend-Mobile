@@ -16,11 +16,13 @@ import Navigator from './src/Navigation/index'
 export default () => {
 
   React.useEffect(() => {
+    //Hide the splash screen after 1.5 seconds
     setTimeout(() => {
       SplashScreen.hide();
     }, 1500)
   }, []);
 
+  //Redux and navigation basic setup
   return (
     <Provider store={Redux['Store']}>
       <View style={{ flex: 1, backgroundColor: Colors.primary, paddingTop: IOS ? getStatusBarHeight() : 0 }}>

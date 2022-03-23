@@ -68,6 +68,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
         }).start(() => onSwipe(item._id, direction))
     }
 
+    //Facoriting a campaign
     const onFavorite = () => {
         dispatch(FavoriteUser(item._id, token, () => setFavorite(!favorite), userType))
     }
@@ -118,6 +119,7 @@ const UserCard: React.FC<Props> = ({ item, onSwipe, navigation }) => {
                 </TouchableWithoutFeedback>
             )
         } else {
+            //Brand view still to be implemented
             return (
                 <View>
 

@@ -41,8 +41,7 @@ const FixedPrice: React.FC<Props> = ({ coverLetter, setCoverLetter, onSubmit }) 
                     theme={textInputTheme}
                 />
             </View>
-            <Footer Submit={onSubmit}
-            />
+            <Footer Submit={onSubmit} />
         </View>
     )
 }

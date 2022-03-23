@@ -87,6 +87,7 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
     }
 
     const showInput = () => {
+        //Show different sing up values based on whether the user is a brand or an influencer
         if (isBrand) {
             return (
                 <>
@@ -124,6 +125,39 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                         value={lastName}
                         onChangeText={text => dispatch(Credential({ prop: 'lastName', value: text }))}
                     />
+                    <Input
+                        placeHolder='Fashion Influencer'
+                        value={position}
+                        onChangeText={text => dispatch(Credential({ prop: 'position', value: text }))}
+                    />
+                    <TouchableOpacity
+                        style={[GlobalStyles.buttonContainer, styles.dateButton]}
+                        onPress={() => setDateOpen(true)}
+                    >
+                        <Text style={[GlobalStyles.regularText, {
+                            textAlign: 'left', fontSize: hp('1.85%'),
+                            color: dob.length ? Colors.secondary : Colors.inputGray
+                        }]}>{dob.length ? dob : "Date of Birth"}</Text>
+                        <Image source={ImagePath.calendar}
+                            style={[GlobalStyles.arrowImage, { right: wp('3%') }]} />
+                    </TouchableOpacity>
+
+                    <DateTimePickerModal
+                        date={new Date("1996-08-26")}
+                        maximumDate={new Date()}
+                        isVisible={dateOpen}
+                        mode="date"
+                        onConfirm={(date) => setDate(date)}
+                        onCancel={() => setDateOpen(false)}
+                    />
+
+                    <TouchableOpacity onPress={() => navigation.navigate("Genders")}
+                        style={[GlobalStyles.rowBetween, { marginBottom: hp('3%'), marginHorizontal: wp('1%') }]}>
+                        <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>
+                            {gender.length ? gender : "Select your Gender"}
+                        </Text>
+                        <Image source={ImagePath.arrowRight} style={{ height: wp('8%'), width: wp('8%'), left: wp('2%') }} />
+                    </TouchableOpacity>
                 </>
             )
         }
@@ -143,49 +177,14 @@ const PersonalInfo: React.FC<Props> = ({ navigation }) => {
                 <TouchableOpacity style={styles.addProfile}
                     onPress={() => handleImage()}
                 >
-                    <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAddSquare} style={styles.imageStyle} />
+                    <Image source={photo && photo.length ? { uri: photo } : ImagePath.profileAddSquare}
+                        style={styles.imageStyle} />
                     <Text style={[GlobalStyles.regularText,
                     { marginLeft: wp('5%'), textDecorationLine: 'underline', fontWeight: 'bold' }]}
                     >Add a {isBrand ? "brand" : "profile"} photo</Text>
                 </TouchableOpacity>
+
                 {showInput()}
-                {!isBrand &&
-                    <>
-                        <Input
-                            placeHolder='Fashion Influencer'
-                            value={position}
-                            onChangeText={text => dispatch(Credential({ prop: 'position', value: text }))}
-                        />
-                        <TouchableOpacity
-                            style={[GlobalStyles.buttonContainer, styles.dateButton]}
-                            onPress={() => setDateOpen(true)}
-                        >
-                            <Text style={[GlobalStyles.regularText, {
-                                textAlign: 'left', fontSize: hp('1.85%'),
-                                color: dob.length ? Colors.secondary : Colors.inputGray
-                            }]}>{dob.length ? dob : "Date of Birth"}</Text>
-                            <Image source={ImagePath.calendar}
-                                style={[GlobalStyles.arrowImage, { right: wp('3%') }]} />
-                        </TouchableOpacity>
-
-                        <DateTimePickerModal
-                            date={new Date("1996-08-26")}
-                            maximumDate={new Date()}
-                            isVisible={dateOpen}
-                            mode="date"
-                            onConfirm={(date) => setDate(date)}
-                            onCancel={() => setDateOpen(false)}
-                        />
-
-                        <TouchableOpacity onPress={() => navigation.navigate("Genders")}
-                            style={[GlobalStyles.rowBetween, { marginBottom: hp('3%'), marginHorizontal: wp('1%') }]}>
-                            <Text style={[GlobalStyles.regularText, { fontWeight: '500' }]}>
-                                {gender.length ? gender : "Select your Gender"}
-                            </Text>
-                            <Image source={ImagePath.arrowRight} style={{ height: wp('8%'), width: wp('8%'), left: wp('2%') }} />
-                        </TouchableOpacity>
-                    </>
-                }
 
                 <View style={{ marginBottom: hp('3%') }}>
                     <Text style={[GlobalStyles.regularText, { fontSize: hp('1.5%') }]}>

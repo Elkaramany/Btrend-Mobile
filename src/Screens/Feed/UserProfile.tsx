@@ -151,7 +151,6 @@ const UserProfile: React.FC<Props> = ({ route, navigation }) => {
     }
 
     const adjustScroll = (y: number) => {
-        console.log(y)
         if (y > 120) setScrollingPosition(hp('15%'))
         else if (y <= 0) setScrollingPosition(hp('30%'))
     }

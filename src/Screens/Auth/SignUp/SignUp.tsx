@@ -78,8 +78,12 @@ const SignUp: React.FC<Props> = ({ navigation }) => {
 
     const dispatchData = async (user: User, type: string) => {
         if (!user) return;
+        //When the user tries to sign up using social media
+
+        //Verify that their email is not already used before
         const res = await VerifyEmailSignUp(user.email)
         if (res) {
+            //Fills in their data from the social media accounts
             dispatch(Credential({ prop: 'email', value: user?.email || "" }))
             if (userType === "Influencer") {
                 dispatch(Credential({ prop: 'firstName', value: user.firstName || "" }))

@@ -8,6 +8,7 @@ interface Cred {
 }
 
 export const CampaignCredential = (cred: Cred) => {
+    //Key interpolation
     return {
         type: 'Campaign_Credential_In',
         payload: { prop: cred.prop, value: cred.value }

@@ -1,3 +1,5 @@
+//Helper functions
+
 import { Alert } from "react-native";
 import ImagePicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message'

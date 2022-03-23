@@ -2,7 +2,7 @@ import { appleAuth } from '@invertase/react-native-apple-authentication';
 import { Alert } from 'react-native';
 
 export default async () => {
-    // performs login request
+    // performs apple login request
     const res = await appleAuth.performRequest({
         requestedOperation: appleAuth.Operation.LOGIN,
         requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
@@ -12,6 +12,7 @@ export default async () => {
         id: res?.user,
         firstName: res?.fullName?.givenName || '',
         lastName: res?.fullName?.familyName || '',
-        email: res?.email || `${res?.user.slice(0,9)}apple@email.com`
+        //Apple only returns the email address the first time you call apple login but always returns the same user prop 
+        email: `${res?.user.slice(0, 9)}apple@email.com`
     }
 }

@@ -3,6 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { POST } from '../../Config/API'
 import { ShowToast } from '../../Config'
 
+//Start a new message between users
 export const MessageUser = (token: string, id: string) => async (dispatch: any) => {
     dispatch({ type: "Loading_Message", payload: true })
 

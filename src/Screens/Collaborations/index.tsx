@@ -1,12 +1,11 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { useSelector, useDispatch, RootStateOrAny } from 'react-redux'
+import { useSelector, RootStateOrAny } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { GlobalStyles, Colors, ImagePath, semiGrayTextInputTheme } from '../../Config'
 
-import Container from '../../Components/Container'
 import Input from '../../Components/Input'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Campaigns from './Campaigns'
@@ -15,6 +14,7 @@ interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
+//Dummy data until integration with BE
 const DUMMY_DATA = [
     {
         campaignName: "Awesome campaign",
@@ -103,7 +103,9 @@ const Collaborations: React.FC<Props> = ({ navigation }) => {
                     />
                     {showIcon()}
                 </View>
+
                 <Campaigns data={DUMMY_DATA} navigation={navigation} screen={selectedTransaction} />
+                
             </View>
         </View>
     )

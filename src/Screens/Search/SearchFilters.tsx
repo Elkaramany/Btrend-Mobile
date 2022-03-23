@@ -44,6 +44,7 @@ const BottomSheet: React.FC<Props> = ({ modalVisible, hideModal, filters, change
   }, [catArr])
 
   React.useEffect(() => {
+    //get places array from googleauto complete api based on the user's text
     async function fetchPlacesPredictions() {
       const predictions = await GoogleAutocomplete(locationsText)
       setGooglePlacesPredictions(predictions)

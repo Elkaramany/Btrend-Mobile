@@ -1,8 +1,6 @@
-import { LoginManager, Profile, AccessToken } from 'react-native-fbsdk-next';
+import { LoginManager, AccessToken } from 'react-native-fbsdk-next';
 import { Alert } from 'react-native';
 import axios from 'axios'
-
-// Get the user's profile using Facebook's Graph API
 
 export default async () => {
     const permissions = ["public_profile", "email"]
@@ -12,6 +10,7 @@ export default async () => {
     } else {
         const { accessToken }: any = await AccessToken.getCurrentAccessToken()
         if (accessToken) {
+            // Get the user's profile using Facebook's Graph API
             const Base_URL = "https://graph.facebook.com/"
             const fields = ["id", "email", "first_name", "last_name", "picture"];
             const query = `${Base_URL}me?access_token=${accessToken}&&fields=${fields}&&type=large`

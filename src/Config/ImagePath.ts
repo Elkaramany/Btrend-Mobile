@@ -1,3 +1,5 @@
+//The path of all the images used in the app
+
 export const ImagePath = {
   dropdownTriangle: require('./assets/images/ic_dropdown.png'),
   fb: require('./assets/images/fb.png'),

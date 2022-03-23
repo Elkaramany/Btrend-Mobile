@@ -15,11 +15,7 @@ export const GoogleLogin = async () => {
         const { givenName, familyName, email, photo, id } = userInfo.user
         return { firstName: givenName, lastName: familyName, email, photo, id }
     } catch (error: any) {
-        if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // user cancelled the login flow
-        } else if (error.code === statusCodes.IN_PROGRESS) {
-            // operation (e.g. sign in) is in progress already
-        } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
             Alert.alert("Google Login error: Google Play services is not available on your device")
         } else {
             // some other error happened
@@ -41,6 +37,8 @@ const googleAPI = axios.create({
 });
 
 export const GoogleAutocomplete = async (searchInput: string) => {
+    //You can check the docs for google palce autocomplete here:
+    // https://developers.google.com/maps/documentation/places/web-service/autocomplete
     const GoogleAutocompleteURL = 'place/autocomplete/json'
     const { data } = await googleAPI(`${GoogleAutocompleteURL}?input=${searchInput}&types=(cities)&key=${GOOGLE_PLACES}`)
     if (data && data.predictions.length) {

@@ -17,6 +17,7 @@ interface Props {
     setDates: (newDates: DatesType) => void
 }
 
+//Dummy data until BE integration
 const DUMMY_DATA = [
     {
         campaignName: "Awesome campaign",

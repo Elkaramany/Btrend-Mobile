@@ -38,6 +38,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
 
     React.useEffect(() => {
         if (visible) {
+            //Pretset some filters
             changeFilter('range', [10, 1000000])
             if (userType === "Brand") {
                 changeFilter('nof', [10, 100000000])
@@ -51,6 +52,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
     }, [fetchedArray])
 
     const changeFilter = (type: string, text: string | number | number[] | string[]) => {
+        //change filtering values
         const newFilters: any = { ...filters }
         newFilters[`${type}`] = text
         setFilters(newFilters)
@@ -83,7 +85,7 @@ const Search: React.FC<Props> = ({ navigation }) => {
                         pressedSearch={() => getFeed()}
                     />
                 </View>
-                <Feed arr={arr} navigation={navigation} setArr={setArr} refreshFeed={getFeed}/>
+                <Feed arr={arr} navigation={navigation} setArr={setArr} refreshFeed={getFeed} />
             </Container>
         </View>
     )

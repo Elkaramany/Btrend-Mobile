@@ -29,12 +29,14 @@ const Genders: React.FC<Props> = ({ navigation }) => {
     const [search, setSearch] = React.useState("")
 
     React.useEffect(() => {
+        //Set the genders based on whether the user lives in a conservative country
         if (!conservativeCountries.includes(RNLocalize.getCountry())) {
             setArr(GendersArr)
         } else setArr(["Female", "Male"])
     }, [])
 
     React.useEffect(() => {
+        //Search functionality
         const newData = GendersArr.filter(item => {
             const itemData = `${item.toLowerCase()}`;
             const textData = search.toLowerCase();
@@ -83,6 +85,7 @@ const Genders: React.FC<Props> = ({ navigation }) => {
                 renderItem={renderItem}
                 keyExtractor={gender => `${gender}`}
             />
+
             <View style={{ height: hp('5%') }} />
 
         </Container>

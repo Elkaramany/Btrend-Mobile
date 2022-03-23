@@ -10,4 +10,4 @@ Images, arrays, validators, fonts and the main API call are all in the src/confi
 All the react navigation setup can be found in the src/Navigation folder
 Redux setup, reducers and actions in the src/Redux
 
-The screens themselves can be found in the src/Screen folder.
+The screens themselves can be found in the src/Screen folder where I've added comments on the parts I though might be ambiguous

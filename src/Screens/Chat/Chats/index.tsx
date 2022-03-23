@@ -14,18 +14,11 @@ import Options from './Options'
 import Input from '../../../Components/Input'
 import Spinner from '../../../Components/Spinner'
 
-interface UserChat {
-    name: string
-    photo?: string
-    stattus?: string
-}
-
 interface Props {
     navigation: StackNavigationProp<any, any>,
 }
 
 const GET_CHATS = 'getAllChats'
-const GET_CHANGES = 'getChanges'
 
 const AllChats: React.FC<Props> = ({ navigation }) => {
     const [optionsVisible, setOptionsVisible] = React.useState(false)
@@ -42,8 +35,10 @@ const AllChats: React.FC<Props> = ({ navigation }) => {
     }, [])
 
     const callEmit = () => {
+        //Socket initialization
         // @ts-ignore
         socketRef.current = io(`${BASE_URL}/`, { query: { token } })
+        //Get all chats
         // @ts-ignore
         socketRef.current.on(GET_CHATS, chats => {
             setFetchedChats(chats)
@@ -56,6 +51,7 @@ const AllChats: React.FC<Props> = ({ navigation }) => {
     }, [fetchedChats])
 
     React.useEffect(() => {
+        //Search functionality
         if (fetchedChats.length) {
             let filteredData = fetchedChats.filter((item: any) => {
                 const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.brandName
@@ -71,10 +67,11 @@ const AllChats: React.FC<Props> = ({ navigation }) => {
     }
 
     const renderItem = (item: any) => {
+        //Check with the BE to understand the structure more
         const name = isBrand ? `${item?.influencer?.firstName} ${item?.influencer?.lastName}` : item?.brand?.brandName
         const photo = isBrand ? item?.influencer?.photo : item?.brand?.photo
         const seen = isBrand ? item?.influencer?.lastSeen : item?.brand?.lastSeen
-        //Calculate last seen
+        //Calculates last seen
         const hours = moment(new Date).diff(moment(seen), "hours")
         const minutes = moment(new Date).diff(moment(seen), "minutes")
         const days = moment(new Date).diff(moment(seen), "days")

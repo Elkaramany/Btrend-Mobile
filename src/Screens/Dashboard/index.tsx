@@ -1,12 +1,10 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen'
-import { useSelector, useDispatch } from 'react-redux'
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { GlobalStyles, Colors } from '../../Config'
 
-import Container from '../../Components/Container'
 import Eearnings from './Earnings'
 import Insights from './Insights'
 import Payments from './Payments'

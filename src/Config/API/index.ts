@@ -10,6 +10,7 @@ const AXIOS = async (method: string, url: string, data?: any) => {
         })
         return { success: true, data: res?.data || null }
     } catch (e: any) {
+        //To make sure the user has an internet connection if the server doesn't return an error
         return { success: false, data: e?.response?.data || "Please check your internet connection" }
     }
 }

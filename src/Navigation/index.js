@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 export default () => {
     const { token } = useSelector((state) => state.AuthReducer)
 
+    //Navigate users basedo n their auth status using the token received by the BE
     return (
         <NavigationContainer>
             {token ? <AppStack /> : <AuthStack />}

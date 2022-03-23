@@ -43,6 +43,7 @@ const Search: React.FC<Props> = ({ navigation, route }) => {
 
     React.useEffect(() => {
         async function fetchFirstUse() {
+            //Only show the tutorial of how the feed screen if it's ther user's first time opening the app
             const val = await firstUse()
             if (val) {
                 setShowTutorial(true)
@@ -106,6 +107,7 @@ const Search: React.FC<Props> = ({ navigation, route }) => {
         setSelectedCategory(newArr)
     }
 
+    //If the user matched with people navigate their and display the data there using the array, still needs to be configured completely
     if (hasMatch) {
         return <Match hasMatch={() => setHasMatch(false)} navigation={navigation} matches={fetchedArray.matches} />
     } else {

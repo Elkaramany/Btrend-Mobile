@@ -40,6 +40,7 @@ const Categories: React.FC<Props> = ({ navigation }) => {
             </Text>
 
             <AllCategories setArr={setArr} arr={arr} />
+            
             <GradientButton text={'Continue'} colors={Colors.gradientButton}
                 onPress={() => pressedContinue()}
             />

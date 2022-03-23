@@ -90,13 +90,15 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
             return <Spinner size={false} />
         } else {
             return (
-                <GradientButton text={OTPSent ? "Enter the code" : "Send verification code"} colors={Colors.gradientButton}
+                <GradientButton text={OTPSent ? "Enter the code" : "Send verification code"}
+                    colors={Colors.gradientButton}
                     onPress={() => pressedContinue()} />
             )
         }
     }
 
     const showVerification = () => {
+        //Lets the user enters the OTP send to their phone number
         if (OTPSent) {
             return (
                 <>
@@ -130,6 +132,7 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
                 </>
             )
         } else {
+            //Let the user enter their phone number based on their selected country
             return (
                 <>
                     <View style={styles.container}>
@@ -159,7 +162,8 @@ const Phone: React.FC<Props> = ({ navigation, route }) => {
 
     return (
         <Container mainStyle={{ flex: 1 }}>
-            <HeaderArrow headerText={screenType === "signup" ? 'Create Account' : "Sign In"} navigateMeBack={() => goBack()} />
+            <HeaderArrow headerText={screenType === "signup" ? 'Create Account' : "Sign In"}
+                navigateMeBack={() => goBack()} />
 
             {showVerification()}
 

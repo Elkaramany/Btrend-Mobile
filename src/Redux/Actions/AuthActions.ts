@@ -18,6 +18,7 @@ interface SignInType {
 
 
 export const Credential = (cred: Cred) => {
+    //Key interpolation
     return {
         type: 'Credential_In',
         payload: { prop: cred.prop, value: cred.value }
@@ -50,6 +51,7 @@ const SignInSuccess = (dispatch: any, data: any) => {
     dispatch({ type: "Sign_In_Success", payload: { user: data.user, token: data.token } })
 }
 
+//Sends verification code to user's phone
 export const SendCode = (countryCode: string, phone: string, type: string, userType: string, setOTPSent: () => void) => async (dispatch: any) => {
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/signupWithPhone`, {
@@ -66,6 +68,7 @@ export const SendCode = (countryCode: string, phone: string, type: string, userT
     changeLoader(dispatch, false)
 }
 
+//Checks the OTP send by the user with the verification code by the BE
 export const SendOTP = (countryCode: string, phone: string, code: string, type: string, navigation: any) => async (dispatch: any) => {
     changeLoader(dispatch, true)
     const { success, data } = await POST(`${USERS_URL}/verifySignupWithPhone`, {

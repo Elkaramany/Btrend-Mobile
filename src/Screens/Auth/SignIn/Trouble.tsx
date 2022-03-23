@@ -43,12 +43,13 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
 
     const pressedContinue = async () => {
         setLoading(true)
+        //Verify the code sent to the user's email address to the one they entered
         if (codeSent) {
             if (value.length === 4 && validatePassword(newPassword)) {
                 const { success, data }: any = await PATCH(`${USERS_URL}/resetPassword`, { email, newPassword, verificationCode: value })
                 if (success) {
                     Alert.alert(
-                        "Your pass word has been reset successfully",
+                        "Your password has been reset successfully",
                         "Please sign in",
                         [
                             { text: "OK", onPress: () => navigation.navigate("SignIn") }
@@ -58,6 +59,7 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
                 else ShowToast("error", `Something went wrong`, data)
             }
         } else {
+            //If they have a valid email entered, send a password reset link to it
             if (validateEmail(email)) {
                 const { success }: any = await POST(`${USERS_URL}/sendEmailVerification/${email}`)
                 if (success) setCodeSent(true)
@@ -79,6 +81,8 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
     }
 
     const showInputs = () => {
+        //Show different inputs based on whether a verification code is sent to the user's phone
+        //User has received a code to their email
         if (codeSent) {
             return (
                 <>
@@ -115,6 +119,7 @@ const Trouble: React.FC<Props> = ({ navigation }) => {
                 </>
             )
         } else {
+            //Send code to user's email address
             return (
                 <>
                     <Text style={[GlobalStyles.regularText, styles.subHeader]}>

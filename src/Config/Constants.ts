@@ -1,3 +1,5 @@
+//You'll find most of the constatns needed throught out the app here
+
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Dimensions, Platform, StyleSheet } from 'react-native';
 

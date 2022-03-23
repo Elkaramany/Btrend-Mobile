@@ -40,6 +40,7 @@ const Insights: React.FC<Props> = props => {
         )
     }
 
+    //Dummy numbers until BE integration
     return (
         <View style={{ justifyContent: 'space-around', flex: 1, marginBottom: hp('5%') }}>
             {DoubleStat("Matches", "Campaigns", ImagePath.matches, ImagePath.campaignsFocus, "35", "30")}

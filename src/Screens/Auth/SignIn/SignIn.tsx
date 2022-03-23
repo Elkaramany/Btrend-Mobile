@@ -1,8 +1,6 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
-import { Colors, GlobalStyles, validateEmail, ShowToast } from '../../../Config';
+import { validateEmail, ShowToast } from '../../../Config';
 import { GET } from '../../../Config/API';
 import { USERS_URL } from '@env';
 
@@ -25,7 +23,7 @@ interface Props {
 
 const Home: React.FC<Props> = ({ navigation }) => {
     const dispatch = useDispatch()
-    const { email, authType, loading, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
+    const { email, authType, userType } = useSelector((state: RootStateOrAny) => state.AuthReducer)
 
     const pressedContinue = async () => {
         if (validateEmail(email)) {

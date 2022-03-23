@@ -4,6 +4,7 @@ import { Filter } from '../../Screens/Search/Types'
 import { AddFilter } from '../../Screens/Feed/Types'
 import { ShowToast } from '../../Config'
 
+//Get the user's feed according to the filters
 export const SearchFeed = (filters: Filter, userType: String) => async (dispatch: any) => {
     dispatch({ type: "Switch_Loading", payload: true })
     //Get influencer's profile if logged in as brand and campaigns if logged in as influencer
@@ -14,6 +15,7 @@ export const SearchFeed = (filters: Filter, userType: String) => async (dispatch
     dispatch({ type: "Switch_Loading", payload: false })
 }
 
+//Swipe right or left
 export const UserSwipe = (id: number | string, token: string, direction: string, userType: string) => async () => {
     const { success, data }: any = await POST(`${URL(userType)}/swipe/${id}/${direction}`, { token })
     if (!success) ShowToast("error", `Error swiping right on this ${ERROR_TYPE(userType)}`, data)

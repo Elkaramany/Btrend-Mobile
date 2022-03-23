@@ -31,8 +31,8 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
             Alert.alert("Price must be more than zero")
             return;
         }
-        //@ts-ignore
-        else if (value === "number" && parseInt(newValue) <= 0) {
+        //Makes sure the user doesn't submut a proposal without social media
+        else if (value === "number" && parseInt(newValue.toString()) <= 0) {
             delete newSocial[`${parent}`][`${outlet}`]
             if (isEmptyObject(newSocial[`${parent}`])) {
                 const newParent = { ...newSocial }
@@ -51,12 +51,14 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
     }
 
     const addNewOutlet = (parent: string, outlet: string) => {
+        //Adds new social media outlet, e.g: Posts in instagram
         const newSocial = { ...socialMedia }
         newSocial[`${parent}`][`${outlet}`] = { number: 1, price: 200 }
         setSocialMedia(newSocial)
     }
 
     const SocialMediaOutlet = (outlet: any, outletTitle: string, parent: string) => {
+        //Selected social media outlet
         return (
             <View key={outletTitle} style={{ marginVertical: hp('1%') }}>
                 <Text
@@ -97,7 +99,7 @@ const Bid: React.FC<Props> = ({ socialMedia, setSocialMedia, coverLetter, setCov
     }
 
     const SingleSocialMedia = (socialMedia: any, socialMediaTitle: string, img: any) => {
-        //Get all outlets of a specific social media except the ones that already exist
+        //Gets all outlets of a specific social media except the ones that already exists from the proposal
         //@ts-ignore
         const filteredOutlets = BASE_SOCIAL_MEDIA[`${socialMediaTitle}`].filter(item => !Object.getOwnPropertyNames(socialMedia).includes(item))
         return (

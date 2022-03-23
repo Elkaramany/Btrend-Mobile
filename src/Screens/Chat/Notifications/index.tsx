@@ -17,6 +17,8 @@ import Options from './Options'
 interface Props {
     navigation: StackNavigationProp<any, any>,
 }
+
+//Dummy data until integration with the BE is done
 const DUMMY_NOTIFICATIONS = [
     {
         img: ImagePath.profilePhoto,

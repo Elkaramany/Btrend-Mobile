@@ -35,6 +35,8 @@ const Password: React.FC<Props> = ({ navigation, route }) => {
     const pressedContinue = () => {
         if (passwordVerified) {
             if (isSignUp) {
+                //Navigated to this screen from the signup part not sign in to the navigate the user
+                // to continue the sign up process, else sign them in
                 dispatch(Credential({ prop: 'authType', value: "email" }))
                 navigation.navigate("PersonalInfo")
             } else dispatch(SignIn({ authType: "email", email, password, userType }))

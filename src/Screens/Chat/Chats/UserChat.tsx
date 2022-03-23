@@ -41,7 +41,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
     const [visible, setVisible] = React.useState(false)
 
     React.useEffect(() => {
-        //Send to the server to get all messages
+        //Sends to the server to get all messages related to this specific chat
         socketRef.current.emit(GET_MESSAGES, conversationId)
         // @ts-ignore
         socketRef.current.on(RECEIVE_MESSAGES, (newMessages: any) => {
@@ -51,6 +51,7 @@ const UserChat: React.FC<Props> = ({ route, navigation }) => {
             setLoaded(true)
         })
 
+        //Keep receiving messages as they come
         socketRef.current.on(RECEIVE_MESSAGE, (newMessage: any) => {
             if (newMessage.content.length && newMessage.conversationId == conversationId) {
                 // @ts-ignore

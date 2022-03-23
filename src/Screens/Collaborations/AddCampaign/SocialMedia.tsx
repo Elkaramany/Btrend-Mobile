@@ -71,6 +71,7 @@ const SocialMedia: React.FC<Props> = ({ navigation }) => {
         }
         dispatch(CampaignCredential({ prop: 'socialMedia', value: newSocial }))
     }
+
     const SocialMediaOutlet = (outlet: any, outletTitle: string, parent: string) => {
         return (
             <View key={outletTitle} style={{ marginVertical: hp('1%') }}>
@@ -123,6 +124,7 @@ const SocialMedia: React.FC<Props> = ({ navigation }) => {
 
     const chooseSocialMedia = (parent: string) => {
         if (!socialMedia[`${parent}`]) {
+            //Add a new social media with a new outlet
             const newSocial = { ...socialMedia }
             newSocial[`${parent}`] = {}
             //@ts-ignore
@@ -137,6 +139,7 @@ const SocialMedia: React.FC<Props> = ({ navigation }) => {
         if (!licensing.length) return false
         let flag = false
         const arr = Object.getOwnPropertyNames(socialMedia)
+        //Makes sure the brand doesn't add a campaign without a social media
         arr.map((singleSocial) => {
             if (!isEmptyObject(socialMedia[`${singleSocial}`])) {
                 flag = true
@@ -148,6 +151,7 @@ const SocialMedia: React.FC<Props> = ({ navigation }) => {
     const navigateMe = () => {
         const newSocial = { ...socialMedia }
         const arr = Object.getOwnPropertyNames(newSocial)
+        //Deletes all the social medias without any selected outlets
         arr.map((singleSocial) => {
             if (isEmptyObject(socialMedia[`${singleSocial}`])) {
                 delete newSocial[`${singleSocial}`]

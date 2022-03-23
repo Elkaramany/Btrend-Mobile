@@ -1,3 +1,5 @@
+//Different social media outlets
+
 export const BASE_SOCIAL_MEDIA = {
     instagram: ['post', 'reel', 'story', 'live', 'carousel', 'igtv'],
     tiktok: ['feedvideo', 'livevideo'],
